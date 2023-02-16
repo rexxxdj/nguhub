@@ -24,7 +24,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.user_login, name='signin'),
-    path('inventory/', include('inventory.urls', namespace='inventory')),
+    path('equipment/', include('equipment.urls', namespace='equipment')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

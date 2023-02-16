@@ -52,7 +52,7 @@ class Employee(models.Model):
         (u"ген.", u"Генерал")
     )
 
-	categoryId = models.ForeignKey(Category,
+	category = models.ForeignKey(Category,
 							on_delete=models.PROTECT,
 							default = 0,
 							verbose_name='Категорія користувача')

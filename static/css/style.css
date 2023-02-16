@@ -1,7 +1,20 @@
+.table-hover tbody tr:hover {
+    color: #525f7f;
+    background-color: rgb(172 181 209 / 8%);
+}
+
 .link-unstyled, .link-unstyled:link, .link-unstyled:hover {
   color: inherit;
   text-decoration: inherit;
   display:block;
 }
 
+.table-header {
+  color: #3f65d4;
+}
 
+
+.sorting, .sorting:hover, .sorting:focus {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+}

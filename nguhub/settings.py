@@ -22,7 +22,7 @@ SECRET_KEY = 'django-insecure-g_ta=!g5#!i6(64275$*-q7(%_##77x8yqh%y4r+p^4+e2o(2q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '192.168.18.130']
 
 
 # Application definition
@@ -102,9 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-#LANGUAGE_CODE = 'en-us'
-#LANGUAGE_CODE = 'ru-ru'
-#LANGUAGE_CODE = ('ua', 'Ukrainian')
 # Мова
 LANGUAGE_CODE = 'uk'
 # Мови що підтримуються

@@ -1,0 +1,19 @@
+.link-unstyled, .link-unstyled:link, .link-unstyled:hover {
+  color: inherit;
+  text-decoration: inherit;
+  display:block;
+}
+
+.table-header {
+  color: #3f65d4;
+}
+
+.sorting, .sorting:hover {
+  color: #3f65d4;
+  text-decoration: none;
+}
+
+
+.sorting:hover{
+  color: #022897;
+}

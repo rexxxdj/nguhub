@@ -16,7 +16,7 @@ class Category(models.Model):
 
 
 class Element(models.Model):
-	categoryId = models.ForeignKey(Category,
+	category = models.ForeignKey(Category,
 							on_delete=models.PROTECT,
 							default = 0,
 							verbose_name='Категорія')
