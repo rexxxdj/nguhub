@@ -25,7 +25,7 @@
     <nav class="navbar navbar-expand-lg navbar-absolute fixed-top">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">в/ч 3002 м.Львів</a>
+            <a class="navbar-brand" href="javascript:void(0)">{{ADMIN_SITE_NAME}}</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -33,6 +33,14 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
           <div class="collapse navbar-collapse" id="navigation">
+                <ul class="navbar-nav ml-auto">
+                  {% url 'equipment' as equipment_url %}
+                  <li class="{% if 'equipment' in request.path %} navactive {% endif %}">
+                    <a href="{% url 'equipment:equipment' %}">
+                      <p>Обладнання</p>
+                    </a>
+                  </li>
+                </ul>
             <ul class="navbar-nav ml-auto">
               <li class="dropdown nav-item">
                 <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -59,10 +67,10 @@
                     {% endif %}
                   </div>
                   <b class="caret d-none d-lg-block d-xl-block"></b>
-                  <p class="d-lg-none">Log out</p>
+                  <p class="d-lg-none"> Log out </p>
                 </a>
                 <ul class="dropdown-menu dropdown-navbar">
-                  <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Log out</a></li>
+                  <li class="nav-link"><a href="{% url 'logout'%}" class="nav-item dropdown-item">Log out</a></li>
                 </ul>
               </li>
               <li class="separator d-lg-none"></li>

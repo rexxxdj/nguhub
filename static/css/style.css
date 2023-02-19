@@ -18,3 +18,52 @@
   color: rgba(255, 255, 255, 0.7);
   font-weight: 700;
 }
+
+.container-fluid.signin {
+  text-align: center;
+  padding-left: 50%;
+  padding-top: 15px;
+}
+
+.navactive {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.sidebar .sidebar-header {
+  text-align: center;
+  color: #f5f5f5;
+  border-bottom: 1px solid #eee;
+}
+
+.sidebar .sidebar-wrapper ul.components {
+  padding: 20px 20px;
+}
+
+.sidebar .idebar-wrapper ul li {
+  margin: 10px 0;
+}
+
+.sidebar .idebar-wrapper ul li label{
+  margin-left: 10px 0;
+}
+
+.vertical-center, .vertical-center:hover {
+  transform: translateY(-50%);
+  margin-left: 25%;
+  padding: inherit;
+  background: #1e1e24;
+  background-image: -moz-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+}
+
+.form-check-input {
+  position: absolute;
+  margin-top: 0;
+  margin-left: 5px;
+}
+
+.form-check input[type="checkbox"]{
+  opacity: 100;
+  visibility: inherit;
+}
