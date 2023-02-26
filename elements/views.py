@@ -1,14 +1,19 @@
 from django.conf import settings # import the settings file
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.http import HttpResponse, QueryDict
+from django.urls import reverse_lazy
 from urllib.parse import urlencode
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Element, Status, Category
+from .forms import ElementForm
+from equipment.models import Equipment
 
 
 def element_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'element_list.html'
+    template = 'element/list.html'
     elements = Element.objects.all()
     categories = Category.objects.all()
     statuses = Status.objects.all()
@@ -55,7 +60,7 @@ def element_list(request):
 
 def element_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'element_detail.html'
+    template = 'element/detail.html'
     element = get_object_or_404(Element, id=pk,)
 
     context = {
@@ -65,10 +70,65 @@ def element_detail(request, pk):
     return render(request, template, context)
 
 def element_add(request):
-    return HttpResponse('<h1>Element Add Form</h1>')
+    if request.method == 'POST':        
+        form = ElementForm(request.POST, request.FILES)
+        if request.POST.get('_save'):
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Дані було успішно збережено.')
+        return redirect('element:list')
+    else:
+        form = ElementForm()
 
-def element_edit(request, sid):
-    return HttpResponse('<h1>Edit Element %s</h1>' % sid)
+    categories = Category.objects.all()
+    statuses = Status.objects.all()
+    equipments = Equipment.objects.all()
+    context = {
+        'categories': categories,
+        'statuses': statuses,
+        'equipments': equipments,
+        'form': form
+    }
+    return render(request, 'element/add.html', context)
 
-def element_delete(request, sid):
-    return HttpResponse('<h1>Delete Element %s</h1>' % sid)
+
+def element_update(request, pk):
+    element = get_object_or_404(Element, id=pk)
+    if request.method == 'POST':
+        form = ElementForm(request.POST, request.FILES, instance=element)
+        if request.POST.get('_save'):
+            if form.is_valid():
+                form.save()
+                messages.success(request, '\"{}\" було успішно змінено.'.format(element.name))
+        if request.POST.get('_dismiss'):
+            messages.success(request, 'Ви відмінили запит на зміну \"{}\".'.format(element.name))
+        return redirect('element:list')
+    else:
+        form = ElementForm(instance=element)
+
+    categories = Category.objects.all()
+    statuses = Status.objects.all()
+    equipments = Equipment.objects.all()
+    context = {
+        'element': element,
+        'categories': categories,
+        'statuses': statuses,
+        'equipments': equipments,
+        'form': form
+    }
+    return render(request, 'element/update.html', context)
+
+
+class ElementDeleteView(DeleteView):
+    model = Element
+    template_name = 'element/confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('element:list')
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('_cancel'):
+            url = self.get_success_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(ElementDeleteView, self).post(request, *args, **kwargs)

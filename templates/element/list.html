@@ -71,6 +71,11 @@
             </form>
           </div>
         </div>
+      <div>
+      <a href="{% url 'element:add' %}">
+        <button id="add-equipment-btn" type="button" class="btn">Додати нове обладнання</button>
+      </a>
+      </div>
       </div>
     </div>
     {% endblock sidebar %}
@@ -160,7 +165,26 @@
                           </a>
                         </td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.status}} </a></td>
-                        <td> <a href="{{ element.get_absolute_url }}"></a> </td>
+                        <td> 
+                          <a href="{{ element.get_update_url }}">
+                            <button id="update-element-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#update-element-modal">
+                              <i class="fa fa-edit"></i>
+                            </button>
+                          </a>
+                          <a href="{{ element.get_delete_url }}">
+                            <button id="delete-element-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#delete-element-modal">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </a>
+                        </td>
                       </tr>
                       {% endfor %}
                     </tbody>

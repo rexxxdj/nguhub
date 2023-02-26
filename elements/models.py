@@ -72,5 +72,13 @@ class Element(models.Model):
 		return reverse('element:detail',
 			args=[self.id])
 
+	def get_update_url(self):
+		return reverse('element:update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('element:delete',
+			args=[self.id])
+
 	def __str__(self):
 		return '{} {} S/N:{}'.format(self.category.name, self.name, self.serialNumber)
