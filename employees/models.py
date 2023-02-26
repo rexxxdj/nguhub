@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -28,9 +29,9 @@ class Category(models.Model):
 
 class Employee(models.Model):
 	RANK_CHOICES = (
-        (u"сл.", u"службовець"),
-        (u"солд.", u"солдат"),
-        (u"ст.солд.", u"старший солдат"),
+        (u"сл.", u"Службовець"),
+        (u"солд.", u"Солдат"),
+        (u"ст.солд.", u"Старший солдат"),
         (u"мол.с-нт", u"Молодший сержант"),
         (u"с-нт", u"Сержант"),
         (u"ст.с-нт", u"Старший сержант"),
@@ -88,11 +89,20 @@ class Employee(models.Model):
 	personalPhone = PhoneNumberField(blank=True, 
 							null=True, 
 							unique=True)
+	photo = models.ImageField(upload_to='media/employee/%Y/%m/%d', 
+							blank=True,
+							verbose_name='Фотографія')
 
 	class Meta:
 		verbose_name = 'Співробітник'
 		verbose_name_plural = 'Співробітники'
 
+	def get_absolute_url(self):
+		return reverse('employee:detail',
+			args=[self.id])	
+
+	def fullname(self):
+		return '{} {}'.format(self.lastname, self.firstname)
 
 	def __str__(self):
-		return '{} {}'.format(self.SurName, self.Name)
+		return '{} {}'.format(self.lastname, self.firstname)

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="{%static "img/apple-icon.png" %}">
-    <link rel="icon" type="image/x-icon" href="{%static "img/favicon.ico" %}">
+    <link rel="icon" type="image/x-icon" href="{%static "img/icon.jpg" %}">
     <title>{% block title%}{% endblock title%} - FixIt </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
@@ -36,8 +36,20 @@
                 <ul class="navbar-nav ml-auto">
                   {% url 'equipment' as equipment_url %}
                   <li class="{% if 'equipment' in request.path %} navactive {% endif %}">
-                    <a href="{% url 'equipment:equipment' %}">
+                    <a href="{% url 'equipment:list' %}">
                       <p>Обладнання</p>
+                    </a>
+                  </li>
+                  {% url 'element' as element_url %}
+                  <li class="{% if 'element' in request.path %} navactive {% endif %}">
+                    <a href="{% url 'element:list' %}">
+                      <p>Комплектуючі</p>
+                    </a>
+                  </li>
+                  {% url 'employee' as employee_url %}
+                  <li class="{% if 'employee' in request.path %} navactive {% endif %}">
+                    <a href="{% url 'employee:list' %}">
+                      <p>Співробітники</p>
                     </a>
                   </li>
                 </ul>
@@ -83,6 +95,32 @@
         {% block sidebar %}{% endblock sidebar %}
 
     {% endblock content %}
+    <div class="fixed-plugin">
+      <div class="dropdown show-dropdown">
+        <a href="#" data-toggle="dropdown">
+          <i class="fa fa-cog fa-2x"> </i>
+        </a>
+        <ul class="dropdown-menu">
+          <li class="header-title"> Sidebar Background</li>
+          <li class="adjustments-line">
+            <a href="javascript:void(0)" class="switch-trigger background-color">
+              <div class="badge-colors text-center">
+                <span class="badge filter badge-primary active" data-color="white"></span>
+                <span class="badge filter badge-info" data-color="black"></span>
+                <span class="badge filter badge-success" data-color="green"></span>
+              </div>
+              <div class="clearfix"></div>
+            </a>
+          </li>
+          <li class="adjustments-line text-center color-change">
+            <span class="color-label">LIGHT MODE</span>
+            <span class="badge light-badge mr-2"></span>
+            <span class="badge dark-badge ml-2"></span>
+            <span class="color-label">DARK MODE</span>
+          </li>
+        </ul>
+      </div>
+    </div>
 </div>
     <!--   Core JS Files   -->
     <script src="{%static "js/core/jquery.min.js" %}"></script>
@@ -203,22 +241,22 @@
     </script>
     <script type="text/javascript">
         // When the user scrolls the page, execute myFunction
-window.onscroll = function() {myFunction()};
+        window.onscroll = function() {myFunction()};
 
-// Get the navbar
-var navbar = document.getElementById("navbar");
+        // Get the navbar
+        var navbar = document.getElementById("navbar");
 
-// Get the offset position of the navbar
-var sticky = navbar.offsetTop;
+        // Get the offset position of the navbar
+        var sticky = navbar.offsetTop;
 
-// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("sticky")
-  } else {
-    navbar.classList.remove("sticky");
-  }
-} 
+        // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+        function myFunction() {
+          if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+          } else {
+            navbar.classList.remove("sticky");
+          }
+        } 
     </script>
 
     {% block extra_js %}{% endblock extra_js %}

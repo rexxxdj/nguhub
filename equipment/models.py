@@ -1,5 +1,7 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
+from employees.models import Employee
 
 
 class Category(models.Model):
@@ -53,6 +55,19 @@ class Equipment(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Статус')
+	employee = models.ForeignKey(Employee,
+							on_delete=models.PROTECT,
+							blank=True, 
+							null=True,
+							verbose_name='Відповідальний')
+
+	def get_absolute_url(self):
+		return reverse('equipment:detail',
+			args=[self.id])
+
+	def get_update_url(self):
+		return reverse('equipment:update',
+			args=[self.id])
 
 	class Meta:
 		verbose_name = 'Обладнання'

@@ -26,6 +26,8 @@ urlpatterns = [
     path('', views.user_login, name='signin'),
     path('logout/', views.user_logout, name='logout'),
     path('equipment/', include('equipment.urls', namespace='equipment')),
+    path('element/', include('elements.urls', namespace='element')),
+    path('employee/', include('employees.urls', namespace='employee')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

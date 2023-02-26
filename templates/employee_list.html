@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Співробітники{% endblock title %}
+{% block content %}
+  <div class="wrapper">
+    {% block sidebar %}
+    <div class="sidebar" data="black">
+      <div class="sidebar-wrapper">
+        <div id="accordion">
+          <div class="card sidebarcard">
+            <form id="employeeFilterForm" method="get" action="{% url 'employee:list' %}">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" 
+                          type="button"
+                          data-toggle="collapse" 
+                          data-target="#categoriesCollapse"
+                          aria-expanded="true" 
+                          aria-controls="categoriesCollapse">Категорії</button>
+                </h5>
+              </div>              
+              <div id="categoriesCollapse" class="collapse show">
+                <div class="form-group">
+                  {% for category in categories %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" 
+                              name="category[]" id="{{ category.name }}" 
+                              value="{{ category.name }}" {% if category.name in selected_categories %}checked{% endif %}>
+                      <label class="form-check-label" for="{{ category.name }}">{{ category.name }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" 
+                          type="button"
+                          data-toggle="collapse" 
+                          data-target="#statusCollapse"
+                          aria-expanded="true" 
+                          aria-controls="statusCollapse">Статус</button>
+                </h5>
+              </div>
+              <div id="statusCollapse" class="collapse show">
+                <div class="form-group">
+                  {% for status in statuses %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" 
+                              name="status[]" id="{{ status.name }}" 
+                              value="{{ status.name }}" {% if status.name in selected_statuses %}checked{% endif %}>
+                      <label class="form-check-label" for="{{ status.name }}">{{ status.name }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <label for="sort">Сортування:</label>
+              <select id="sort" name="sort">
+                {% for sort in sort_dict %}
+                <option value="{{sort.key}}" {% if sort_field == '{{sort.key}}' %}selected{% endif %}>{{sort.value}}</option>
+                {% endfor %}
+              </select>
+              <label for="order">Напрямок:</label>
+              <select id="order" name="order">
+                <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>А-я</option>
+                <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Я-а</option>
+              </select>
+              <div align ="center">
+              <button type="submit" class="btn">Фільтрувати</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock sidebar %}
+    <div class="main-panel">
+      <div class="content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title">Співробітники</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive ">
+                  <table class="table table-hover tablesorter " id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th> # </th>
+                        <th>
+                            Звання
+                            {% if sort_field == 'rank' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th>
+                            П.І.Б.
+                            {% if sort_field == 'lastname' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th>
+                            Посада
+                            {% if sort_field == 'position' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Категорія
+                            {% if sort_field == 'category' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Контакти
+                        </th>                        
+                        <th> 
+                           Коментар
+                        </th>
+                        
+                        {% if user.is_staff %}
+                          <th> Управління </th>
+                        {% endif %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for employee in employees %}
+                      <tr class="row-link">
+                        <td> <a href="{{ employee.get_absolute_url }}">{{ forloop.counter }} </a></td>
+                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.get_rank_display}} </a></td>
+                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.fullname}} </a></td>
+                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.position}} </a></td>
+                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.category.name}} </a></td>
+                        <td> 
+                          <a href="{{ employee.get_absolute_url }}">
+                            <span class="text-muted">{{employee.officialPhone}}</span><br>
+                            <span class="text-muted">{{employee.personalPhone}}</span>
+                          </a>
+                        </td>                        
+                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.coment}} </a></td>
+                        <td> <a href="{{ employee.get_absolute_url }}"></a> </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            © 2023 made with <i class="tim-icons icon-heart-2"></i> by <b>Ruslan Tokar</b> for a 3002 NGU.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+{% endblock content %}
+{% block extra_js %}
+  <script>
+    $(document).ready(function() {
+      $('#employeeFilterForm').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+          url: $(this).attr('action'),
+          data: $(this).serialize(),
+          success: function(data) {
+            $('.content').html(data);
+          }
+        });
+      });
+    });
+  </script>
+  <script src="{%static "js/script.js" %}"></script>
+{% endblock extra_js %}
