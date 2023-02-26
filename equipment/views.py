@@ -4,8 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.http import HttpResponse, QueryDict, JsonResponse
 from django.urls import reverse_lazy
 from urllib.parse import urlencode
-from django.views.generic import ListView
-from django.views.generic.edit import FormView
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Equipment, Status, Category
 from employees.models import Employee
 from .forms import EquipmentForm
@@ -120,6 +120,16 @@ def equipment_update(request, pk):
     return render(request, 'equipment/update.html', context)
 
 
+class EquipmentDeleteView(DeleteView):
+    model = Equipment
+    template_name = 'equipment/confirm_delete.html'
 
-def equipment_delete(request, sid):
-    return HttpResponse('<h1>Delete Equipment %s</h1>' % sid)
+    def get_success_url(self):
+        return reverse_lazy('equipment:list')
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('_cancel'):
+            url = self.get_success_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(EquipmentDeleteView, self).post(request, *args, **kwargs)

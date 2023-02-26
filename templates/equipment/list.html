@@ -72,7 +72,7 @@
           </div>
         </div>
       <div>
-        <a href="{% url 'equipment:add' %}">
+      <a href="{% url 'equipment:add' %}">
         <button id="add-equipment-btn" type="button" class="btn">Додати нове обладнання</button>
       </a>
       </div>
@@ -89,7 +89,7 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive ">
-                  <table class="table table-hover tablesorter " id="">
+                  <table class="table table-hover tablesorter dataTable no-footer" id="">
                     <thead class=" text-primary">
                       <tr>
                         <th> # </th>
@@ -157,17 +157,23 @@
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.status}} </a></td>
                         <td>
                           <a href="{{ equipment.get_update_url }}">
-                          <button id="edit-equipment-btn" 
-                                  type="button" 
-                                  class="btn btn-outline-success btn-circle btn-sm btn-circle" 
-                                  data-toggle="modal" 
-                                  data-target="#edit-equipment-modal">
-
-                            <i class="fa fa-edit"></i>
-
-                          </button>
-                        </a>
-
+                            <button id="update-equipment-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#update-equipment-modal">
+                              <i class="fa fa-edit"></i>
+                            </button>
+                          </a>
+                          <a href="{{ equipment.get_delete_url }}">
+                            <button id="delete-equipment-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#delete-equipment-modal">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </a>
                         </td>
                       </tr>
                       {% endfor %}

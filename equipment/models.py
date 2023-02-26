@@ -69,6 +69,10 @@ class Equipment(models.Model):
 		return reverse('equipment:update',
 			args=[self.id])
 
+	def get_delete_url(self):
+		return reverse('equipment:delete',
+			args=[self.id])
+
 	class Meta:
 		verbose_name = 'Обладнання'
 		verbose_name_plural = 'Обладнання'
