@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Деталізація обладнання{% endblock title %}
+{% block title %}Дані співробітника{% endblock title %}
 {% block content %}
 <div class="wrapper">
   <div class="main-panel">
@@ -12,59 +12,54 @@
             <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                  <h2>{{equipment.name}}</h2>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                  <h2>{{employee.name}}</h2>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
-                  <a href="{{ equipment.get_update_url }}">
-                    <button id="update-equipment-btn" type="button" class="btn">Редагувати</button>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+                  <a href="{{ employee.get_update_url }}">
+                    <button id="update-employee-btn" type="button" class="btn">Редагувати</button>
                   </a>
-                  <a href="{{ equipment.get_delete_url }}">
-                    <button id="delete-equipment-btn" type="button" class="btn">Видалити</button>
+                  <a href="{{ employee.get_delete_url }}">
+                    <button id="delete-employee-btn" type="button" class="btn">Видалити</button>
                   </a>
                 </div>
               </div>
               <div class="equipment">
                 <div class="equipment-image">
-                  {% if equipment.photo %}
-                    <img src="{{equipment.photo.url}}" alt="{{equipment.name}}">
+                  {% if employee.photo %}
+                    <img class="border img-profile" src="{{employee.photo.url}}" alt="{{employee.name}}">
                   {% else %}
-                    <img class="border img-profile" src="{%static "img/equipnophoto.png" %}">
+                    <img class="border img-profile" src="{%static "img/avatars/nophoto.jpeg" %}">
                   {% endif %}
                 </div>
                 <div class="equipment-info">
-                  <p><span>Категорія</span>{{equipment.category.name}}</p>
-                  <p><span>Серійний номер</span>{{equipment.serialNumber}}</p>
-                  <p><span>Статус</span>{{equipment.status.name}}</p>
-                  <p><span>Відповідальний</span>{{equipment.employee.get_rank_display}} {{equipment.employee.fullname}}</p>
+                  <p><span>Категорія</span>{{employee.category.name}}</p>
+                  <p><span>Посада</span>{{employee.position}}</p>
+                  <p><span>Звання</span>{{employee.get_rank_display}}</p>
+                  <p><span>Службовий</span>{{employee.officialPhone}}</p>
+                  <p><span>Мобільний</span>{{employee.personalPhone}}</p>
                 </div>
                 <div class="equipment-info  text-center">
-                  <h4>Комплектація:</h4>
+                  <h4>Закріплене обладнання:</h4>
                   <div class="table-responsive ">
                     <table class="table table-hover tablesorter " id="">
                       <thead class=" text-primary">
                         <tr>
+                          <th> Категорія </th>
                           <th> Назва </th>
                           <th> Серійний номер </th>
-                          <th> Кількість </th>
+                          <th> Статус </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {% if equipment.elements.all %}
-                          {% for element in equipment.elements.all %}
-                            <tr class="row-link">
-                              <td>  <a href="{{ element.get_absolute_url }}">{{ element.name }} </a></td>
-                              <td>  <a href="{{ element.get_absolute_url }}">{{ element.serialNumber }} </a></td>
-                              <td>  <a href="{{ element.get_absolute_url }}">{{ element.value }} </a></td>   
-                            </tr>               
-                          {% endfor %}
-                        {% else %}
-                          <tr>
-                              <td> {{equipment.name}} </td>
-                              <td> {{equipment.serialNumber}} </td>
-                              <td> 1 шт. </td>   
-                            </tr>
-                        {% endif %}
+                        {% for equipment in equipments %}
+                          <tr class="row-link">
+                            <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.category }} </a></td>
+                            <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.name }} </a></td>
+                            <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber }} </a></td>
+                            <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.status }} </a></td>   
+                          </tr>               
+                        {% endfor %}
                       </tbody>
                     </table>
                   </div>

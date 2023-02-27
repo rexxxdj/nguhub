@@ -8,6 +8,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Employee, Category
 from .forms import EmployeeForm
+from equipment.models import Equipment
 
 
 def employee_list(request):
@@ -50,12 +51,14 @@ def employee_list(request):
 
 def employee_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'employee_detail.html'
+    template = 'employee/detail.html'
     employee = get_object_or_404(Employee, id=pk,)
+    equipments = Equipment.objects.filter(employee=pk).order_by('category','name')
 
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
-        'employee': employee
+        'employee': employee,
+        'equipments': equipments
     }
     return render(request,template, context)
 
