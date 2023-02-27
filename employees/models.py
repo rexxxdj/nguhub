@@ -99,7 +99,15 @@ class Employee(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('employee:detail',
-			args=[self.id])	
+			args=[self.id])
+
+	def get_update_url(self):
+		return reverse('employee:update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('employee:delete',
+			args=[self.id])
 
 	def fullname(self):
 		return '{} {}'.format(self.lastname, self.firstname)

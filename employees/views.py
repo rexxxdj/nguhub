@@ -1,14 +1,18 @@
 from django.conf import settings # import the settings file
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.http import HttpResponse, QueryDict
+from django.urls import reverse_lazy
 from urllib.parse import urlencode
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Employee, Category
+from .forms import EmployeeForm
 
 
 def employee_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'employee_list.html'
+    template = 'employee/list.html'
     employees = Employee.objects.all()
     categories = Category.objects.all()
     sort_dict = (
@@ -22,8 +26,6 @@ def employee_list(request):
     category_filters = request.GET.getlist('category[]')
     sort_field = request.GET.get('sort', 'lastname')
     sort_order = request.GET.get('order', 'asc')
-
-    print(category_filters)
     
     # Фільтрувати дані за категорією
     if category_filters:
@@ -58,10 +60,111 @@ def employee_detail(request, pk):
     return render(request,template, context)
 
 def employee_add(request):
-    return HttpResponse('<h1>Employee Add Form</h1>')
+    if request.method == 'POST':        
+        form = EmployeeForm(request.POST, request.FILES)
+        if request.POST.get('_save'):
+            if form.is_valid():
+                print("VALID")
+                form.save()
+                messages.success(request, 'Дані було успішно збережено.')
+            else:
+                print("NOT VALID")
+        return redirect('employee:list')
+    else:
+        form = EmployeeForm()
 
-def employee_edit(request, sid):
-    return HttpResponse('<h1>Edit Employee %s</h1>' % sid)
+    ranks = (
+        {'id': u'сл.', 'name': u"Службовець"},
+        {'id': u'солд.', 'name': u"Солдат"},
+        {'id': u'ст.солд.', 'name': u"Старший солдат"},
+        {'id': u'мол.с-нт', 'name': u"Молодший сержант"},
+        {'id': u'с-нт', 'name': u"Сержант"},
+        {'id': u'ст.с-нт', 'name': u"Старший сержант"},
+        {'id': u'гол.с-нт', 'name': u"Головний сержант"},
+        {'id': u'шт.с-нт', 'name': u"Штаб-сержант"},
+        {'id': u'м.с-нт', 'name': u"Майстер-сержант"},
+        {'id': u'ст.м.с-нт', 'name': u"Старший майстер-сержант"},
+        {'id': u'гол.м.с-нт', 'name': u"Головний майстер-сержант"},
+        {'id': u'мол.л-нт', 'name': u"Молодший лейтенант"},
+        {'id': u'л-нт', 'name': u"Лейтенант"},
+        {'id': u'ст.л-нт', 'name': u"Старший лейтенант"},
+        {'id': u'к-н', 'name': u"Капітан"},
+        {'id': u'м-р', 'name': u"Майор"},
+        {'id': u'п/п-к', 'name': u"Підполковник"},
+        {'id': u'п-к', 'name': u"Полковник"},
+        {'id': u'бриг.ген.', 'name': u"Бригадний генерал"},
+        {'id': u'ген.м-р', 'name': u"Генерал-майор"},
+        {'id': u'ген.л-нт', 'name': u"Генерал-лейтенант"},
+        {'id': u'ген.', 'name': u"Генерал"}
+    )
+    categories = Category.objects.all()
+    context = {
+        'ranks': ranks,
+        'categories': categories,
+        'form': form
+    }
+    return render(request, 'employee/add.html', context)
 
-def employee_delete(request, sid):
-    return HttpResponse('<h1>Delete Employee %s</h1>' % sid)
+
+def employee_update(request, pk):
+    employee = get_object_or_404(Employee, id=pk)
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST, request.FILES, instance=employee)
+        if request.POST.get('_save'):
+            if form.is_valid():
+                form.save()
+                messages.success(request, '\"{}\" було успішно змінено.'.format(employee.fullname))
+        if request.POST.get('_dismiss'):
+            messages.success(request, 'Ви відмінили запит на зміну \"{}\".'.format(employee.fullname))
+        return redirect('employee:list')
+    else:
+        form = EmployeeForm(instance=employee)
+
+
+    ranks = (
+        {'id': u'сл.', 'name': u"Службовець"},
+        {'id': u'солд.', 'name': u"Солдат"},
+        {'id': u'ст.солд.', 'name': u"Старший солдат"},
+        {'id': u'мол.с-нт', 'name': u"Молодший сержант"},
+        {'id': u'с-нт', 'name': u"Сержант"},
+        {'id': u'ст.с-нт', 'name': u"Старший сержант"},
+        {'id': u'гол.с-нт', 'name': u"Головний сержант"},
+        {'id': u'шт.с-нт', 'name': u"Штаб-сержант"},
+        {'id': u'м.с-нт', 'name': u"Майстер-сержант"},
+        {'id': u'ст.м.с-нт', 'name': u"Старший майстер-сержант"},
+        {'id': u'гол.м.с-нт', 'name': u"Головний майстер-сержант"},
+        {'id': u'мол.л-нт', 'name': u"Молодший лейтенант"},
+        {'id': u'л-нт', 'name': u"Лейтенант"},
+        {'id': u'ст.л-нт', 'name': u"Старший лейтенант"},
+        {'id': u'к-н', 'name': u"Капітан"},
+        {'id': u'м-р', 'name': u"Майор"},
+        {'id': u'п/п-к', 'name': u"Підполковник"},
+        {'id': u'п-к', 'name': u"Полковник"},
+        {'id': u'бриг.ген.', 'name': u"Бригадний генерал"},
+        {'id': u'ген.м-р', 'name': u"Генерал-майор"},
+        {'id': u'ген.л-нт', 'name': u"Генерал-лейтенант"},
+        {'id': u'ген.', 'name': u"Генерал"}
+    )
+    categories = Category.objects.all()
+    context = {
+        'employee': employee,
+        'categories': categories,
+        'ranks': ranks,
+        'form': form
+    }
+    return render(request, 'employee/update.html', context)
+
+
+class EmployeeDeleteView(DeleteView):
+    model = Employee
+    template_name = 'employee/confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('employee:list')
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('_cancel'):
+            url = self.get_success_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(EmployeeDeleteView, self).post(request, *args, **kwargs)

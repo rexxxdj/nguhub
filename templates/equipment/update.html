@@ -12,10 +12,10 @@
             <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
-              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{equipment.name}}</h5>
+              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{equipment.fullname}}</h5>
             </div>
             <div class="modal-body">
-            <!-- Форма для редагування об'єкта моделі Equipment -->
+            <!-- Форма для редагування об'єкта моделі Employee -->
               <form method="post" enctype="multipart/form-data" id="updatesEquipmentForm">
                 {% csrf_token %}
                 <input type="hidden" name="id" id="id-input">
@@ -64,6 +64,7 @@
                   <label for="employee">Відповідальний:</label>
                   <select class="form-control" id="employee" name="employee">
                   <!-- Опції для вибору співробітника -->
+                    <option value="">-</option>
                     {% for employee in employees %}
                       <option value="{{ employee.id }}" {% if equipment.employee.id == employee.id %}selected{% endif %}>{{employee.fullname}}</option>
                     {% endfor %}

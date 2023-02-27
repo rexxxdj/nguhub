@@ -146,8 +146,13 @@
   background: #181c31;
 }
 .modal-content .modal-header .modal-title {
-    color: #fff;    
+  color: #fff;    
 }
 .modal-title {
-    font-size: large;
+  font-size: large;
+}
+textarea.form-control {
+  border-color: #2b3553;
+  border-radius: 0.4285rem;
+  font-size: 0.75rem;
 }

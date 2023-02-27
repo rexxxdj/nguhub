@@ -17,6 +17,7 @@ def element_list(request):
     elements = Element.objects.all()
     categories = Category.objects.all()
     statuses = Status.objects.all()
+    equipments = Equipment.objects.all()
     sort_dict = (
         {'id':1, 'key':'name','value':'Назва'},
         {'id':2, 'key':'category__name','value':'Категорія'},
@@ -40,7 +41,6 @@ def element_list(request):
     
     # Сортувати дані за вибраним полем
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
-    print(ordering)
     elements = elements.order_by(ordering)
     
     # Передати дані в шаблон
@@ -49,6 +49,7 @@ def element_list(request):
         'elements': elements,
         'categories': categories,
         'statuses': statuses,
+        'equipments': equipments,
         'selected_categories':category_filters,
         'selected_statuses':status_filters,
         'sort_dict':sort_dict,

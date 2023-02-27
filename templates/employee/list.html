@@ -57,7 +57,7 @@
               <label for="sort">Сортування:</label>
               <select id="sort" name="sort">
                 {% for sort in sort_dict %}
-                <option value="{{sort.key}}" {% if sort_field == '{{sort.key}}' %}selected{% endif %}>{{sort.value}}</option>
+                <option value="{{sort.key}}" {% if sort_field == sort.key %}selected{% endif %}>{{sort.value}}</option>
                 {% endfor %}
               </select>
               <label for="order">Напрямок:</label>
@@ -71,6 +71,11 @@
             </form>
           </div>
         </div>
+      <div>
+      <a href="{% url 'employee:add' %}">
+        <button id="add-employee-btn" type="button" class="btn">Додати нового співробітника</button>
+      </a>
+      </div>
       </div>
     </div>
     {% endblock sidebar %}
@@ -155,7 +160,26 @@
                           </a>
                         </td>                        
                         <td> <a href="{{ employee.get_absolute_url }}">{{employee.coment}} </a></td>
-                        <td> <a href="{{ employee.get_absolute_url }}"></a> </td>
+                        <td> 
+                          <a href="{{ employee.get_update_url }}">
+                            <button id="update-employee-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#update-employee-modal">
+                              <i class="fa fa-edit"></i>
+                            </button>
+                          </a>
+                          <a href="{{ employee.get_delete_url }}">
+                            <button id="delete-employee-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#delete-employee-modal">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </a>
+                        </td>
                       </tr>
                       {% endfor %}
                     </tbody>

@@ -12,7 +12,7 @@
             <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
-              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{element.name}}</h5>
+              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{employee.name}}</h5>
             </div>
             <div class="modal-body">
             <!-- Форма для редагування об'єкта моделі Equipment -->
@@ -24,26 +24,47 @@
                   <select class="form-control" id="category" name="category">
                     <!-- Опції для вибору категорії -->
                     {% for category in categories %}
-                    <option value="{{ category.id }}" {% if element.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                    <option value="{{ category.id }}" {% if equipment.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>                
+                <div class="form-group">
+                  <label for="rank">Звання:</label>
+                  <select class="form-control" id="rank" name="rank">
+                    <!-- Опції для вибору звання -->
+                    {% for rank in ranks %}
+                    <option value="{{ rank.id }}" {% if employee.rank == rank.id %}selected{% endif %}>{{ rank.name }}</option>
                     {% endfor %}
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="name">Назва техніки:</label>
-                  <input type="text" class="form-control" id="name" name="name" value="{{ element.name }}">
+                  <label for="firstname">Ім'я:</label>
+                  <input type="text" class="form-control" id="firstname" name="firstname" value="{{ employee.firstname }}">
                 </div>
                 <div class="form-group">
-                  <label for="name">Кількісна характеристика:</label>
-                  <input type="text" class="form-control" id="value" name="value" value="{{ element.value }}">
+                  <label for="lastname">Прізвище:</label>
+                  <input type="text" class="form-control" id="lastname" name="lastname" value="{{ employee.lastname }}">
                 </div>
                 <div class="form-group">
-                  <label for="serialNumber">Серійний номер:</label>
-                  <input type="text" class="form-control" id="serialNumber" name="serialNumber" value="{{ element.serialNumber }}">
+                  <label for="surname">По батькові:</label>
+                  <input type="text" class="form-control" id="surname" name="surname" value="{%if employee.surname %}{{ employee.surname }}{%endif%}">
                 </div>
+                <div class="form-group">
+                  <label for="position">Посада:</label>
+                  <input type="text" class="form-control" id="position" name="position" value="{{ employee.position }}">
+                </div>
+                <div class="form-group">
+                  <label for="officialPhone">Службовий номер:</label>
+                  <input type="text" class="form-control" id="officialPhone" name="officialPhone" value="{{ equipment.officialPhone }}">
+                </div>
+                <div class="form-group">
+                  <label for="personalPhone">Персональний номер:</label>
+                  <input type="tel" class="form-control" id="personalPhone" name="personalPhone" value="{{ equipment.personalPhone }}">
+                </div> 
                 <div class="form-group">    
                 <div >
-                  {% if element.photo %}
-                    <img style="width: 60px;" src="{{element.photo.url}}" alt="{{element.name}}">
+                  {% if equipment.photo %}
+                    <img style="width: 60px;" src="{{equipment.photo.url}}" alt="{{equipment.name}}">
                   {% else %}
                     <img style="width: 60px;" src="{%static "img/equipnophoto.png" %}">
                   {% endif %}
@@ -53,26 +74,10 @@
                   </button>
                   <input type="file" class="form-control-file" id="photo" name="photo">
                   
-                </div>
-                <br>
+                </div>               
                 <div class="form-group">
-                  <label for="status">Статус:</label>
-                  <select class="form-control" id="status" name="status">
-                    <!-- Опції для вибору статусу -->
-                    {% for status in statuses %}
-                    <option value="{{ status.id }}" {% if element.status.id == status.id %}selected{% endif %}>{{ status.name }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="employee">Де встановлено:</label>
-                  <select class="form-control" id="employee" name="employee">
-                  <!-- Опції для вибору співробітника -->
-                    <option value="">-</option>
-                    {% for equipment in equipments %}
-                      <option value="{{ equipment.id }}" {% if element.equipment.id == equipment.id %}selected{% endif %}>{{equipment.id}} {{equipment.name}} {{equipment.serialNumber}} </option>
-                    {% endfor %}
-                  </select>
+                  <label for="comment">Коментар:</label>
+                  <input type="text" class="form-control" id="comment" name="comment" value="{{ equipment.comment }}">
                 </div>
               </form>
             </div>

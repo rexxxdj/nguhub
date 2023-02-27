@@ -57,7 +57,7 @@
               <label for="sort">Сортування:</label>
               <select id="sort" name="sort">
                 {% for sort in sort_dict %}
-                <option value="{{sort.key}}" {% if sort_field == '{{sort.key}}' %}selected{% endif %}>{{sort.value}}</option>
+                <option value="{{sort.key}}" {% if sort_field == sort.key %}selected{% endif %}>{{sort.value}}</option>
                 {% endfor %}
               </select>
               <label for="order">Напрямок:</label>
