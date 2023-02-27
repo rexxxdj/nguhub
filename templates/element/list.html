@@ -73,7 +73,7 @@
         </div>
       <div>
       <a href="{% url 'element:add' %}">
-        <button id="add-equipment-btn" type="button" class="btn">Додати нове обладнання</button>
+        <button id="add-equipment-btn" type="button" class="btn">Додати нове</button>
       </a>
       </div>
       </div>
@@ -106,9 +106,15 @@
                         <th>
                             Об'єм
                         </th>
+                        <th>
+                            S/N
+                        </th>
+                        <th>
+                            Інв.номер
+                        </th>
                         <th> 
                            Категорія
-                            {% if sort_field == 'category' %}
+                            {% if sort_field == 'category__name' %}
                               {% if sort_order == 'asc' %}
                                 &uarr;
                               {% else %}
@@ -117,11 +123,48 @@
                             {% endif %}
                         </th>
                         <th> 
-                           Серійний номер
+                           Дата вв. в експлуатацію
+                           {% if sort_field == 'operationDate' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
                         </th>
                         <th> 
-                           Де встановлено
-                            {% if sort_field == 'equipment' %}
+                           Місце закріплення
+                            {% if sort_field == 'location__name' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Мат. відп.
+                            {% if sort_field == 'responsible__lastname' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Закріплено
+                            {% if sort_field == 'fixed__lastname' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Користувач
+                            {% if sort_field == 'employee__lastname' %}
                               {% if sort_order == 'asc' %}
                                 &uarr;
                               {% else %}
@@ -131,7 +174,7 @@
                         </th>
                         <th> 
                            Статус
-                            {% if sort_field == 'status' %}
+                            {% if sort_field == 'status__name' %}
                               {% if sort_order == 'asc' %}
                                 &uarr;
                               {% else %}
@@ -139,9 +182,7 @@
                               {% endif %}
                             {% endif %}
                         </th>
-                        {% if user.is_staff %}
-                          <th> Управління </th>
-                        {% endif %}
+                        <th> Управління </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -150,18 +191,37 @@
                         <td> <a href="{{ element.get_absolute_url }}">{{ forloop.counter }} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.name}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.value}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.serialNumber|default_if_none:""|upper}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.inventoryNumber}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.category.name}} </a></td>
-                        <td> <a href="{{ element.get_absolute_url }}">{{element.serialNumber}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.operationDate|date:"d.m.Y"}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.location}} </a></td>
                         <td> 
                           <a href="{{ element.get_absolute_url }}">
-                            {% if element.equipment.name %}
-                              <span>{{element.equipment.name}}</span><br>
-                              <span>S/N: {{element.equipment.serialNumber}}</span><br>
-                              <span class="text-muted">{{element.equipment.employee.get_rank_display}}</span><br>
-                              <span class="text-muted">{{element.equipment.employee.fullname}}</span>
-                            {% else %}
-                              <span>Н/Д</span>
+                            <span>{{element.responsible.get_rank_display}}</span><br>
+                            <span>{{element.responsible.fullname}}</span><br>
+                            {% if element.responsible %}
+                            <span>Підстава:</span><br>
+                            <span class="text-muted">{{element.responsible_reason}}</span>
                             {% endif %}
+                          </a>
+                        </td>
+                        <td> 
+                          <a href="{{ element.get_absolute_url }}">
+                            <span>{{element.fixed.get_rank_display}}</span><br>
+                            <span>{{element.fixed.fullname}}</span><br>
+                            {% if element.fixed %}
+                            <span>Підстава:</span><br>
+                            <span class="text-muted">{{element.fixed_reason}}</span>
+                            {% endif %}
+                          </a>
+                        </td>
+                        <td> 
+                          <a href="{{ element.get_absolute_url }}">
+                            <span>{{element.employee.get_rank_display}}</span><br>
+                            <span>{{element.employee.fullname}}</span><br>
+                            <span class="text-muted">{{element.employee.officialPhone|default_if_none:""}}</span><br>
+                            <span class="text-muted">{{element.employee.personalPhone|default_if_none:""}}</span>
                           </a>
                         </td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.status}} </a></td>

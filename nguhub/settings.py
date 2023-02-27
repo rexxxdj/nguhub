@@ -35,10 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'nguhub',
     'elements',
     'employees',
     'equipment',
-    'inventory',
     
 ]
 

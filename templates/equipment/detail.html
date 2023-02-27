@@ -35,38 +35,50 @@
                 <div class="equipment-info">
                   <p><span>Категорія</span>{{equipment.category.name}}</p>
                   <p><span>Серійний номер</span>{{equipment.serialNumber}}</p>
+                  <p><span>Дата введення в експлуатацію</span>{{equipment.operationDate|date:"d.m.Y"}}</p>
                   <p><span>Статус</span>{{equipment.status.name}}</p>
-                  <p><span>Відповідальний</span>{{equipment.employee.get_rank_display}} {{equipment.employee.fullname}}</p>
+                  <p><span>Місцезнаходження</span>{{equipment.location.name}}</p>
+                  <p><span>Матеріально відповідальний</span>{{equipment.responsible.get_rank_display}} {{equipment.responsible.fullname}}</p><br><br>
+                  <p><span>Закріплено</span>{{equipment.fixed.get_rank_display}} {{equipment.fixed.fullname}}</p><br><br>
+                  <p><span>Користувач</span>{{equipment.employee.get_rank_display}} {{equipment.employee.fullname}}</p>
                 </div>
-                <div class="equipment-info  text-center">
-                  <h4>Комплектація:</h4>
-                  <div class="table-responsive ">
-                    <table class="table table-hover tablesorter " id="">
-                      <thead class=" text-primary">
-                        <tr>
-                          <th> Назва </th>
-                          <th> Серійний номер </th>
-                          <th> Кількість </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% if equipment.elements.all %}
-                          {% for element in equipment.elements.all %}
-                            <tr class="row-link">
-                              <td>  <a href="{{ element.get_absolute_url }}">{{ element.name }} </a></td>
-                              <td>  <a href="{{ element.get_absolute_url }}">{{ element.serialNumber }} </a></td>
-                              <td>  <a href="{{ element.get_absolute_url }}">{{ element.value }} </a></td>   
-                            </tr>               
-                          {% endfor %}
-                        {% else %}
+                <div class="card ">
+                  <div class="card-header">
+                    <h4 class="card-title">Комплектація:</h4>
+                  </div>
+                  <div class="card-body table-wrapper-scroll-y">
+                    <div class="table-responsive">
+                      <table class="table table-hover tablesorter dataTable no-footer table-bordered table-striped table-sm" id="" cellspacing="0">
+                        <thead class=" text-primary text-center">
                           <tr>
-                              <td> {{equipment.name}} </td>
-                              <td> {{equipment.serialNumber}} </td>
-                              <td> 1 шт. </td>   
-                            </tr>
-                        {% endif %}
-                      </tbody>
-                    </table>
+                            <th> # </th>
+                            <th> Назва </th>
+                            <th> Серійний номер </th>
+                            <th> Інв.номер </th>
+                            <th> Кількість </th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-center">
+                          {% if equipment.elements.all %}
+                              {% for element in equipment.elements.all %}
+                                <tr class="row-link">
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ forloop.counter }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.name }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.serialNumber }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.inventoryNumber }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.value }} </a></td>   
+                                </tr>               
+                              {% endfor %}
+                            {% else %}
+                              <tr>
+                                  <td> {{equipment.name}} </td>
+                                  <td> {{equipment.serialNumber}} </td>
+                                  <td> 1 шт. </td>   
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

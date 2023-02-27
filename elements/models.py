@@ -1,6 +1,9 @@
+import datetime
 from django.urls import reverse
 from django.db import models
 from equipment.models import Equipment
+from employees.models import Employee
+from nguhub.models import Location
 
 
 class Category(models.Model):
@@ -58,11 +61,49 @@ class Element(models.Model):
 							null = True,
 							verbose_name='Встановлено на обладнання',
 							related_name='elements')
+	operationDate = models.DateField(default=datetime.date.today,
+							verbose_name='Дата введення в експлуатацію')
 	status = models.ForeignKey(Status,
 							on_delete=models.PROTECT,
 							blank=True, 
 							null=True,
 							verbose_name='Статус')
+	location = models.ForeignKey(Location,
+							on_delete=models.PROTECT,
+							blank=False,
+							null=False,
+							default=1,
+							verbose_name='Місце закріплення')
+	responsible = models.ForeignKey(Employee,
+							on_delete=models.PROTECT,
+							blank=True, 
+							null=True,
+							related_name='element_responsible',
+							verbose_name='Матеріально Відповідальний')
+	responsible_reason = models.CharField(max_length=100,
+							blank=True, 
+							null=True,
+							verbose_name='Підстава закріплення матеріально відповідального')
+	fixed = models.ForeignKey(Employee,
+							on_delete=models.PROTECT,
+							blank=True, 
+							null=True,
+							related_name='element_fixed',
+							verbose_name='За ким закріплено')
+	fixed_reason = models.CharField(max_length=100,
+							blank=True, 
+							null=True,
+							verbose_name='Підстава закріплення відповідального')
+	employee = models.ForeignKey(Employee,
+							on_delete=models.PROTECT,
+							blank=True, 
+							null=True,
+							related_name='element_employee',
+							verbose_name='Користувач')
+	employee_reason = models.CharField(max_length=100,
+							blank=True, 
+							null=True,
+							verbose_name='Підстава закріплення користувача')
 
 	class Meta:
 		verbose_name = 'Комплектуючі'

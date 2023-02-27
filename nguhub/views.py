@@ -20,11 +20,11 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('equipment:equipment')
+                    return redirect('equipment:list')
                 else:
-                    return HttpResponse('Disabled account')
+                    return HttpResponse('Акаунт не активний')
             else:
-                return HttpResponse('Invalid login')
+                return HttpResponse('Невірний логін або пароль')
     else:
         form = SignInForm()
 

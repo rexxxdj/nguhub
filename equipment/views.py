@@ -21,8 +21,12 @@ def equipment_list(request):
     sort_dict = (
         {'id':1, 'key':'name','value':'Назва'},
         {'id':2, 'key':'category__name','value':'Категорія'},
-        {'id':3, 'key':'status__name','value':'Статус'},
-        {'id':4, 'key':'employee','value':'Відповідальний'}
+        {'id':3, 'key':'operationDate','value':'Дата вв. в експлуатацію'},
+        {'id':4, 'key':'status__name','value':'Статус'},
+        {'id':5, 'key':'location__name','value':'Місце закріплення'},
+        {'id':6, 'key':'responsible__lastname','value':'Матеріально Відповідальний'},
+        {'id':7, 'key':'fixed__lastname','value':'За ким закріплено'},
+        {'id':6, 'key':'employee__lastname','value':'Користувач'},
         )
 
     # Отримати параметри запиту GET

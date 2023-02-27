@@ -26,7 +26,6 @@ class Category(models.Model):
 		return '{} {}'.format(self.name, self.address)
 
 
-
 class Employee(models.Model):
 	RANK_CHOICES = (
         (u"сл.", u"Службовець"),

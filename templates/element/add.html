@@ -12,54 +12,93 @@
             <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
-              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{equipment.name}}</h5>
+              <h5 class="modal-title" id="editEquipmentModalLabel">Додати нове комплектуюче</h5>
             </div>
             <div class="modal-body">
-                         <form method="post" enctype="multipart/form-data" id="addEquipmentForm">
-                            {% csrf_token %}
-                            <div class="form-group">
-                              <label for="category">Категорія:</label>
-                              <select class="form-control" id="category" name="category">
-                                {% for category in categories %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                                {% endfor %}
-                              </select>
-                            </div>
-                            <div class="form-group">
-                              <label for="name">Назва:</label>
-                              <input type="text" class="form-control" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="value">Кількісна характеристика:</label>
-                              <input type="text" class="form-control" id="value" name="value" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="serialNumber">Серійний номер:</label>
-                              <input type="text" class="form-control" id="serialNumber" name="serialNumber">
-                            </div>
-                            <div class="form-group">
-                              <label for="photo">Фотографія:</label>
-                              <input type="file" class="form-control-file" id="photo" name="photo">
-                              <i class="fa fa-image"></i>
-                            </div>
-                            <div class="form-group">
-                              <label for="status">Статус:</label>
-                              <select class="form-control" id="status" name="status">
-                                {% for status in statuses %}
-                                <option value="{{ status.id }}">{{ status.name }}</option>
-                                {% endfor %}
-                              </select>
-                            </div>
-                            <div class="form-group">
-                              <label for="equipment">Де встановлено:</label>
-                              <select class="form-control" id="equipment" name="equipment">
-                                <option value="">-</option>
-                                {% for equipment in equipments %}
-                                   <option value="{{ equipment.id }}">{{ equipment.name }} {{ equipment.serialNumber }}</option>
-                                {% endfor %}
-                              </select>
-                            </div>
-                          </form>
+              <form method="post" enctype="multipart/form-data" id="addEquipmentForm">
+                {% csrf_token %}
+                  <div class="form-group">
+                  <label for="category">Категорія:</label>
+                  {{ form.category }}                   
+                </div>
+
+                <div class="form-group">
+                  <label for="name">Назва:</label>
+                  {{ form.name }}                  
+                </div>
+
+                <div class="form-group">
+                  <label for="value">Кількісна характеристика:</label>
+                  {{ form.value }}
+                </div>
+
+                <div class="form-group">
+                  <label for="serialNumber">Серійний номер:</label>
+                  {{ form.serialNumber }} 
+                </div>
+
+                <!--<div class="form-group">
+                  <label for="inventoryNumber">Інвентарний номер:</label>
+                  {{ form.inventoryNumber }} 
+                </div>-->
+
+                <div class="form-group">
+                  <label for="photo">Фотографія:</label>
+                  <button class="btn btn-sm" >
+                    <label for="photo">Додати</label>
+                  </button>
+                  <input type="file" class="form-control-file" id="photo" name="photo">
+                  <i class="fa fa-image"></i>
+                </div>
+
+                <br>
+                <div class="form-group">
+                  <label for="operationDate">Дата введення в експлуатацію:</label>
+                  {{ form.operationDate }} 
+                </div>
+
+                <div class="form-group">
+                  <label for="location">Місце закріплення:</label>
+                  {{ form.location }}                   
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Статус:</label>
+                  {{ form.status }}   
+                </div>
+
+                <div class="form-group">
+                  <label for="responsible">Матеріально відповідальний:</label>
+                  {{ form.responsible }} 
+                </div>
+                <div class="form-group">
+                  <label for="responsible_reason">Підстава:</label>
+                  {{ form.responsible_reason }} 
+                </div>
+
+                <div class="form-group">
+                  <label for="fixed">Закріплено:</label>
+                  {{ form.fixed }} 
+                </div>
+                <div class="form-group">
+                  <label for="fixed_reason">Підстава:</label>
+                  {{ form.fixed_reason }} 
+                </div>
+
+                <div class="form-group">
+                  <label for="employee">Користувач:</label>
+                  {{ form.employee }} 
+                </div>
+                <div class="form-group">
+                  <label for="employee_reason">Підстава:</label>
+                  {{ form.employee_reason }} 
+                </div>
+
+                <div class="form-group">
+                  <label for="equipment">Де встановлено:</label>
+                  {{ form.equipment }} 
+                </div>
+              </form>
             </div>
             <div class="modal-footer" style="border-top: none;">
               <a href="{% url 'equipment:list' %}"> 

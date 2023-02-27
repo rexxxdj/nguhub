@@ -53,12 +53,16 @@ def employee_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'employee/detail.html'
     employee = get_object_or_404(Employee, id=pk,)
-    equipments = Equipment.objects.filter(employee=pk).order_by('category','name')
+    responsibleEquipment = Equipment.objects.filter(responsible=pk).order_by('category','name')
+    fixedEquipment = Equipment.objects.filter(fixed=pk).order_by('category','name')
+    employeeEquipment = Equipment.objects.filter(employee=pk).order_by('category','name')
 
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
         'employee': employee,
-        'equipments': equipments
+        'responsibleEquipment': responsibleEquipment,
+        'fixedEquipment': fixedEquipment,
+        'employeeEquipment': employeeEquipment
     }
     return render(request,template, context)
 
@@ -122,7 +126,6 @@ def employee_update(request, pk):
         return redirect('employee:list')
     else:
         form = EmployeeForm(instance=employee)
-
 
     ranks = (
         {'id': u'сл.', 'name': u"Службовець"},
