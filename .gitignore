@@ -1,3 +1,7 @@
+#settings
+prod_settings.py
+local_settings.py
+
 # Django #
 *.log
 *.pot

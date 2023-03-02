@@ -44,4 +44,3 @@ ADMINS = (('Ruslan', 'djrexxx87@gmail.comment'),)
 MANAGERS = (('Ruslan', 'djrexx87@gmail.com'),)
 
 
-DEFAULT_SITE_NAMING = 'в/ч 3002 м.Львів'

@@ -13,18 +13,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-g_ta=!g5#!i6(64275$*-q7(%_##77x8yqh%y4r+p^4+e2o(2q'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-
-#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '192.168.18.130']
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -71,21 +59,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nguhub.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '..', 'db.sqlite3'),
-    }
-}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -100,10 +73,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 # Мова
 LANGUAGE_CODE = 'uk'
@@ -120,31 +89,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DEFAULT_SITE_NAMING = 'в/ч 3002 м.Львів'
 
-from .env_settings import SECRET_KEY, DEBUG, TEMPLATE_DEBUG, ALLOWED_HOSTS
-#from .env_settings import DATABASES
-#from .env_settings import STATIC_URL, MEDIA_URL, MEDIA_ROOT
-from .env_settings import ADMIN_EMAIL, EMAIL_HOST, EMAIL_PORT, EMAIL_USE_SSL
-from .env_settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_USE_TLS
-from .env_settings import DEFAULT_SITE_NAMING
 
-# in dev envrironment we may not have STATIC_ROOT defined
 try:
-    from .env_settings import STATIC_ROOT
+    from .local_settings import *
 except ImportError:
-    pass
+    from .prod_settings import *
