@@ -17,12 +17,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g_ta=!g5#!i6(64275$*-q7(%_##77x8yqh%y4r+p^4+e2o(2q'
+#SECRET_KEY = 'django-insecure-g_ta=!g5#!i6(64275$*-q7(%_##77x8yqh%y4r+p^4+e2o(2q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '192.168.18.130']
+#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '192.168.18.130']
 
 
 # Application definition
@@ -135,4 +135,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_SITE_NAMING = 'в/ч 3002 м.Львів'
+
+from .env_settings import SECRET_KEY, DEBUG, TEMPLATE_DEBUG, ALLOWED_HOSTS
+#from .env_settings import DATABASES
+#from .env_settings import STATIC_URL, MEDIA_URL, MEDIA_ROOT
+from .env_settings import ADMIN_EMAIL, EMAIL_HOST, EMAIL_PORT, EMAIL_USE_SSL
+from .env_settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_USE_TLS
+from .env_settings import DEFAULT_SITE_NAMING
+
+# in dev envrironment we may not have STATIC_ROOT defined
+try:
+    from .env_settings import STATIC_ROOT
+except ImportError:
+    pass
