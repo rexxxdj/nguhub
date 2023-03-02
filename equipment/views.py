@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Equipment, Status, Category
 from employees.models import Employee
-from .forms import EquipmentForm
+from .forms import EquipmentCreateForm, EquipmentUpdateForm
 
 
 def equipment_list(request):
@@ -74,54 +74,57 @@ def equipment_detail(request, pk):
     }
     return render(request,template, context)
 
-def equipment_add(request):
-    if request.method == 'POST':        
-        form = EquipmentForm(request.POST, request.FILES)
-        if request.POST.get('_save'):
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Дані було успішно збережено.')
-        return redirect('equipment:list')
-    else:
-        form = EquipmentForm()
 
-    categories = Category.objects.all()
-    statuses = Status.objects.all()
-    employees = Employee.objects.all()
-    context = {
-        'categories': categories,
-        'statuses': statuses,
-        'employees': employees,
-        'form': form
-    }
-    return render(request, 'equipment/add.html', context)
+class EquipmentCreateView(CreateView):
+    model = Equipment
+    template_name = 'equipment/add.html'
+    form_class = EquipmentCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(EquipmentCreateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        equipment = form.save()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, 'Дані було успішно збережено.')
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на створення')
+        return super(EquipmentCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('equipment:list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('equipment:list')
 
 
-def equipment_update(request, pk):
-    equipment = get_object_or_404(Equipment, id=pk)
-    if request.method == 'POST':
-        form = EquipmentForm(request.POST, request.FILES, instance=equipment)
-        if request.POST.get('_save'):
-            if form.is_valid():
-                form.save()
-                messages.success(request, '\"{}\" було успішно змінено.'.format(equipment.name))
-        if request.POST.get('_dismiss'):
-            messages.success(request, 'Ви відмінили запит на зміну \"{}\".'.format(equipment.name))
-        return redirect('equipment:list')
-    else:
-        form = EquipmentForm(instance=equipment)
+class EquipmentUpdateView(UpdateView):
+    model = Equipment
+    template_name = 'equipment/update.html'
+    form_class = EquipmentUpdateForm
 
-    categories = Category.objects.all()
-    statuses = Status.objects.all()
-    employees = Employee.objects.all()
-    context = {
-        'equipment': equipment,
-        'categories': categories,
-        'statuses': statuses,
-        'employees': employees,
-        'form': form
-    }
-    return render(request, 'equipment/update.html', context)
+    @property
+    def has_permission(self):
+        return self.user.is_active
+
+    def get_context_data(self, **kwargs):
+        context = super(EquipmentUpdateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        equipment = form.save()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipment.name))
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на зміну')
+        return super(EquipmentUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('equipment:list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('equipment:list')
 
 
 class EquipmentDeleteView(DeleteView):

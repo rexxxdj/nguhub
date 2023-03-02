@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from simple_history.models import HistoricalRecords
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -8,7 +9,7 @@ class Category(models.Model):
 	name = models.CharField(max_length=50,
 							blank=False, 
 							null=False, 
-							verbose_name=u'Категорія користувача')
+							verbose_name=u'Локація користувача')
 	address = models.CharField(max_length=150,
 							blank=False, 
 							null=False, 
@@ -17,10 +18,11 @@ class Category(models.Model):
 							blank=True, 
 							null=True, 
 							verbose_name='Додаткові коментарі')
+	history = HistoricalRecords()
 
 	class Meta:
-		verbose_name = 'Категорія'
-		verbose_name_plural = 'Категорії'	
+		verbose_name = 'Локація'
+		verbose_name_plural = 'Локації'	
 
 	def __str__(self):
 		return '{} {}'.format(self.name, self.address)
@@ -55,7 +57,7 @@ class Employee(models.Model):
 	category = models.ForeignKey(Category,
 							on_delete=models.PROTECT,
 							default = 0,
-							verbose_name='Категорія користувача')
+							verbose_name='Локація користувача')
 	rank = models.CharField(max_length=30, 
 							choices=RANK_CHOICES, 
 							blank=False, 
@@ -91,6 +93,7 @@ class Employee(models.Model):
 	photo = models.ImageField(upload_to='media/employee/%Y/%m/%d', 
 							blank=True,
 							verbose_name='Фотографія')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Співробітник'

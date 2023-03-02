@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Element, Status, Category
-from .forms import ElementForm
+from .forms import ElementCreateForm, ElementUpdateForm
 from equipment.models import Equipment
 
 
@@ -74,27 +74,57 @@ def element_detail(request, pk):
     }
     return render(request, template, context)
 
-def element_add(request):
-    if request.method == 'POST':        
-        form = ElementForm(request.POST, request.FILES)
-        if request.POST.get('_save'):
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Дані було успішно збережено.')
-        return redirect('element:list')
-    else:
-        form = ElementForm()
 
-    categories = Category.objects.all()
-    statuses = Status.objects.all()
-    equipments = Equipment.objects.all()
-    context = {
-        'categories': categories,
-        'statuses': statuses,
-        'equipments': equipments,
-        'form': form
-    }
-    return render(request, 'element/add.html', context)
+class ElementCreateView(CreateView):
+    model = Element
+    template_name = 'element/add.html'
+    form_class = ElementCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ElementCreateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        element = form.save()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, 'Дані було успішно збережено.')
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на створення')
+        return super(ElementCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('element:list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('element:list')
+
+
+class ElementUpdateView(UpdateView):
+    model = Element
+    template_name = 'element/update.html'
+    form_class = ElementUpdateForm
+
+    @property
+    def has_permission(self):
+        return self.user.is_active
+
+    def get_context_data(self, **kwargs):
+        context = super(ElementUpdateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        element = form.save()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, '\"{}\" було успішно змінено.'.format(element.name))
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на зміну')
+        return super(ElementUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('element:list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('element:list')
 
 
 def element_update(request, pk):

@@ -12,7 +12,7 @@
             <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
-              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{equipment.fullname}}</h5>
+              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{equipment.name}}</h5>
             </div>
             <div class="modal-body">
             <!-- Форма для редагування об'єкта моделі Employee -->
@@ -55,9 +55,10 @@
                 </div>
 
                 <br>
+                
                 <div class="form-group">
                   <label for="operationDate">Дата введення в експлуатацію:</label>
-                  {{ form.operationDate }} 
+                  {{ form.operationDate }}
                 </div>
 
                 <div class="form-group">
@@ -95,6 +96,10 @@
                 <div class="form-group">
                   <label for="employee_reason">Підстава:</label>
                   {{ form.employee_reason }} 
+                </div>
+                <div class="form-group">
+                  <label for="comment">Коментар:</label>
+                  {{ form.comment }}
                 </div>
 
               </form>

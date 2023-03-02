@@ -1,4 +1,5 @@
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Location(models.Model):
@@ -6,6 +7,7 @@ class Location(models.Model):
 							blank=False,
 							null=False,
 							verbose_name='Місце закріплення комплектуючих')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Місце закріплення комплектуючих'

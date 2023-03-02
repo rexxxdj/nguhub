@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from simple_history.models import HistoricalRecords
 from employees.models import Employee
 from nguhub.models import Location
 
@@ -11,6 +12,7 @@ class Category(models.Model):
 							blank=False, 
 							null=False, 
 							verbose_name='Категорія обладнання')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Категорія обладнання'
@@ -25,6 +27,7 @@ class Status(models.Model):
 							blank=False,
 							null=False,
 							verbose_name='Статус обладнання')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Статус обладнання'
@@ -53,6 +56,8 @@ class Equipment(models.Model):
 							blank=True,
 							verbose_name='Фотографія')
 	operationDate = models.DateField(default=datetime.date.today,
+							blank=True, 
+							null=True,
 							verbose_name='Дата введення в експлуатацію')
 	status = models.ForeignKey(Status,
 							on_delete=models.PROTECT,
@@ -95,6 +100,11 @@ class Equipment(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Підстава закріплення користувача')
+	comment = models.CharField(max_length=2048,
+							blank=True, 
+							null=True, 
+							verbose_name='Додатковий коментар')
+	history = HistoricalRecords()
 
 	def get_absolute_url(self):
 		return reverse('equipment:detail',

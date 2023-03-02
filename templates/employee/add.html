@@ -19,52 +19,48 @@
                             {% csrf_token %}
                             <div class="form-group">
                               <label for="category">Категорія:</label>
-                              <select class="form-control" id="category" name="category">
-                                {% for category in categories %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                                {% endfor %}
-                              </select>
+                              {{ form.category }}
                             </div>
                             <div class="form-group">
                               <label for="rank">Звання:</label>
-                              <select class="form-control" id="rank" name="rank">
-                                {% for rank in ranks %}
-                                <option value="{{ rank.id }}">{{ rank.name }}</option>
-                                {% endfor %}
-                              </select>
+                              {{ form.rank }}
                             </div>
                             <div class="form-group">
                               <label for="firstname">Ім'я:</label>
-                              <input type="text" class="form-control" id="firstname" name="firstname" required>
+                              {{ form.firstname }}
                             </div> 
                             <div class="form-group">
                               <label for="lastname">Прізвище:</label>
-                              <input type="text" class="form-control" id="lastname" name="lastname" required>
+                              {{ form.lastname }}
                             </div>
                             <div class="form-group">
                               <label for="surname">По батькові:</label>
-                              <input type="text" class="form-control" id="surname" name="surname" >
+                              {{ form.surname }}
                             </div>
                             <div class="form-group">
                               <label for="position">Посада:</label>
-                              <input type="text" class="form-control" id="position" name="position" required>
+                              {{ form.position }}
                             </div>
                             <div class="form-group">
                               <label for="officialPhone">Службовий номер:</label>
-                              <input type="text" class="form-control" id="officialPhone" name="officialPhone">
+                              {{ form.officialPhone }}
                             </div>
                             <div class="form-group">
                               <label for="personalPhone">Персональний номер:</label>
-                              <input type="tel" name="personalPhone" class="form-control" maxlength="128" id="personalPhone">
+                              {{ form.personalPhone }}
                             </div>
                             <div class="form-group">
-                              <label for="photo">Фотографія:</label>
-                              <input type="file" class="form-control-file" id="photo" name="photo">
-                              <i class="fa fa-image"></i>
-                            </div>
+                  <label for="photo">Фотографія:</label>
+                  <button class="btn btn-sm" >
+                    <label for="photo">Додати</label>
+                  </button>
+                  <input type="file" class="form-control-file" id="photo" name="photo">
+                  <i class="fa fa-image"></i>
+                </div>
+                            
                             <div class="form-group">
                               <label for="comment">Коментар:</label>
-                              <input type="text" class="form-control" id="comment" name="comment">
+                              {{ form.comment }}
                             </div>
                           </form>
             </div>

@@ -12,7 +12,7 @@
             <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
-              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{employee.name}}</h5>
+              <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{employee.fullname}}</h5>
             </div>
             <div class="modal-body">
             <!-- Форма для редагування об'єкта моделі Equipment -->
@@ -21,45 +21,35 @@
                 <input type="hidden" name="id" id="id-input">
                 <div class="form-group">
                   <label for="category">Категорія:</label>
-                  <select class="form-control" id="category" name="category">
-                    <!-- Опції для вибору категорії -->
-                    {% for category in categories %}
-                    <option value="{{ category.id }}" {% if equipment.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
-                    {% endfor %}
-                  </select>
+                  {{ form.category }}
                 </div>                
                 <div class="form-group">
                   <label for="rank">Звання:</label>
-                  <select class="form-control" id="rank" name="rank">
-                    <!-- Опції для вибору звання -->
-                    {% for rank in ranks %}
-                    <option value="{{ rank.id }}" {% if employee.rank == rank.id %}selected{% endif %}>{{ rank.name }}</option>
-                    {% endfor %}
-                  </select>
+                  {{ form.rank }}
                 </div>
                 <div class="form-group">
                   <label for="firstname">Ім'я:</label>
-                  <input type="text" class="form-control" id="firstname" name="firstname" value="{{ employee.firstname }}">
+                  {{ form.firstname }}
                 </div>
                 <div class="form-group">
                   <label for="lastname">Прізвище:</label>
-                  <input type="text" class="form-control" id="lastname" name="lastname" value="{{ employee.lastname }}">
+                  {{ form.lastname }}
                 </div>
                 <div class="form-group">
                   <label for="surname">По батькові:</label>
-                  <input type="text" class="form-control" id="surname" name="surname" value="{%if employee.surname %}{{ employee.surname }}{%endif%}">
+                  {{ form.surname }}
                 </div>
                 <div class="form-group">
                   <label for="position">Посада:</label>
-                  <input type="text" class="form-control" id="position" name="position" value="{{ employee.position }}">
+                  {{ form.position }}
                 </div>
                 <div class="form-group">
                   <label for="officialPhone">Службовий номер:</label>
-                  <input type="text" class="form-control" id="officialPhone" name="officialPhone" value="{{ equipment.officialPhone }}">
+                  {{ form.officialPhone }}
                 </div>
                 <div class="form-group">
                   <label for="personalPhone">Персональний номер:</label>
-                  <input type="tel" class="form-control" id="personalPhone" name="personalPhone" value="{{ equipment.personalPhone }}">
+                  {{ form.personalPhone }}
                 </div> 
                 <div class="form-group">    
                 <div >
@@ -72,12 +62,11 @@
                   <button class="btn btn-sm" >
                     <label for="photo">Змінити фото</label>
                   </button>
-                  <input type="file" class="form-control-file" id="photo" name="photo">
-                  
+                  {{ form.photo }}                  
                 </div>               
                 <div class="form-group">
                   <label for="comment">Коментар:</label>
-                  <input type="text" class="form-control" id="comment" name="comment" value="{{ equipment.comment }}">
+                  {{ form.comment }}
                 </div>
               </form>
             </div>

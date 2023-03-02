@@ -1,5 +1,6 @@
 import datetime
 from django.urls import reverse
+from simple_history.models import HistoricalRecords
 from django.db import models
 from equipment.models import Equipment
 from employees.models import Employee
@@ -11,6 +12,7 @@ class Category(models.Model):
 							blank=False, 
 							null=False, 
 							verbose_name='Категорія')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Категорія'
@@ -24,6 +26,7 @@ class Status(models.Model):
 							blank=False,
 							null=False,
 							verbose_name='Статус комплектуючих')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Статус комплектуючих'
@@ -104,6 +107,11 @@ class Element(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Підстава закріплення користувача')
+	comment = models.CharField(max_length=2048,
+							blank=True, 
+							null=True, 
+							verbose_name='Додатковий коментар')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Комплектуючі'

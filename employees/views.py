@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Employee, Category
-from .forms import EmployeeForm
+from .forms import EmployeeCreateForm, EmployeeUpdateForm
 from equipment.models import Equipment
 
 
@@ -20,7 +20,7 @@ def employee_list(request):
         {'id':1, 'key':'rank','value':'Звання'},
         {'id':2, 'key':'lastname','value':'Прізвище'},
         {'id':3, 'key':'position','value':'Посада'},
-        {'id':4, 'key':'category__name','value':'Категорія'},
+        {'id':4, 'key':'category__name','value':'Локація'},
         )
 
     # Отримати параметри запиту GET
@@ -66,99 +66,57 @@ def employee_detail(request, pk):
     }
     return render(request,template, context)
 
-def employee_add(request):
-    if request.method == 'POST':        
-        form = EmployeeForm(request.POST, request.FILES)
-        if request.POST.get('_save'):
-            if form.is_valid():
-                print("VALID")
-                form.save()
-                messages.success(request, 'Дані було успішно збережено.')
-            else:
-                print("NOT VALID")
-        return redirect('employee:list')
-    else:
-        form = EmployeeForm()
 
-    ranks = (
-        {'id': u'сл.', 'name': u"Службовець"},
-        {'id': u'солд.', 'name': u"Солдат"},
-        {'id': u'ст.солд.', 'name': u"Старший солдат"},
-        {'id': u'мол.с-нт', 'name': u"Молодший сержант"},
-        {'id': u'с-нт', 'name': u"Сержант"},
-        {'id': u'ст.с-нт', 'name': u"Старший сержант"},
-        {'id': u'гол.с-нт', 'name': u"Головний сержант"},
-        {'id': u'шт.с-нт', 'name': u"Штаб-сержант"},
-        {'id': u'м.с-нт', 'name': u"Майстер-сержант"},
-        {'id': u'ст.м.с-нт', 'name': u"Старший майстер-сержант"},
-        {'id': u'гол.м.с-нт', 'name': u"Головний майстер-сержант"},
-        {'id': u'мол.л-нт', 'name': u"Молодший лейтенант"},
-        {'id': u'л-нт', 'name': u"Лейтенант"},
-        {'id': u'ст.л-нт', 'name': u"Старший лейтенант"},
-        {'id': u'к-н', 'name': u"Капітан"},
-        {'id': u'м-р', 'name': u"Майор"},
-        {'id': u'п/п-к', 'name': u"Підполковник"},
-        {'id': u'п-к', 'name': u"Полковник"},
-        {'id': u'бриг.ген.', 'name': u"Бригадний генерал"},
-        {'id': u'ген.м-р', 'name': u"Генерал-майор"},
-        {'id': u'ген.л-нт', 'name': u"Генерал-лейтенант"},
-        {'id': u'ген.', 'name': u"Генерал"}
-    )
-    categories = Category.objects.all()
-    context = {
-        'ranks': ranks,
-        'categories': categories,
-        'form': form
-    }
-    return render(request, 'employee/add.html', context)
+class EmployeeCreateView(CreateView):
+    model = Employee
+    template_name = 'employee/add.html'
+    form_class = EmployeeCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(EmployeeCreateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        employee = form.save()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, 'Дані було успішно збережено.')
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на створення')
+        return super(EmployeeCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('employee:list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('employee:list')
 
 
-def employee_update(request, pk):
-    employee = get_object_or_404(Employee, id=pk)
-    if request.method == 'POST':
-        form = EmployeeForm(request.POST, request.FILES, instance=employee)
-        if request.POST.get('_save'):
-            if form.is_valid():
-                form.save()
-                messages.success(request, '\"{}\" було успішно змінено.'.format(employee.fullname))
-        if request.POST.get('_dismiss'):
-            messages.success(request, 'Ви відмінили запит на зміну \"{}\".'.format(employee.fullname))
-        return redirect('employee:list')
-    else:
-        form = EmployeeForm(instance=employee)
+class EmployeeUpdateView(UpdateView):
+    model = Employee
+    template_name = 'employee/update.html'
+    form_class = EmployeeUpdateForm
 
-    ranks = (
-        {'id': u'сл.', 'name': u"Службовець"},
-        {'id': u'солд.', 'name': u"Солдат"},
-        {'id': u'ст.солд.', 'name': u"Старший солдат"},
-        {'id': u'мол.с-нт', 'name': u"Молодший сержант"},
-        {'id': u'с-нт', 'name': u"Сержант"},
-        {'id': u'ст.с-нт', 'name': u"Старший сержант"},
-        {'id': u'гол.с-нт', 'name': u"Головний сержант"},
-        {'id': u'шт.с-нт', 'name': u"Штаб-сержант"},
-        {'id': u'м.с-нт', 'name': u"Майстер-сержант"},
-        {'id': u'ст.м.с-нт', 'name': u"Старший майстер-сержант"},
-        {'id': u'гол.м.с-нт', 'name': u"Головний майстер-сержант"},
-        {'id': u'мол.л-нт', 'name': u"Молодший лейтенант"},
-        {'id': u'л-нт', 'name': u"Лейтенант"},
-        {'id': u'ст.л-нт', 'name': u"Старший лейтенант"},
-        {'id': u'к-н', 'name': u"Капітан"},
-        {'id': u'м-р', 'name': u"Майор"},
-        {'id': u'п/п-к', 'name': u"Підполковник"},
-        {'id': u'п-к', 'name': u"Полковник"},
-        {'id': u'бриг.ген.', 'name': u"Бригадний генерал"},
-        {'id': u'ген.м-р', 'name': u"Генерал-майор"},
-        {'id': u'ген.л-нт', 'name': u"Генерал-лейтенант"},
-        {'id': u'ген.', 'name': u"Генерал"}
-    )
-    categories = Category.objects.all()
-    context = {
-        'employee': employee,
-        'categories': categories,
-        'ranks': ranks,
-        'form': form
-    }
-    return render(request, 'employee/update.html', context)
+    @property
+    def has_permission(self):
+        return self.user.is_active
+
+    def get_context_data(self, **kwargs):
+        context = super(EmployeeUpdateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        employee = form.save()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, '\"{} {}\" було успішно змінено.'.format(employee.lastname, employee.firstname))
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на зміну')
+        return super(EmployeeUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('employee:list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('employee:list')
 
 
 class EmployeeDeleteView(DeleteView):
@@ -166,6 +124,10 @@ class EmployeeDeleteView(DeleteView):
     template_name = 'employee/confirm_delete.html'
 
     def get_success_url(self):
+        if self.request.POST.get('_confirm'):
+            messages.success(self.request, 'Користувача було успішно видалено.')
+        if self.request.POST.get('_cancel'):
+            messages.success(self.request, 'Ви відмінили запит на видалення')
         return reverse_lazy('employee:list')
 
     def post(self, request, *args, **kwargs):

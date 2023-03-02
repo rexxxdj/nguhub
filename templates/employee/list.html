@@ -17,7 +17,7 @@
                           data-toggle="collapse" 
                           data-target="#categoriesCollapse"
                           aria-expanded="true" 
-                          aria-controls="categoriesCollapse">Категорії</button>
+                          aria-controls="categoriesCollapse">Локації</button>
                 </h5>
               </div>              
               <div id="categoriesCollapse" class="collapse show">
@@ -124,7 +124,7 @@
                             {% endif %}
                         </th>
                         <th> 
-                           Категорія
+                           Локація
                             {% if sort_field == 'category' %}
                               {% if sort_order == 'asc' %}
                                 &uarr;
@@ -152,7 +152,10 @@
                         <td> <a href="{{ employee.get_absolute_url }}">{{employee.get_rank_display}} </a></td>
                         <td> <a href="{{ employee.get_absolute_url }}">{{employee.fullname}} </a></td>
                         <td> <a href="{{ employee.get_absolute_url }}">{{employee.position}} </a></td>
-                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.category.name}} </a></td>
+                        <td> <a href="{{ employee.get_absolute_url }}">
+                            {{employee.category.name}}<br>
+                            <span class="text-muted">{{employee.category.address}}</span>
+                          </a>
                         <td> 
                           <a href="{{ employee.get_absolute_url }}">
                             <span class="text-muted">{{employee.officialPhone}}</span><br>
