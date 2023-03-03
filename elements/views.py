@@ -1,6 +1,7 @@
 from django.conf import settings # import the settings file
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, QueryDict
 from django.urls import reverse_lazy
 from urllib.parse import urlencode
@@ -11,6 +12,7 @@ from .forms import ElementCreateForm, ElementUpdateForm
 from equipment.models import Equipment
 
 
+@login_required(login_url="/")
 def element_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'element/list.html'
@@ -63,6 +65,7 @@ def element_list(request):
     return render(request, template, context)
 
 
+@login_required(login_url="/")
 def element_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'element/detail.html'
@@ -98,6 +101,16 @@ class ElementCreateView(CreateView):
         if self.request.POST.get('_dismiss'):
             return reverse_lazy('element:list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
 
 class ElementUpdateView(UpdateView):
     model = Element
@@ -126,7 +139,18 @@ class ElementUpdateView(UpdateView):
         if self.request.POST.get('_dismiss'):
             return reverse_lazy('element:list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
 
+
+@login_required(login_url="/")
 def element_update(request, pk):
     element = get_object_or_404(Element, id=pk)
     if request.method == 'POST':
@@ -167,3 +191,13 @@ class ElementDeleteView(DeleteView):
             return HttpResponseRedirect(url)
         else:
             return super(ElementDeleteView, self).post(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")

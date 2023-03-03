@@ -19,12 +19,14 @@ from django.conf.urls.static import static
 from django.urls import path, include, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
+from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.user_login, name='signin'),
     path('logout/', views.user_logout, name='logout'),
+    #path('logout/', LogoutView.as_view(), name='logout'),
     path('equipment/', include('equipment.urls', namespace='equipment')),
     path('element/', include('elements.urls', namespace='element')),
     path('employee/', include('employees.urls', namespace='employee')),

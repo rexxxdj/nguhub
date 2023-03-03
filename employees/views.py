@@ -1,6 +1,7 @@
 from django.conf import settings # import the settings file
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, QueryDict
 from django.urls import reverse_lazy
 from urllib.parse import urlencode
@@ -11,6 +12,7 @@ from .forms import EmployeeCreateForm, EmployeeUpdateForm
 from equipment.models import Equipment
 
 
+@login_required(login_url="/")
 def employee_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'employee/list.html'
@@ -49,6 +51,7 @@ def employee_list(request):
     return render(request, template, context)
 
 
+@login_required(login_url="/")
 def employee_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'employee/detail.html'
@@ -90,6 +93,16 @@ class EmployeeCreateView(CreateView):
         if self.request.POST.get('_dismiss'):
             return reverse_lazy('employee:list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
 
 class EmployeeUpdateView(UpdateView):
     model = Employee
@@ -118,6 +131,16 @@ class EmployeeUpdateView(UpdateView):
         if self.request.POST.get('_dismiss'):
             return reverse_lazy('employee:list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
 
 class EmployeeDeleteView(DeleteView):
     model = Employee
@@ -136,3 +159,13 @@ class EmployeeDeleteView(DeleteView):
             return HttpResponseRedirect(url)
         else:
             return super(EmployeeDeleteView, self).post(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")

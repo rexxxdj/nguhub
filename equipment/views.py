@@ -1,6 +1,7 @@
 from django.conf import settings # import the settings file
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, QueryDict, JsonResponse
 from django.urls import reverse_lazy
 from urllib.parse import urlencode
@@ -11,6 +12,7 @@ from employees.models import Employee
 from .forms import EquipmentCreateForm, EquipmentUpdateForm
 
 
+@login_required(login_url="/")
 def equipment_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'equipment/list.html'
@@ -63,6 +65,7 @@ def equipment_list(request):
     return render(request, template, context)
 
 
+@login_required(login_url="/")
 def equipment_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'equipment/detail.html'
@@ -98,6 +101,16 @@ class EquipmentCreateView(CreateView):
         if self.request.POST.get('_dismiss'):
             return reverse_lazy('equipment:list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
 
 class EquipmentUpdateView(UpdateView):
     model = Equipment
@@ -126,6 +139,16 @@ class EquipmentUpdateView(UpdateView):
         if self.request.POST.get('_dismiss'):
             return reverse_lazy('equipment:list')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
 
 class EquipmentDeleteView(DeleteView):
     model = Equipment
@@ -140,3 +163,13 @@ class EquipmentDeleteView(DeleteView):
             return HttpResponseRedirect(url)
         else:
             return super(EquipmentDeleteView, self).post(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
