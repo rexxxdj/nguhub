@@ -9,6 +9,10 @@
   display:block;
 }
 
+.form-group .form-control  option {
+  color: black;
+}
+
 .table-header {
   color: #3f65d4;
 }
