@@ -24,11 +24,23 @@ class Category(models.Model):
 		verbose_name = 'Локація'
 		verbose_name_plural = 'Локації'	
 
+	def get_update_url(self):
+		return reverse('directory_employee_location_update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('directory_employee_location_delete',
+			args=[self.id])
+
 	def __str__(self):
 		return '{} {}'.format(self.name, self.address)
 
 
 class Employee(models.Model):
+	def directory_path(instance, filename):
+		return 'media/employee/{0}/{1}'.format(instance.id, filename)
+
+
 	RANK_CHOICES = (
         (u"сл.", u"Службовець"),
         (u"солд.", u"Солдат"),
@@ -90,10 +102,9 @@ class Employee(models.Model):
 	personalPhone = PhoneNumberField(blank=True, 
 							null=True, 
 							unique=True)
-	photo = models.ImageField(upload_to='media/employee/%Y/%m/%d', 
+	photo = models.ImageField(upload_to=directory_path, 
 							blank=True,
 							verbose_name='Фотографія')
-	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Співробітник'

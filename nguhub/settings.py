@@ -92,6 +92,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_SITE_NAMING = 'в/ч 3002 м.Львів'
 
 
+
+
 try:
     from .local_settings import *
 except ImportError:

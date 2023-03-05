@@ -12,11 +12,23 @@ class Category(models.Model):
 							blank=False, 
 							null=False, 
 							verbose_name='Категорія')
+	notes = models.CharField(max_length=200,
+							blank=True, 
+							null=True, 
+							verbose_name='Додаткові коментарі')
 	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Категорія'
 		verbose_name_plural = 'Категорії'
+
+	def get_update_url(self):
+		return reverse('directory_element_category_update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('directory_element_category_delete',
+			args=[self.id])
 
 	def __str__(self):
 		return self.name
@@ -26,17 +38,32 @@ class Status(models.Model):
 							blank=False,
 							null=False,
 							verbose_name='Статус комплектуючих')
+	notes = models.CharField(max_length=200,
+							blank=True, 
+							null=True, 
+							verbose_name='Додаткові коментарі')
 	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Статус комплектуючих'
 		verbose_name_plural = 'Статуси комплектуючих'
 
+	def get_update_url(self):
+		return reverse('directory_element_status_update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('directory_element_status_delete',
+			args=[self.id])
+
 	def __str__(self):
 		return self.name # Наприклад - Знищена, В роботі, На зберіганні, Не обліковано і т.д.
 
 
 class Element(models.Model):
+	def directory_path(instance, filename):
+		return 'media/element/{0}/{1}'.format(instance.id, filename)
+
 	category = models.ForeignKey(Category,
 							on_delete=models.PROTECT,
 							default = 0,
@@ -55,7 +82,7 @@ class Element(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Серійний номер')
-	photo = models.ImageField(upload_to='media/element/%Y/%m/%d', 
+	photo = models.ImageField(upload_to=directory_path, 
 							blank=True,
 							verbose_name='Фотографія')
 	equipment = models.ForeignKey(Equipment,

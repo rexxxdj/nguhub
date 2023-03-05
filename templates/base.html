@@ -45,27 +45,51 @@
           </button>
           <div class="collapse navbar-collapse" id="navigation">
                 <ul class="navbar-nav ml-auto">
+                  <li class="dropdown nav-item directory_nav" style="margin: auto;">
+                    <a href="#" class="dropdown-toggle nav-link {% if 'directory' in request.path %} navactive {% endif %}" data-toggle="dropdown">
+                      <p>Довідники</p>
+                      <b class="caret d-none d-lg-block d-xl-block"></b>
+                    </a>
+                    <ul class="dropdown-menu dropdown-navbar">
+                        <li class="nav-link">
+                            <a href="{% url 'directory_employee_location_list' %}" class="nav-item dropdown-item">Співробітники - Локації</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="{% url 'directory_equipment_category_list' %}" class="nav-item dropdown-item">Обладнання - Категорії</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="{% url 'directory_equipment_status_list' %}" class="nav-item dropdown-item">Обладнання - Статуси</a>
+                        </li>
+                         <li class="nav-link">
+                            <a href="{% url 'directory_element_category_list' %}" class="nav-item dropdown-item">Комплектуючі - Категорії</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="{% url 'directory_element_status_list' %}" class="nav-item dropdown-item">Комплектуючі - Статуси</a>
+                        </li>
+                    </ul>
+                  </li>
                   {% url 'equipment' as equipment_url %}
-                  <li class="{% if 'equipment' in request.path %} navactive {% endif %}">
+                  <li class="{% if 'equipment' in request.path %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %}" style="margin: auto;">
                     <a href="{% url 'equipment:list' %}">
                       <p>Обладнання</p>
                     </a>
                   </li>
                   {% url 'element' as element_url %}
-                  <li class="{% if 'element' in request.path %} navactive {% endif %}">
+                  <li class="{% if 'element' in request.path %}  {% if 'directory' in request.path %}{% else %}navactive{% endif %}  {% endif %}" style="margin: auto;">
                     <a href="{% url 'element:list' %}">
                       <p>Комплектуючі</p>
                     </a>
                   </li>
                   {% url 'employee' as employee_url %}
-                  <li class="{% if 'employee' in request.path %} navactive {% endif %}">
+                  <li class="{% if 'employee' in request.path %}  {% if 'directory' in request.path %}{% else %}navactive{% endif %}  {% endif %}" style="margin: auto;">
                     <a href="{% url 'employee:list' %}">
                       <p>Співробітники</p>
                     </a>
                   </li>
+                  
                 </ul>
             <ul class="navbar-nav ml-auto">
-              <li class="dropdown nav-item">
+              <!--<li class="dropdown nav-item">
                 <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <div class="notification d-none d-lg-block d-xl-block"></div>
                   <i class="tim-icons icon-sound-wave"></i>
@@ -78,17 +102,17 @@
                   <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Another notification</a></li>
                   <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Another one</a></li>
                 </ul>
-              </li>
+              </li>-->
               <li class="dropdown nav-item">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <span class="d-none d-lg-inline me-2 text-gray-600 small">{{ user.last_name }} {{ user.first_name }}</span>
-                  <div class="photo">
+                  <!--<div class="photo">
                     {% if user.profile.photo.url is not null %}
                       <img class="border rounded-circle img-profile" src="{{ user.profile.photo.url }}">
                     {% else %}
                       <img class="border rounded-circle img-profile" src="{%static "img/avatars/nophoto.jpeg" %}">
                     {% endif %}
-                  </div>
+                  </div>-->
                   <b class="caret d-none d-lg-block d-xl-block"></b>
                   <p class="d-lg-none"> Log out </p>
                 </a>
@@ -106,6 +130,7 @@
         {% block sidebar %}{% endblock sidebar %}
 
     {% endblock content %}
+    <!--
     <div class="fixed-plugin">
       <div class="dropdown show-dropdown">
         <a href="#" data-toggle="dropdown">
@@ -131,7 +156,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div>-->
 </div>
     <!--   Core JS Files   -->
     <script src="{%static "js/core/jquery.min.js" %}"></script>

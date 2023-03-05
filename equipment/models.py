@@ -12,11 +12,23 @@ class Category(models.Model):
 							blank=False, 
 							null=False, 
 							verbose_name='Категорія обладнання')
+	notes = models.CharField(max_length=200,
+							blank=True, 
+							null=True, 
+							verbose_name='Додаткові коментарі')
 	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Категорія обладнання'
 		verbose_name_plural = 'Категорії обладнання'
+
+	def get_update_url(self):
+		return reverse('directory_equipment_category_update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('directory_equipment_category_delete',
+			args=[self.id])
 
 	def __str__(self):
 		return self.name # Наприклад - Ноутбук, Планшет, ПК, Радіостанція, Серверна шафа і т.д.
@@ -27,17 +39,32 @@ class Status(models.Model):
 							blank=False,
 							null=False,
 							verbose_name='Статус обладнання')
+	notes = models.CharField(max_length=200,
+							blank=True, 
+							null=True, 
+							verbose_name='Додаткові коментарі')
 	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Статус обладнання'
 		verbose_name_plural = 'Статуси обладнання'
 
+	def get_update_url(self):
+		return reverse('directory_equipment_status_update',
+			args=[self.id])
+
+	def get_delete_url(self):
+		return reverse('directory_equipment_status_delete',
+			args=[self.id])
+
 	def __str__(self):
 		return self.name # Наприклад - Знищена, В роботі, На зберіганні, Не обліковано і т.д.
 
 
 class Equipment(models.Model):
+	def directory_path(instance, filename):
+		return 'media/equipment/{0}/{1}'.format(instance.id, filename)
+
 	category = models.ForeignKey(Category,
 							on_delete=models.PROTECT,
 							default = 0,
@@ -52,7 +79,7 @@ class Equipment(models.Model):
 							null=True, 
 							default = u'Н/Д',
 							verbose_name='Серійний номер')
-	photo = models.ImageField(upload_to='media/equipment/%Y/%m/%d', 
+	photo = models.ImageField(upload_to=directory_path, 
 							blank=True,
 							verbose_name='Фотографія')
 	operationDate = models.DateField(default=datetime.date.today,

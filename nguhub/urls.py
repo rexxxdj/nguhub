@@ -1,18 +1,3 @@
-"""nguhub URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,6 +15,32 @@ urlpatterns = [
     path('equipment/', include('equipment.urls', namespace='equipment')),
     path('element/', include('elements.urls', namespace='element')),
     path('employee/', include('employees.urls', namespace='employee')),
+    # Довідники
+     ##Employee Location
+    path('directory/employee/location/add/', views.EmployeeLocationCreateView.as_view(), name='directory_employee_location_add'),
+    path('directory/employee/location/update/<int:pk>/', views.EmployeeLocationUpdateView.as_view(), name='directory_employee_location_update'),
+    path('directory/employee/location/delete/<int:pk>/', views.EmployeeLocationDeleteView.as_view(), name='directory_employee_location_delete'),
+    path('directory/employee/location/', views.directory_employee_location_list, name='directory_employee_location_list'),
+      ##Equipment Category
+    path('directory/equipment/category/add/', views.EquipmentCategoryCreateView.as_view(), name='directory_equipment_category_add'),
+    path('directory/equipment/category/update/<int:pk>/', views.EquipmentCategoryUpdateView.as_view(), name='directory_equipment_category_update'),
+    path('directory/equipment/category/delete/<int:pk>/', views.EquipmentCategoryDeleteView.as_view(), name='directory_equipment_category_delete'),
+    path('directory/equipment/category/', views.directory_equipment_category_list, name='directory_equipment_category_list'),
+      ##Equipment Status
+    path('directory/equipment/status/add/', views.EquipmentStatusCreateView.as_view(), name='directory_equipment_status_add'),
+    path('directory/equipment/status/update/<int:pk>/', views.EquipmentStatusUpdateView.as_view(), name='directory_equipment_status_update'),
+    path('directory/equipment/status/delete/<int:pk>/', views.EquipmentStatusDeleteView.as_view(), name='directory_equipment_status_delete'),
+    path('directory/equipment/status/', views.directory_equipment_status_list, name='directory_equipment_status_list'),
+      ##Element Category
+    path('directory/element/category/add/', views.ElementCategoryCreateView.as_view(), name='directory_element_category_add'),
+    path('directory/element/category/update/<int:pk>/', views.ElementCategoryUpdateView.as_view(), name='directory_element_category_update'),
+    path('directory/element/category/delete/<int:pk>/', views.ElementCategoryDeleteView.as_view(), name='directory_element_category_delete'),
+    path('directory/element/category/', views.directory_element_category_list, name='directory_element_category_list'),
+      ##Element Status
+    path('directory/element/status/add/', views.ElementStatusCreateView.as_view(), name='directory_element_status_add'),
+    path('directory/element/status/update/<int:pk>/', views.ElementStatusUpdateView.as_view(), name='directory_element_status_update'),
+    path('directory/element/status/delete/<int:pk>/', views.ElementStatusDeleteView.as_view(), name='directory_element_status_delete'),
+    path('directory/element/status/', views.directory_element_status_list, name='directory_element_status_list'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

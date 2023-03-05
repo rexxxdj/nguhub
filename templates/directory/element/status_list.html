@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Співробітники{% endblock title %}
+{% block title %}Довідники{% endblock title %}
 {% block content %}
   <div class="wrapper">
     {% block sidebar %}
@@ -9,15 +9,15 @@
       <div class="sidebar-wrapper">
         <div id="accordion">
           <div class="card sidebarcard">
-            <form id="employeeFilterForm" method="get" action="{% url 'employee:list' %}">
-              <div class="card-header" id="headingOne">
+            <form id="directoryFilterForm" method="get" action="{% url 'directory_element_status_list' %}">
+              <!--<div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                   <button class="btn btn-link" 
                           type="button"
                           data-toggle="collapse" 
                           data-target="#categoriesCollapse"
                           aria-expanded="true" 
-                          aria-controls="categoriesCollapse">Локації</button>
+                          aria-controls="categoriesCollapse">Адреси</button>
                 </h5>
               </div>              
               <div id="categoriesCollapse" class="collapse show">
@@ -59,21 +59,21 @@
                 {% for sort in sort_dict %}
                 <option value="{{sort.key}}" {% if sort_field == sort.key %}selected{% endif %}>{{sort.value}}</option>
                 {% endfor %}
-              </select>
-              <label for="order">Напрямок:</label>
+              </select>-->
+              <label for="order">Напрямок сортування:</label>
               <select id="order" name="order">
                 <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>А-я</option>
                 <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Я-а</option>
               </select>
               <div align ="center">
-              <button type="submit" class="btn">Фільтрувати</button>
+              <button type="submit" class="btn">Сортувати</button>
               </div>
             </form>
           </div>
         </div>
       <div>
-      <a href="{% url 'employee:add' %}">
-        <button id="add-employee-btn" type="button" class="btn">Додати нового співробітника</button>
+      <a href="{% url 'directory_element_status_add' %}">
+        <button id="add-employee-btn" type="button" class="btn">Додати новий статус</button>
       </a>
       </div>
       </div>
@@ -85,7 +85,7 @@
           <div class="col-lg-12 col-md-12">
             <div class="card ">
               <div class="card-header">
-                <h4 class="card-title">Співробітники</h4>
+                <h4 class="card-title">Статуси комплектуючіх</h4>
               </div>
               <div class="card-body">
                 <div class="table-responsive ">
@@ -94,8 +94,8 @@
                       <tr>
                         <th> # </th>
                         <th>
-                            Звання
-                            {% if sort_field == 'rank' %}
+                            Назва
+                            {% if sort_field == 'name' %}
                               {% if sort_order == 'asc' %}
                                 &uarr;
                               {% else %}
@@ -104,40 +104,7 @@
                             {% endif %}
                         </th>
                         <th>
-                            П.І.Б.
-                            {% if sort_field == 'lastname' %}
-                              {% if sort_order == 'asc' %}
-                                &uarr;
-                              {% else %}
-                                &darr;
-                              {% endif %}
-                            {% endif %}
-                        </th>
-                        <th>
-                            Посада
-                            {% if sort_field == 'position' %}
-                              {% if sort_order == 'asc' %}
-                                &uarr;
-                              {% else %}
-                                &darr;
-                              {% endif %}
-                            {% endif %}
-                        </th>
-                        <th> 
-                           Локація
-                            {% if sort_field == 'category' %}
-                              {% if sort_order == 'asc' %}
-                                &uarr;
-                              {% else %}
-                                &darr;
-                              {% endif %}
-                            {% endif %}
-                        </th>
-                        <th> 
-                           Контакти
-                        </th>                        
-                        <th> 
-                           Коментар
+                            Додаткові відомості
                         </th>
                         
                         {% if user.is_staff %}
@@ -146,39 +113,27 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for employee in employees %}
+                      {% for status in elementStatuses %}
                       <tr class="row-link">
-                        <td> <a href="{{ employee.get_absolute_url }}">{{ forloop.counter }} </a></td>
-                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.get_rank_display}} </a></td>
-                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.fullname}} </a></td>
-                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.position}} </a></td>
-                        <td> <a href="{{ employee.get_absolute_url }}">
-                            {{employee.category.name}}<br>
-                            <span class="text-muted">{{employee.category.address}}</span>
-                          </a>
+                        <td> {{ forloop.counter }} </td>
+                        <td> {{status.name}} </td>                        
+                        <td> {{status.notes|default_if_none:""}} </td>
                         <td> 
-                          <a href="{{ employee.get_absolute_url }}">
-                            <span class="text-muted">{{employee.officialPhone}}</span><br>
-                            <span class="text-muted">{{employee.personalPhone}}</span>
-                          </a>
-                        </td>                        
-                        <td> <a href="{{ employee.get_absolute_url }}">{{employee.coment}} </a></td>
-                        <td> 
-                          <a href="{{ employee.get_update_url }}">
+                          <a href="{{ status.get_update_url }}">
                             <button id="update-employee-btn" 
                                     type="button" 
                                     class="btn btn-outline-success btn-circle btn-sm btn-circle" 
                                     data-toggle="modal" 
-                                    data-target="#update-employee-modal">
+                                    data-target="#update-element_status-modal">
                               <i class="fa fa-edit"></i>
                             </button>
                           </a>
-                          <a href="{{ employee.get_delete_url }}">
+                          <a href="{{ status.get_delete_url }}">
                             <button id="delete-employee-btn" 
                                     type="button" 
                                     class="btn btn-outline-success btn-circle btn-sm btn-circle" 
                                     data-toggle="modal" 
-                                    data-target="#delete-employee-modal">
+                                    data-target="#delete-element_status-modal">
                               <i class="fa fa-trash"></i>
                             </button>
                           </a>
@@ -218,4 +173,5 @@
       });
     });
   </script>
+  <script src="{%static "js/script.js" %}"></script>
 {% endblock extra_js %}
