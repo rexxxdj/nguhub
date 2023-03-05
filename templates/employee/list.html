@@ -66,14 +66,14 @@
                 <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Я-а</option>
               </select>
               <div align ="center">
-              <button type="submit" class="btn">Фільтрувати</button>
+              <button type="submit" class="btn btn-sm">Фільтрувати</button>
               </div>
             </form>
           </div>
         </div>
       <div>
       <a href="{% url 'employee:add' %}">
-        <button id="add-employee-btn" type="button" class="btn">Додати нового співробітника</button>
+        <button id="add-employee-btn" type="button" class="btn btn-sm">Додати нового співробітника</button>
       </a>
       </div>
       </div>
@@ -87,6 +87,10 @@
               <div class="card-header">
                 <h4 class="card-title">Співробітники</h4>
               </div>
+              <form method="GET" action="{% url 'employee:list' %}">
+                <input type="text" class="form-control search_field" name="q" placeholder="Пошук" value={{search_query}}>
+                <button class="btn btn-sm search_field" type="submit">Шукати</button>
+              </form>
               <div class="card-body">
                 <div class="table-responsive ">
                   <table class="table table-hover tablesorter " id="">

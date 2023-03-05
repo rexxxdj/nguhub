@@ -71,7 +71,6 @@ class Element(models.Model):
 	name = models.CharField(max_length=1024,
 							blank=False, 
 							null=False,
-							default = u'Н/Д',
 							verbose_name='Назва')
 	value = models.CharField(max_length=20,
 							blank=False, 
@@ -82,6 +81,10 @@ class Element(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Серійний номер')
+	internalNumber = models.CharField(max_length=20,
+							blank=True, 
+							null=True,
+							verbose_name='Внутрішній номер')
 	photo = models.ImageField(upload_to=directory_path, 
 							blank=True,
 							verbose_name='Фотографія')

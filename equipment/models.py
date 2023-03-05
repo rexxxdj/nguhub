@@ -67,18 +67,21 @@ class Equipment(models.Model):
 
 	category = models.ForeignKey(Category,
 							on_delete=models.PROTECT,
-							default = 0,
+							blank=True, 
+							null=True,
 							verbose_name='Категорія')
 	name = models.CharField(max_length=1024,
 							blank=False, 
 							null=False,
-							default = u'Н/Д',
 							verbose_name='Назва техніки')
 	serialNumber = models.CharField(max_length=20,
 							blank=True, 
 							null=True, 
-							default = u'Н/Д',
 							verbose_name='Серійний номер')
+	internalNumber = models.CharField(max_length=20,
+							blank=True, 
+							null=True, 
+							verbose_name='Внутрішній номер')
 	photo = models.ImageField(upload_to=directory_path, 
 							blank=True,
 							verbose_name='Фотографія')

@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from urllib.parse import urlencode
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from .models import Element, Status, Category
 from .forms import ElementCreateForm, ElementUpdateForm
 from equipment.models import Equipment
@@ -36,6 +37,7 @@ def element_list(request):
     status_filters = request.GET.getlist('status[]')
     sort_field = request.GET.get('sort', 'name')
     sort_order = request.GET.get('order', 'asc')
+    search_query = request.GET.get('q', '')
     
     # Фільтрувати дані за категорією
     if category_filters:
@@ -45,6 +47,16 @@ def element_list(request):
     if status_filters:
         elements = elements.filter(status__name__in=status_filters)
     
+    # Фільтрувати дані за пошуком
+    if search_query:
+        elements = elements.filter(
+                    Q(name__icontains=search_query) |
+                    Q(location__name=search_query) |
+                    Q(responsible__lastname__icontains=search_query) |
+                    Q(fixed__lastname__icontains=search_query) |
+                    Q(employee__lastname__icontains=search_query)
+                    )
+
     # Сортувати дані за вибраним полем
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
     elements = elements.order_by(ordering)
@@ -60,7 +72,8 @@ def element_list(request):
         'selected_statuses':status_filters,
         'sort_dict':sort_dict,
         'sort_field': sort_field,
-        'sort_order': sort_order
+        'sort_order': sort_order,
+        'search_query': search_query
     }
     return render(request, template, context)
 

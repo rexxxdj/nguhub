@@ -13,6 +13,11 @@
   color: black;
 }
 
+.search_field {
+  margin-left: 10px;
+  max-width: 500px;
+}
+
 .table-header {
   color: #3f65d4;
 }

@@ -56,8 +56,8 @@ def directory_employee_location_list(request):
         {'id':1, 'key':'address','value':'Адреса'},
         {'id':2, 'key':'name','value':'Локація'},
         )
-    sort_field = request.GET.get('sort', 'id')
-    sort_order = request.GET.get('order', 'desc')
+    sort_field = request.GET.get('sort', 'address')
+    sort_order = request.GET.get('order', 'asc')
 
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
     employeeLocations = employeeLocations.order_by(ordering)
@@ -177,7 +177,7 @@ def directory_equipment_category_list(request):
     equipmentCategories = equipmentCategory.objects.all()
 
     sort_field = 'name'
-    sort_order = request.GET.get('order', 'desc')
+    sort_order = request.GET.get('order', 'asc')
 
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
     equipmentCategories = equipmentCategories.order_by(ordering)
@@ -185,6 +185,7 @@ def directory_equipment_category_list(request):
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
         'equipmentCategories': equipmentCategories,
+        'sort_field': sort_field, 
         'sort_order': sort_order
     }
     return render(request, template, context)
@@ -294,14 +295,15 @@ def directory_equipment_status_list(request):
     equipmentStatuses = equipmentStatus.objects.all()
 
     sort_field = 'name'
-    sort_order = request.GET.get('order', 'desc')
+    sort_order = request.GET.get('order', 'asc')
 
-    ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
+    ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
     equipmentStatuses = equipmentStatuses.order_by(ordering)
     # Передати дані в шаблон
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
         'equipmentStatuses': equipmentStatuses,
+        'sort_field': sort_field, 
         'sort_order': sort_order
     }
     return render(request, template, context)
@@ -411,14 +413,15 @@ def directory_element_category_list(request):
     elementCategories = elementCategory.objects.all()
 
     sort_field = 'name'
-    sort_order = request.GET.get('order', 'desc')
+    sort_order = request.GET.get('order', 'asc')
 
-    ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
+    ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
     elementCategories = elementCategories.order_by(ordering)
     # Передати дані в шаблон
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
         'elementCategories': elementCategories,
+        'sort_field': sort_field, 
         'sort_order': sort_order
     }
     return render(request, template, context)
@@ -528,14 +531,15 @@ def directory_element_status_list(request):
     elementStatuses = elementStatus.objects.all()
 
     sort_field = 'name'
-    sort_order = request.GET.get('order', 'desc')
+    sort_order = request.GET.get('order', 'asc')
 
-    ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
+    ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
     elementStatuses = elementStatuses.order_by(ordering)
     # Передати дані в шаблон
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
         'elementStatuses': elementStatuses,
+        'sort_field': sort_field, 
         'sort_order': sort_order
     }
     return render(request, template, context)

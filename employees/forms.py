@@ -3,6 +3,11 @@ from .models import Employee
 
 
 class EmployeeCreateForm(forms.ModelForm):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+                                                            'class': 'form-control', 
+                                                            'type': 'text', 
+                                                            'name': 'comment',
+                                                            'style': 'border: 1px solid #2b3553;'}))
     class Meta:
         model = Employee
         fields = '__all__'
@@ -15,13 +20,17 @@ class EmployeeCreateForm(forms.ModelForm):
         self.fields['lastname'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'lastname'})
         self.fields['surname'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'surname'})
         self.fields['position'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'position'})
-        self.fields['comment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'comment'})
         self.fields['officialPhone'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'officialPhone'})
         self.fields['personalPhone'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'personalPhone'})
         self.fields['photo'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'photo'})
 
 
 class EmployeeUpdateForm(forms.ModelForm):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+                                                            'class': 'form-control', 
+                                                            'type': 'text', 
+                                                            'name': 'comment',
+                                                            'style': 'border: 1px solid #2b3553;'}))
     class Meta:
         model = Employee
         fields = '__all__'
@@ -34,7 +43,6 @@ class EmployeeUpdateForm(forms.ModelForm):
         self.fields['lastname'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'lastname'})
         self.fields['surname'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'surname'})
         self.fields['position'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'position'})
-        self.fields['comment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'comment'})
         self.fields['officialPhone'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'officialPhone'})
         self.fields['personalPhone'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'personalPhone'})
         self.fields['photo'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'photo'})

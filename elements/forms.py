@@ -8,6 +8,11 @@ class ElementCreateForm(forms.ModelForm):
                                         attrs={'class': 'form-control', 
                                                 'type': 'date', 
                                                 'name': 'operationDate'}))
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+                                                            'class': 'form-control', 
+                                                            'type': 'text', 
+                                                            'name': 'comment',
+                                                            'style': 'border: 1px solid #2b3553;'}))
     class Meta:
         model = Element
         fields = '__all__'
@@ -18,6 +23,7 @@ class ElementCreateForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['value'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'value'})
         self.fields['serialNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'serialNumber'})
+        self.fields['internalNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'internalNumber'})
         self.fields['photo'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'photo'})
         self.fields['location'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'location'})
         self.fields['status'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'status'})
@@ -28,7 +34,6 @@ class ElementCreateForm(forms.ModelForm):
         self.fields['employee'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee'})
         self.fields['employee_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee_reason'})
         self.fields['equipment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'equipment'})
-        self.fields['comment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'comment'})
 
 
 class ElementUpdateForm(forms.ModelForm):
@@ -37,6 +42,11 @@ class ElementUpdateForm(forms.ModelForm):
                                         attrs={'class': 'form-control', 
                                                 'type': 'date', 
                                                 'name': 'operationDate'}))
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+                                                            'class': 'form-control', 
+                                                            'type': 'text', 
+                                                            'name': 'comment',
+                                                            'style': 'border: 1px solid #2b3553;'}))
     class Meta:
         model = Element
         fields = '__all__'
@@ -47,6 +57,7 @@ class ElementUpdateForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['value'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'value'})
         self.fields['serialNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'serialNumber'})
+        self.fields['internalNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'internalNumber'})
         self.fields['photo'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'photo'})
         self.fields['location'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'location'})
         self.fields['status'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'status'})
@@ -57,4 +68,3 @@ class ElementUpdateForm(forms.ModelForm):
         self.fields['employee'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee'})
         self.fields['employee_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee_reason'})
         self.fields['equipment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'equipment'})
-        self.fields['comment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'comment'})

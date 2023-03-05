@@ -17,90 +17,113 @@
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data" id="addEquipmentForm">
                 {% csrf_token %}
-                  <div class="form-group">
-                  <label for="category">Категорія:</label>
-                  {{ form.category }}                   
-                </div>
-
                 <div class="form-group">
                   <label for="name">Назва:</label>
                   {{ form.name }}                  
                 </div>
-
-                <div class="form-group">
-                  <label for="value">Кількісна характеристика:</label>
-                  {{ form.value }}
+                <div class="row ">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="category">Категорія:</label>
+                      {{ form.category }}                   
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="location">Місце закріплення:</label>
+                      {{ form.location }}                   
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="status">Статус:</label>
+                      {{ form.status }}   
+                    </div>
+                  </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="serialNumber">Серійний номер:</label>
-                  {{ form.serialNumber }} 
+                <div class="row ">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="value">Кількісна характеристика:</label>
+                      {{ form.value }}                  
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="serialNumber">Серійний номер:</label>
+                      {{ form.serialNumber }}                 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="serialNumber">Внутрішній номер:</label>
+                      {{ form.internalNumber }}    
+                    </div>
+                  </div>
                 </div>
-
-                <!--<div class="form-group">
-                  <label for="inventoryNumber">Інвентарний номер:</label>
-                  {{ form.inventoryNumber }} 
-                </div>-->
-
-                <div class="form-group">
-                  <label for="photo">Фотографія:</label>
-                  <button class="btn btn-sm" >
-                    <label for="photo">Додати</label>
-                  </button>
-                  <input type="file" class="form-control-file" id="photo" name="photo">
-                  <i class="fa fa-image"></i>
+                <div class="row ">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="operationDate">Дата введення в експлуатацію:</label>
+                      {{ form.operationDate }}                 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="photo">Фотографія:</label><br>
+                      <button class="btn btn-sm" >
+                        <label for="photo">Додати</label>
+                      </button>
+                      <input type="file" class="form-control-file" id="photo" name="photo">
+                      <i class="fa fa-image"></i>
+                    </div>
+                  </div>                  
                 </div>
-
-                <br>
-                <div class="form-group">
-                  <label for="operationDate">Дата введення в експлуатацію:</label>
-                  {{ form.operationDate }} 
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="responsible">Матеріально відповідальний:</label>
+                      {{ form.responsible }} 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="fixed">Закріплено:</label>
+                      {{ form.fixed }} 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="employee">Користувач:</label>
+                      {{ form.employee }} 
+                    </div>
+                  </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="location">Місце закріплення:</label>
-                  {{ form.location }}                   
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="responsible_reason">Підстава:</label>
+                      {{ form.responsible_reason }} 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="fixed_reason">Підстава:</label>
+                      {{ form.fixed_reason }} 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="employee_reason">Підстава:</label>
+                      {{ form.employee_reason }} 
+                    </div>
+                  </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="status">Статус:</label>
-                  {{ form.status }}   
-                </div>
-
-                <div class="form-group">
-                  <label for="responsible">Матеріально відповідальний:</label>
-                  {{ form.responsible }} 
-                </div>
-                <div class="form-group">
-                  <label for="responsible_reason">Підстава:</label>
-                  {{ form.responsible_reason }} 
-                </div>
-
-                <div class="form-group">
-                  <label for="fixed">Закріплено:</label>
-                  {{ form.fixed }} 
-                </div>
-                <div class="form-group">
-                  <label for="fixed_reason">Підстава:</label>
-                  {{ form.fixed_reason }} 
-                </div>
-
-                <div class="form-group">
-                  <label for="employee">Користувач:</label>
-                  {{ form.employee }} 
-                </div>
-                <div class="form-group">
-                  <label for="employee_reason">Підстава:</label>
-                  {{ form.employee_reason }} 
-                </div>
-
-                <div class="form-group">
-                  <label for="equipment">Де встановлено:</label>
-                  {{ form.equipment }} 
-                </div>
-                <div class="form-group">
-                  <label for="comment">Коментар:</label>
-                  {{ form.comment }}
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label for="comment">Коментар:</label>
+                    {{ form.comment }}
+                  </div>
                 </div>
               </form>
             </div>

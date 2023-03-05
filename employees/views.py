@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from urllib.parse import urlencode
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from .models import Employee, Category
 from .forms import EmployeeCreateForm, EmployeeUpdateForm
 from equipment.models import Equipment
@@ -29,11 +30,20 @@ def employee_list(request):
     category_filters = request.GET.getlist('category[]')
     sort_field = request.GET.get('sort', 'lastname')
     sort_order = request.GET.get('order', 'asc')
+    search_query = request.GET.get('q', '')
     
     # Фільтрувати дані за категорією
     if category_filters:
         employees = employees.filter(category__name__in=category_filters)
     
+    # Фільтрувати дані за пошуком
+    if search_query:
+        employees = employees.filter(
+                    Q(rank__icontains=search_query) |
+                    Q(lastname__icontains=search_query) |
+                    Q(position__lastname__icontains=search_query)
+                    )
+
     # Сортувати дані за вибраним полем
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
     employees = employees.order_by(ordering)
@@ -46,7 +56,8 @@ def employee_list(request):
         'selected_categories':category_filters,
         'sort_dict':sort_dict,
         'sort_field': sort_field,
-        'sort_order': sort_order
+        'sort_order': sort_order,
+        'search_query': search_query
     }
     return render(request, template, context)
 

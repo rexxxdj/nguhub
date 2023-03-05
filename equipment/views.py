@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from urllib.parse import urlencode
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from .models import Equipment, Status, Category
 from employees.models import Employee
 from .forms import EquipmentCreateForm, EquipmentUpdateForm
@@ -34,8 +35,9 @@ def equipment_list(request):
     # Отримати параметри запиту GET
     category_filters = request.GET.getlist('category[]')
     status_filters = request.GET.getlist('status[]')
-    sort_field = request.GET.get('sort', 'id')
-    sort_order = request.GET.get('order', 'desc')
+    sort_field = request.GET.get('sort', 'name')
+    sort_order = request.GET.get('order', 'asc')
+    search_query = request.GET.get('q', '')
     
     # Фільтрувати дані за категорією
     if category_filters:
@@ -44,6 +46,16 @@ def equipment_list(request):
     # Фільтрувати дані за статусом
     if status_filters:
         equipments = equipments.filter(status__name__in=status_filters)
+
+    # Фільтрувати дані за пошуком
+    if search_query:
+        equipments = equipments.filter(
+                    Q(serialNumber__icontains=search_query) |
+                    Q(name__icontains=search_query) |
+                    Q(responsible__lastname__icontains=search_query) |
+                    Q(fixed__lastname__icontains=search_query) |
+                    Q(employee__lastname__icontains=search_query)
+                    )
     
     # Сортувати дані за вибраним полем
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
@@ -60,7 +72,8 @@ def equipment_list(request):
         'selected_statuses':status_filters,
         'sort_dict':sort_dict,
         'sort_field': sort_field,
-        'sort_order': sort_order
+        'sort_order': sort_order,
+        'search_query': search_query
     }
     return render(request, template, context)
 
