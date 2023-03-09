@@ -102,7 +102,8 @@ class Equipment(models.Model):
 							null=True,
 							verbose_name='Інвентарний номер')
 	photo = models.ImageField(upload_to=directory_path, 
-							blank=True,
+							blank=True, 
+							null=True,
 							verbose_name='Фотографія')
 	operationDate = models.DateField(default=datetime.date.today,
 							blank=True, 

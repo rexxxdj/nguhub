@@ -103,7 +103,8 @@ class Employee(models.Model):
 							null=True, 
 							unique=True)
 	photo = models.ImageField(upload_to=directory_path, 
-							blank=True,
+							blank=True, 
+							null=True,
 							verbose_name='Фотографія')
 
 	class Meta:

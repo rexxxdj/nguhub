@@ -100,7 +100,8 @@ class Element(models.Model):
 							null=True,
 							verbose_name='Інвентарний номер')
 	photo = models.ImageField(upload_to=directory_path, 
-							blank=True,
+							blank=True, 
+							null=True,
 							verbose_name='Фотографія')
 	equipment = models.ForeignKey(Equipment,
 							on_delete=models.SET_NULL,
