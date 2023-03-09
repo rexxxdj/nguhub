@@ -68,23 +68,37 @@ class Element(models.Model):
 							on_delete=models.PROTECT,
 							default = 0,
 							verbose_name='Категорія')
-	name = models.CharField(max_length=1024,
+	name = models.CharField(max_length=2048,
 							blank=False, 
 							null=False,
 							verbose_name='Назва')
-	value = models.CharField(max_length=20,
+	value = models.CharField(max_length=50,
 							blank=False, 
 							null=False,
-							default = u'1 шт.',
+							default = u'1',
 							verbose_name='Кількість')
-	serialNumber = models.CharField(max_length=20,
+	unit = models.CharField(max_length=50,
+							blank=False, 
+							null=False,
+							default = u'шт.',
+							verbose_name='Одиниця вимірювання')
+	cost = models.DecimalField(max_digits=19, 
+							decimal_places=2,
+							blank=True, 
+							null=True,
+							verbose_name='Первісна вартість')
+	serialNumber = models.CharField(max_length=50,
 							blank=True, 
 							null=True,
 							verbose_name='Серійний номер')
-	internalNumber = models.CharField(max_length=20,
+	internalNumber = models.CharField(max_length=50,
 							blank=True, 
 							null=True,
 							verbose_name='Внутрішній номер')
+	inventoryNumber = models.CharField(max_length=50,
+							blank=True, 
+							null=True,
+							verbose_name='Інвентарний номер')
 	photo = models.ImageField(upload_to=directory_path, 
 							blank=True,
 							verbose_name='Фотографія')
@@ -113,7 +127,7 @@ class Element(models.Model):
 							null=True,
 							related_name='element_responsible',
 							verbose_name='Матеріально Відповідальний')
-	responsible_reason = models.CharField(max_length=100,
+	responsible_reason = models.CharField(max_length=1024,
 							blank=True, 
 							null=True,
 							verbose_name='Підстава закріплення матеріально відповідального')
@@ -123,7 +137,7 @@ class Element(models.Model):
 							null=True,
 							related_name='element_fixed',
 							verbose_name='За ким закріплено')
-	fixed_reason = models.CharField(max_length=100,
+	fixed_reason = models.CharField(max_length=1024,
 							blank=True, 
 							null=True,
 							verbose_name='Підстава закріплення відповідального')
@@ -133,7 +147,7 @@ class Element(models.Model):
 							null=True,
 							related_name='element_employee',
 							verbose_name='Користувач')
-	employee_reason = models.CharField(max_length=100,
+	employee_reason = models.CharField(max_length=1024,
 							blank=True, 
 							null=True,
 							verbose_name='Підстава закріплення користувача')

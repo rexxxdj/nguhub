@@ -162,8 +162,8 @@
                           </a>
                         <td> 
                           <a href="{{ employee.get_absolute_url }}">
-                            <span class="text-muted">{{employee.officialPhone}}</span><br>
-                            <span class="text-muted">{{employee.personalPhone}}</span>
+                            <span class="text-muted">{{employee.officialPhone|default_if_none:""}}</span><br>
+                            <span class="text-muted">{{employee.personalPhone|default_if_none:""}}</span>
                           </a>
                         </td>                        
                         <td> <a href="{{ employee.get_absolute_url }}">{{employee.coment}} </a></td>

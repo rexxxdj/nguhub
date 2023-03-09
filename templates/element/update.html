@@ -9,13 +9,12 @@
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <div class="card ">
-            <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
               <h5 class="modal-title" id="editEquipmentModalLabel">Редагування: {{element.name}}</h5>
             </div>
             <div class="modal-body">
-            <!-- Форма для редагування об'єкта моделі Equipment -->
+            <!-- Форма для редагування об'єкта моделі Element -->
               <form method="post" enctype="multipart/form-data" id="updatesEquipmentForm">
                 {% csrf_token %}
                 <input type="hidden" name="id" id="id-input">
@@ -44,49 +43,58 @@
                   </div>
                 </div>
                 <div class="row ">
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="value">Кількісна характеристика:</label>
+                      <label for="value">Кількість:</label>
                       {{ form.value }}                  
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="serialNumber">Серійний номер:</label>
-                      {{ form.serialNumber }}                 
+                      <label for="value">Одиниця вимірювання:</label>
+                      {{ form.unit }}                  
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="serialNumber">Внутрішній номер:</label>
-                      {{ form.internalNumber }}    
+                      <label for="value">Первісна вартість:</label>
+                      {{ form.cost }}                  
                     </div>
                   </div>
-                </div>
-                <div class="row ">
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="operationDate">Дата введення в експлуатацію:</label>
                       {{ form.operationDate }}                 
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                      <label for="photo">Фотографія:</label><br>
-                      <div >
-                      {% if element.photo %}
-                        <img style="width: 45px;" src="{{element.photo.url}}" alt="{{element.name}}">
-                      {% else %}
-                        <img style="width: 45px;" src="{%static "img/equipnophoto.png" %}">
-                      {% endif %}
-                      <button class="btn btn-sm" >
-                        <label for="photo">Змінити</label>
-                      </button>
-                    </div>                       
-                      <input type="file" class="form-control-file" id="photo" name="photo">
-                    </div>
-                  </div>                  
                 </div>
+                <div class="row ">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="serialNumber">Заводський номер:</label>
+                      {{ form.serialNumber }}                 
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="serialNumber">Внутрішній номер:</label>
+                      {{ form.internalNumber }}    
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="serialNumber">Інвентарний номер:</label>
+                      {{ form.inventoryNumber }}                 
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="serialNumber">Встановлено:</label>
+                      {{ form.equipment }}                 
+                    </div>
+                  </div>
+                </div>
+                
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
@@ -128,9 +136,25 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="col-lg-10 col-md-10 col-sm-10">
                     <label for="comment">Коментар:</label>
                     {{ form.comment }}
+                  </div>                  
+                  <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="form-group">
+                      <label for="photo">Фотографія:</label><br>
+                      <div >
+                      {% if element.photo %}
+                        <img style="width: 45px;" src="{{element.photo.url}}" alt="{{element.name}}">
+                      {% else %}
+                        <img style="width: 45px;" src="{%static "img/equipnophoto.png" %}">
+                      {% endif %}
+                      <button class="btn btn-sm" >
+                        <label for="photo">Змінити</label>
+                      </button>
+                    </div>                       
+                      <input type="file" class="form-control-file" id="photo" name="photo">
+                    </div>
                   </div>
                 </div>
               </form>

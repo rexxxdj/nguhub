@@ -9,7 +9,6 @@
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <div class="card ">
-            <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
             <div class="card-body">
               <!-- Modal -->
               <h5 class="modal-title" id="editEquipmentModalLabel">Додати нове обладнання</h5>
@@ -18,7 +17,7 @@
               <form method="post" enctype="multipart/form-data" id="addEquipmentForm">
                 {% csrf_token %}
                 <div class="form-group">
-                  <label for="name">Назва техніки:</label>
+                  <label for="name">Назва:</label>
                   {{ form.name }}                  
                 </div>
                 <div class="row ">
@@ -41,33 +40,49 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row ">
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="serialNumber">Серійний номер:</label>
-                      {{ form.serialNumber }} 
+                      <label for="value">Кількість:</label>
+                      {{ form.value }}                  
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="serialNumber">Внутрішній номер:</label>
-                      {{ form.internalNumber }} 
+                      <label for="value">Одиниця вимірювання:</label>
+                      {{ form.unit }}                  
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="value">Первісна вартість:</label>
+                      {{ form.cost }}                  
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="operationDate">Дата введення в експлуатацію:</label>
-                      {{ form.operationDate }} 
+                      {{ form.operationDate }}                 
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-3">
+                </div>
+                <<div class="row ">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                      <label for="photo">Фотографія:</label><br>
-                      <button class="btn btn-sm" >
-                        <label for="photo">Додати</label>
-                      </button>
-                      <input type="file" class="form-control-file" id="photo" name="photo">
-                      <i class="fa fa-image"></i>
+                      <label for="serialNumber">Заводський номер:</label>
+                      {{ form.serialNumber }}                 
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="serialNumber">Внутрішній номер:</label>
+                      {{ form.internalNumber }}    
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="serialNumber">Інвентарний номер:</label>
+                      {{ form.inventoryNumber }}                 
                     </div>
                   </div>
                 </div>
@@ -112,9 +127,19 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="col-lg-10 col-md-10 col-sm-10">
                     <label for="comment">Коментар:</label>
                     {{ form.comment }}
+                  </div>                  
+                  <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="form-group">
+                      <label for="photo">Фотографія:</label><br>
+                      <button class="btn btn-sm" >
+                        <label for="photo">Додати</label>
+                      </button>
+                      <input type="file" class="form-control-file" id="photo" name="photo">
+                      <i class="fa fa-image"></i>
+                    </div>
                   </div>
                 </div>
               </form>

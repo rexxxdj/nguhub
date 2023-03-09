@@ -34,13 +34,36 @@
                 </div>
                 <div class="equipment-info">
                   <p><span>Категорія</span>{{equipment.category.name}}</p>
-                  <p><span>Серійний номер</span>{{equipment.serialNumber|upper}}</p>
+                  <p><span>Інвентарний номер</span>{{equipment.inventoryNumber|default_if_none:""|upper}}</p>
+                  {% if equipment.inventoryNumber %}{% else %}<br>{% endif %}
+                  <p><span>Заводський номер</span>{{equipment.serialNumber|default_if_none:""|upper}}</p>
+                  {% if equipment.serialNumber %}{% else %}<br>{% endif %}
+                  <p><span>Внутрішній номер</span>{{equipment.internalNumber|default_if_none:""|upper}}</p>
+                  {% if equipment.internalNumber %}{% else %}<br>{% endif %}
                   <p><span>Дата введення в експлуатацію</span>{{equipment.operationDate|date:"d.m.Y"}}</p>
+                  {% if equipment.operationDate %}{% else %}<br>{% endif %}
+                  <p><span>Кількіть</span>{{equipment.value}} {{equipment.unit}}</p>
+                  {% if equipment.value %}{% else %}<br>{% endif %}
                   <p><span>Статус</span>{{equipment.status.name}}</p>
                   <p><span>Місцезнаходження</span>{{equipment.location.name}}</p>
-                  <p><span>Матеріально відповідальний</span>{{equipment.responsible.get_rank_display}} {{equipment.responsible.fullname}}</p><br><br>
-                  <p><span>Закріплено</span>{{equipment.fixed.get_rank_display}} {{equipment.fixed.fullname}}</p><br><br>
-                  <p><span>Користувач</span>{{equipment.employee.get_rank_display}} {{equipment.employee.fullname}}</p>
+                  <p><span>Матеріально відповідальний</span>
+                    <a class="link-unstyled" href="{{ equipment.responsible.get_absolute_url }}">
+                      {{equipment.responsible.get_rank_display}} {{equipment.responsible.fullname}}
+                    </a>
+                  </p>
+                  {% if equipment.responsible %}{% else %}<br>{% endif %}
+                  <p><span>Закріплено</span>
+                    <a class="link-unstyled" href="{{ equipment.fixed.get_absolute_url }}">
+                      {{equipment.fixed.get_rank_display}} {{equipment.fixed.fullname}}
+                    </a>
+                  </p>
+                  {% if equipment.fixed %}{% else %}<br>{% endif %}
+                  <p><span>Користувач</span>
+                    <a class="link-unstyled" href="{{ equipment.employee.get_absolute_url }}">
+                      {{equipment.employee.get_rank_display}} {{equipment.employee.fullname}}
+                    </a>
+                  </p>
+                  {% if equipment.employee %}{% else %}<br>{% endif %}
                   <p><span>Додатковий коментар</span>{{equipment.comment}}</p>
                 </div>
                 <div class="card ">
@@ -54,9 +77,11 @@
                           <tr>
                             <th> # </th>
                             <th> Назва </th>
+                            <th> Інвентарний номер </th>
                             <th> Серійний номер </th>
-                            <th> Інв.номер </th>
+                            <th> Внутрішній номер </th>
                             <th> Кількість </th>
+                            <th> Первісна вартість </th>
                           </tr>
                         </thead>
                         <tbody class="text-center">
@@ -65,18 +90,22 @@
                                 <tr class="row-link">
                                   <td> <a href="{{ element.get_absolute_url }}">{{ forloop.counter }} </a></td>
                                   <td> <a href="{{ element.get_absolute_url }}">{{ element.name }} </a></td>
-                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.serialNumber|upper }} </a></td>
-                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.inventoryNumber }} </a></td>
-                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.value }} </a></td>   
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.inventoryNumber|default_if_none:""|upper }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.serialNumber|default_if_none:""|upper }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.internalNumber|default_if_none:""|upper }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.value }} {{ element.unit }}</a></td>   
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.cost }} </a></td>   
                                 </tr>               
                               {% endfor %}
                             {% else %}
                               <tr>
                                   <td> # </td>
                                   <td> {{equipment.name}} </td>
-                                  <td> {{equipment.serialNumber|upper}} </td>
-                                  <td> {{equipment.inventoryNumber}} </td>
-                                  <td> 1 шт. </td>   
+                                  <td> {{ equipment.inventoryNumber|default_if_none:""|upper }} </a></td>
+                                  <td> {{ equipment.serialNumber|default_if_none:""|upper }} </a></td>
+                                  <td> {{ equipment.internalNumber|default_if_none:""|upper }} </a></td>
+                                  <td> {{ equipment.value }} {{ equipment.unit }}</td>  
+                                  <td> {{ equipment.cost|default_if_none:"" }}</td>  
                                 </tr>
                             {% endif %}
                         </tbody>

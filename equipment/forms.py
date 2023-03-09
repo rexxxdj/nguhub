@@ -8,7 +8,8 @@ class EquipmentCreateForm(forms.ModelForm):
                                         attrs={'class': 'form-control', 
                                                 'type': 'date', 
                                                 'name': 'operationDate'}))
-    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+    comment = forms.CharField(required=False,
+                                widget=forms.Textarea(attrs={'rows':'5',
                                                             'class': 'form-control', 
                                                             'type': 'text', 
                                                             'name': 'comment',
@@ -21,8 +22,12 @@ class EquipmentCreateForm(forms.ModelForm):
         super(EquipmentCreateForm, self).__init__(*args, **kwargs)
         self.fields['category'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'category'})
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
+        self.fields['unit'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'unit'})
+        self.fields['value'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'value'})
+        self.fields['cost'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'cost'})
         self.fields['serialNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'serialNumber'})
         self.fields['internalNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'internalNumber'})
+        self.fields['inventoryNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'inventoryNumber'})
         self.fields['photo'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'photo'})
         self.fields['location'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'location'})
         self.fields['status'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'status'})
@@ -40,7 +45,8 @@ class EquipmentUpdateForm(forms.ModelForm):
                                         attrs={'class': 'form-control', 
                                                 'type': 'date', 
                                                 'name': 'operationDate'}))
-    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+    comment = forms.CharField(required=False,
+                                widget=forms.Textarea(attrs={'rows':'5',
                                                             'class': 'form-control', 
                                                             'type': 'text', 
                                                             'name': 'comment',
@@ -53,8 +59,12 @@ class EquipmentUpdateForm(forms.ModelForm):
         super(EquipmentUpdateForm, self).__init__(*args, **kwargs)
         self.fields['category'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'category'})
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
+        self.fields['unit'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'unit'})
+        self.fields['value'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'value'})
+        self.fields['cost'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'cost'})
         self.fields['serialNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'serialNumber'})
         self.fields['internalNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'internalNumber'})
+        self.fields['inventoryNumber'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'inventoryNumber'})
         self.fields['photo'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'photo'})
         self.fields['location'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'location'})
         self.fields['status'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'status'})

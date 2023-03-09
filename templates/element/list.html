@@ -107,15 +107,6 @@
                               {% endif %}
                             {% endif %}
                         </th>
-                        <th>
-                            Об'єм
-                        </th>
-                        <th>
-                            S/N
-                        </th>
-                        <th>
-                            Інв.номер
-                        </th>
                         <th> 
                            Категорія
                             {% if sort_field == 'category__name' %}
@@ -127,14 +118,32 @@
                             {% endif %}
                         </th>
                         <th> 
-                           Дата вв. в експлуатацію
-                           {% if sort_field == 'operationDate' %}
-                              {% if sort_order == 'asc' %}
-                                &uarr;
-                              {% else %}
-                                &darr;
-                              {% endif %}
+                          Дата вв. в експлуатацію
+                          {% if sort_field == 'operationDate' %}
+                            {% if sort_order == 'asc' %}
+                              &uarr;
+                            {% else %}
+                              &darr;
                             {% endif %}
+                          {% endif %}
+                        </th>
+                        <th>
+                          Інв.номер
+                        </th>
+                        <th>
+                          Зав.номер
+                        </th>
+                        <th>
+                          Вн.номер
+                        </th>
+                        <th>
+                            Кількість
+                        </th>
+                        <th>
+                          Од.виміру
+                        </th>
+                        <th>
+                            Первісна вартість
                         </th>
                         <th> 
                            Місце закріплення
@@ -145,6 +154,9 @@
                                 &darr;
                               {% endif %}
                             {% endif %}
+                        </th>
+                        <th> 
+                          Встановлено
                         </th>
                         <th> 
                            Мат. відп.
@@ -194,12 +206,16 @@
                       <tr class="row-link">
                         <td> <a href="{{ element.get_absolute_url }}">{{ forloop.counter }} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.name}} </a></td>
-                        <td> <a href="{{ element.get_absolute_url }}">{{element.value}} </a></td>
-                        <td> <a href="{{ element.get_absolute_url }}">{{element.serialNumber|default_if_none:""|upper}} </a></td>
-                        <td> <a href="{{ element.get_absolute_url }}">{{element.inventoryNumber}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.category.name}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.operationDate|date:"d.m.Y"}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.inventoryNumber|default_if_none:""|upper}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.serialNumber|default_if_none:""|upper}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.internalNumber|default_if_none:""|upper}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.value}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.unit}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.cost|default_if_none:""}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.location}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.equipment|default_if_none:""}} </a></td>
                         <td> 
                           <a href="{{ element.get_absolute_url }}">
                             <span>{{element.responsible.get_rank_display}}</span><br>
@@ -246,6 +262,15 @@
                                     data-toggle="modal" 
                                     data-target="#delete-element-modal">
                               <i class="fa fa-trash"></i>
+                            </button>
+                          </a>
+                          <a href="{{ element.get_update_url }}">
+                            <button id="update-element-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#update-element-modal">
+                              <i class="fa fa-history"></i>
                             </button>
                           </a>
                         </td>

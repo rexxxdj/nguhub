@@ -34,14 +34,40 @@
                 </div>
                 <div class="equipment-info">
                   <p><span>Категорія</span>{{element.category.name}}</p>
-                  <p><span>Серійний номер</span>{{element.serialNumber|upper}}</p>
+                  <p><span>Інвентарний номер</span>{{element.inventoryNumber|default_if_none:""|upper}}</p>
+                  {% if element.inventoryNumber %}{% else %}<br>{% endif %}
+                  <p><span>Заводський номер</span>{{element.serialNumber|default_if_none:""|upper}}</p>
+                  {% if element.serialNumber %}{% else %}<br>{% endif %}
+                  <p><span>Внутрішній номер</span>{{element.internalNumber|default_if_none:""|upper}}</p>
+                  {% if element.internalNumber %}{% else %}<br>{% endif %}
                   <p><span>Дата введення в експлуатацію</span>{{element.operationDate|date:"d.m.Y"}}</p>
-                  <p><span>Кількісна характеристика</span>{{element.value}}</p>
+                  {% if element.operationDate %}{% else %}<br>{% endif %}                  
+                  <p><span>Кількіть</span>{{element.value}} {{element.unit}}</p>
+                  {% if element.value %}{% else %}<br>{% endif %}
+                  <p><span>Первісна вартість</span>{{element.cost|default_if_none:0}} грн.</p>
                   <p><span>Статус</span>{{element.status.name}}</p>
                   <p><span>Місцезнаходження</span>{{element.location.name}}</p>
-                  <p><span>Матеріально відповідальний</span>{{element.responsible.get_rank_display}} {{element.responsible.fullname}}</p><br><br>
-                  <p><span>Закріплено</span>{{element.fixed.get_rank_display}} {{element.fixed.fullname}}</p><br><br>
-                  <p><span>Де встановлено</span>{{element.equipment.name}} S/N: {{element.equipment.serialNumber}}</p>
+                  <p><span>Матеріально відповідальний</span>
+                    <a class="link-unstyled" href="{{ element.responsible.get_absolute_url }}">
+                      {{element.responsible.get_rank_display}} {{element.responsible.fullname}}
+                    </a>
+                  </p>
+                  {% if element.responsible %}{% else %}<br><br>{% endif %} 
+                  <p><span>Закріплено</span>
+                    <a class="link-unstyled" href="{{ element.responsible.get_absolute_url }}">
+                      {{element.fixed.get_rank_display}} {{element.fixed.fullname}}</p>
+                    </a>
+                  {% if element.fixed %}{% else %}<br>{% endif %} 
+                  <p>
+                    <span>Де встановлено</span>
+                    {% if element.equipment%}
+                    <a class="link-unstyled" href="{{ element.equipment.get_absolute_url }}">
+                      {{element.equipment.name}} S/N: {{element.equipment.serialNumber}}
+                    </a>
+                    {% else%}
+                    <br>
+                    {% endif %}
+                  </p>
                   <p><span>Додатковий коментар</span>{{element.comment}}</p>
                 </div>
               </div>

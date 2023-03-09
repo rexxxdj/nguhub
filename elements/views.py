@@ -29,7 +29,9 @@ def element_list(request):
         {'id':5, 'key':'location__name','value':'Місце закріплення'},
         {'id':6, 'key':'responsible__lastname','value':'Матеріально Відповідальний'},
         {'id':7, 'key':'fixed__lastname','value':'За ким закріплено'},
-        {'id':6, 'key':'employee__lastname','value':'Користувач'},
+        {'id':8, 'key':'inventoryNumber','value':'Інвентарний номер'},
+        {'id':9, 'key':'internalNumber','value':'Внутрішній номер'},
+        {'id':10, 'key':'serialNumber','value':'Заводський номер'},
         )
 
     # Отримати параметри запиту GET
@@ -54,7 +56,10 @@ def element_list(request):
                     Q(location__name=search_query) |
                     Q(responsible__lastname__icontains=search_query) |
                     Q(fixed__lastname__icontains=search_query) |
-                    Q(employee__lastname__icontains=search_query)
+                    Q(employee__lastname__icontains=search_query) |
+                    Q(inventoryNumber__icontains=search_query) |
+                    Q(internalNumber__icontains=search_query) |
+                    Q(serialNumber__icontains=search_query)
                     )
 
     # Сортувати дані за вибраним полем
@@ -161,34 +166,6 @@ class ElementUpdateView(UpdateView):
             return handler(request, *args, **kwargs)
         else:
             return redirect("signin")
-
-
-@login_required(login_url="/")
-def element_update(request, pk):
-    element = get_object_or_404(Element, id=pk)
-    if request.method == 'POST':
-        form = ElementForm(request.POST, request.FILES, instance=element)
-        if request.POST.get('_save'):
-            if form.is_valid():
-                form.save()
-                messages.success(request, '\"{}\" було успішно змінено.'.format(element.name))
-        if request.POST.get('_dismiss'):
-            messages.success(request, 'Ви відмінили запит на зміну \"{}\".'.format(element.name))
-        return redirect('element:list')
-    else:
-        form = ElementForm(instance=element)
-
-    categories = Category.objects.all()
-    statuses = Status.objects.all()
-    equipments = Equipment.objects.all()
-    context = {
-        'element': element,
-        'categories': categories,
-        'statuses': statuses,
-        'equipments': equipments,
-        'form': form
-    }
-    return render(request, 'element/update.html', context)
 
 
 class ElementDeleteView(DeleteView):

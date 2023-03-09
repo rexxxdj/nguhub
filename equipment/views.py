@@ -29,7 +29,10 @@ def equipment_list(request):
         {'id':5, 'key':'location__name','value':'Місце закріплення'},
         {'id':6, 'key':'responsible__lastname','value':'Матеріально Відповідальний'},
         {'id':7, 'key':'fixed__lastname','value':'За ким закріплено'},
-        {'id':6, 'key':'employee__lastname','value':'Користувач'},
+        {'id':8, 'key':'employee__lastname','value':'Користувач'},
+        {'id':9, 'key':'inventoryNumber','value':'Інвентарний номер'},
+        {'id':10, 'key':'internalNumber','value':'Внутрішній номер'},
+        {'id':11, 'key':'serialNumber','value':'Заводський номер'},
         )
 
     # Отримати параметри запиту GET
@@ -54,7 +57,10 @@ def equipment_list(request):
                     Q(name__icontains=search_query) |
                     Q(responsible__lastname__icontains=search_query) |
                     Q(fixed__lastname__icontains=search_query) |
-                    Q(employee__lastname__icontains=search_query)
+                    Q(employee__lastname__icontains=search_query) |
+                    Q(inventoryNumber__icontains=search_query) |
+                    Q(internalNumber__icontains=search_query) |
+                    Q(serialNumber__icontains=search_query)
                     )
     
     # Сортувати дані за вибраним полем
