@@ -66,16 +66,16 @@
                 <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Я-а</option>
               </select>
               <div align ="center">
-              <button type="submit" class="btn">Сортувати</button>
+              <button type="submit" class="btn btn-sm">Сортувати</button>
               </div>
             </form>
           </div>
         </div>
-      <div>
-      <a href="{% url 'directory_equipment_category_add' %}">
-        <button id="add-employee-btn" type="button" class="btn">Додати нову категорію</button>
-      </a>
-      </div>
+        <div class="text-center">
+          <a href="{% url 'directory_equipment_category_add' %}">
+            <button id="add-employee-btn" type="button" class="btn btn-sm">Додати нову категорію</button>
+          </a>
+        </div>
       </div>
     </div>
     {% endblock sidebar %}

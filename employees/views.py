@@ -39,7 +39,6 @@ def employee_list(request):
     # Фільтрувати дані за пошуком
     if search_query:
         employees = employees.filter(
-                    Q(rank__icontains=search_query) |
                     Q(firstname__icontains=search_query) |
                     Q(lastname__icontains=search_query) |
                     Q(position__icontains=search_query)
