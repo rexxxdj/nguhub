@@ -40,8 +40,9 @@ def employee_list(request):
     if search_query:
         employees = employees.filter(
                     Q(rank__icontains=search_query) |
+                    Q(firstname__icontains=search_query) |
                     Q(lastname__icontains=search_query) |
-                    Q(position__lastname__icontains=search_query)
+                    Q(position__icontains=search_query)
                     )
 
     # Сортувати дані за вибраним полем
