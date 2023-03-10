@@ -91,7 +91,6 @@ class EmployeeCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        employee = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -129,7 +128,7 @@ class EmployeeUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        employee = form.save()
+        employee = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{} {}\" було успішно змінено.'.format(employee.lastname, employee.firstname))
         if self.request.POST.get('_dismiss'):

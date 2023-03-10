@@ -106,7 +106,6 @@ class ElementCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        element = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -144,7 +143,7 @@ class ElementUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        element = form.save()
+        element = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(element.name))
         if self.request.POST.get('_dismiss'):

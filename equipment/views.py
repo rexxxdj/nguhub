@@ -89,10 +89,12 @@ def equipment_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'equipment/detail.html'
     equipment = get_object_or_404(Equipment, id=pk)
+    history = equipment.history.all()
 
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
-        'equipment': equipment
+        'equipment': equipment,
+        'history': history
     }
     return render(request,template, context)
 
@@ -107,7 +109,7 @@ class EquipmentCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        equipment = form.save()
+        #equipment = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -145,7 +147,7 @@ class EquipmentUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        equipment = form.save()
+        equipment = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipment.name))
         if self.request.POST.get('_dismiss'):

@@ -113,6 +113,15 @@
                     </div>
                   </div>
                 </div>
+                <h1>Історія змін</h1>
+
+                <ul>
+                {% for record in history %}
+                  <li>
+                    {{ record.history_date }}: {{ record.history_user }} {{ record.get_history_type_display }}
+                  </li>
+                {% endfor %}
+                </ul>
               </div>
             </div>
           </div>

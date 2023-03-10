@@ -83,7 +83,6 @@ class EmployeeLocationCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        equipment = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -121,7 +120,7 @@ class EmployeeLocationUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        employeeLocation = form.save()
+        employeeLocation = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(employeeLocation.name))
         if self.request.POST.get('_dismiss'):
@@ -201,7 +200,6 @@ class EquipmentCategoryCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        equipmentCategory = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -239,7 +237,7 @@ class EquipmentCategoryUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        equipmentCategory = form.save()
+        equipmentCategory = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipmentCategory.name))
         if self.request.POST.get('_dismiss'):
@@ -319,7 +317,6 @@ class EquipmentStatusCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        equipmentStatus = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -357,7 +354,7 @@ class EquipmentStatusUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        equipmentStatus = form.save()
+        equipmentStatus = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipmentStatus.name))
         if self.request.POST.get('_dismiss'):
@@ -437,7 +434,6 @@ class ElementCategoryCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        equipmentCategory = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -475,7 +471,7 @@ class ElementCategoryUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        elementCategory = form.save()
+        elementCategory = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(elementCategory.name))
         if self.request.POST.get('_dismiss'):
@@ -555,7 +551,6 @@ class ElementStatusCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        equipmentStatus = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -593,7 +588,7 @@ class ElementStatusUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        elementStatus = form.save()
+        elementStatus = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(elementStatus.name))
         if self.request.POST.get('_dismiss'):
