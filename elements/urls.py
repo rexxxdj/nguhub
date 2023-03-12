@@ -9,5 +9,6 @@ urlpatterns = [
     path('add/', views.ElementCreateView.as_view(), name='add'),
     path('update/<int:pk>/', views.ElementUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', views.ElementDeleteView.as_view(), name='delete'),
+    path('history/', views.element_history_list, name='history'),
     
 ]

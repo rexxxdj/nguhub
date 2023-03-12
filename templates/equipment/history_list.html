@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Обладнання{% endblock title %}
+{% block content %}
+  <div class="wrapper">
+    <div class="main-panel">
+      <div class="detailcontent">
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title">Історія видалення матеріальних цінностей</h4>
+              </div>
+              <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                  <form method="GET" action="{% url 'equipment:list' %}">
+                    <input type="text" class="form-control search_field" name="q" placeholder="Пошук" value={{search_query}}>
+                    <button class="btn btn-sm search_field" type="submit">Шукати</button>
+                  </form>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover tablesorter dataTable no-footer table-striped" id="" cellspacing="0">
+                    <thead class=" text-primary text-center">
+                      <tr>
+                        <th>Дата видалення </th>
+                        <th>Хто видалив </th>
+                        <th>Назва</th>
+                        <th>Категорія</th>
+                        <th>Дата вв. в експл.</th>
+                        <th>Інв.номер</th>
+                        <th>Зав.номер</th>
+                        <th>Вн.номер</th>
+                        <th>Кількість</th>
+                        <th>Од.виміру</th>
+                        <th>Первісна вартість</th>
+                        <th>Місце закріплення</th>
+                        <th>Мат. відп.</th>
+                        <th>Закріплено</th>
+                        <th>Користувач</th>
+                        <th>Статус</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      {% for record in history %}
+                      <tr>
+                        <td> {{record.history_date|date:"d.m.Y H:i"}}</td>
+                        <td> {{ record.history_user.first_name }} {{ record.history_user.last_name }}</td>
+                        <td> {{ record.name }} </td>
+                        <td> {{ record.category }} </td>
+                        <td> {{ record.operationDate|date:"d.m.Y"}} </td>
+                        <td> {{record.inventoryNumber|default_if_none:""|upper}} </td>
+                        <td> {{record.serialNumber|default_if_none:""|upper}} </td>
+                        <td> {{record.internalNumber|default_if_none:""|upper}} </td>
+                        <td> {{record.value}} </td>
+                        <td> {{record.unit}} </td>
+                        <td> {{record.cost|default_if_none:""}} </td>
+                        <td> {{record.location}} </td>
+                        <td> <span>{{record.responsible.get_rank_display}}</span><br>
+                            <span>{{record.responsible.fullname}}</span><br>
+                            {% if record.responsible_reason %}
+                            <br>
+                            <span>Підстава:</span><br>
+                            <span class="text-muted">{{record.responsible_reason}}</span>
+                            {% endif %}
+                        </td>
+                        <td> <span>{{record.fixed.get_rank_display}}</span><br>
+                            <span>{{record.fixed.fullname}}</span><br>
+                            {% if record.fixed_reason %}
+                            <br>
+                            <span>Підстава:</span><br>
+                            <span class="text-muted">{{record.fixed_reason}}</span>
+                            {% endif %}
+                        </td>
+                        <td><span>{{record.employee.get_rank_display}}</span><br>
+                            <span>{{record.employee.fullname}}</span><br>
+                            <span class="text-muted">{{record.employee.officialPhone|default_if_none:""}}</span><br>
+                            <span class="text-muted">{{record.employee.personalPhone|default_if_none:""}}</span>
+                            {% if record.employee_reason %}
+                            <br>
+                            <span>Підстава:</span><br>
+                            <span class="text-muted">{{record.employee_reason}}</span>
+                            {% endif %}
+                        </td>
+                        <td> {{record.status}} </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            © 2023 made with <i class="tim-icons icon-heart-2"></i> by <b>Ruslan Tokar</b> for a 3002 NGU.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+{% endblock content %}
+{% block extra_js %}
+  <script>
+    $(document).ready(function() {
+      //Скрипт для процесингу фільтрів та сортування
+      $('#equipmentFilterForm').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+          url: $(this).attr('action'),
+          data: $(this).serialize(),
+          success: function(data) {
+            $('.content').html(data);
+          }
+        });
+      });
+    });
+    //Скрипт для відкриття модального вікна додавання обладнання
+    $(document).on("click", "#add-equipment-btn", function() {
+        console.log("Press")
+        $('#add-equipment-modal').modal('show');
+    });
+    $(document).ready(function () {
+      $('#dtHorizontalVerticalExample').DataTable({
+        "scrollX": true,
+        "scrollY": 200,
+      });
+      $('.dataTables_length').addClass('bs-select');
+    });
+  </script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+    var input = document.querySelector('#search-form input[name="q"]');
+    input.addEventListener('input', function() {
+        input.closest('form').submit();
+    });
+});
+  </script>
+{% endblock extra_js %}

@@ -13,7 +13,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                  <h2>{{employee.fullname}}</h2>
+                  <h1>{{employee.fullname}}</h1>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                   <a href="{{ employee.get_update_url }}">
@@ -61,7 +61,7 @@
                             <tr class="row-link">
                               <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.category }} </a></td>
                               <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.name }} </a></td>
-                              <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber|upper }} </a></td>
+                              <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber|default_if_none:""|upper }} </a></td>
                               <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.status }} </a></td>   
                             </tr>               
                           {% endfor %}
@@ -92,7 +92,7 @@
                             <tr class="row-link">
                               <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.category }} </a></td>
                               <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.name }} </a></td>
-                              <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber|upper }} </a></td>
+                              <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber|default_if_none:""|upper }} </a></td>
                               <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.status }} </a></td>   
                             </tr>               
                           {% endfor %}
@@ -123,7 +123,7 @@
                             <tr class="row-link">
                               <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.category }} </a></td>
                               <td class="text-left">  <a href="{{ equipment.get_absolute_url }}">{{ equipment.name }} </a></td>
-                              <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber|upper }} </a></td>
+                              <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.serialNumber|default_if_none:""|upper }} </a></td>
                               <td>  <a href="{{ equipment.get_absolute_url }}">{{ equipment.status }} </a></td>   
                             </tr>               
                           {% endfor %}
@@ -133,7 +133,45 @@
                   </div>
                 </div>
                 {% endif %}
+              <h4>Історія змін</h4>
 
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover tablesorter dataTable no-footer table-striped" id="" cellspacing="0">
+                      <thead class=" text-primary text-center">
+                        <tr>
+                          <th>Дата</th>
+                          <th>Змінив</th>
+                          <th>Тип</th>
+                          <th>Звання</th>
+                          <th>П.І.Б.</th>
+                          <th>Посада</th>
+                          <th>Локація</th>
+                          <th>Контакти</th>
+                          <th>Коментар</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        {% for record in history %}
+                        <tr>
+                          <td>{{ record.history_date|date:"d.m.Y H:i" }}</td>
+                          <td>{{ record.history_user.first_name }} {{ record.history_user.last_name }}</td>
+                          <td>{% if record.history_type == '~' %}Редагування{% else %}Створення{% endif %}</td>
+                          <td>{{ record.get_rank_display }} </td>
+                          <td>{{ record.lastname }} {{ record.firstname }} {{ record.surname }} </td>
+                          <td>{{ record.position }} </td>
+                          <td>{{record.category.name}}<br><span class="text-muted">{{record.category.address}}</span></td>
+                          <td>
+                            <span class="text-muted">{{record.officialPhone|default_if_none:""}}</span><br>
+                            <span class="text-muted">{{record.personalPhone|default_if_none:""}}</span>
+                          </td>
+                          <td> {{record.comment|default_if_none:""}} </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -89,7 +89,7 @@ def equipment_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'equipment/detail.html'
     equipment = get_object_or_404(Equipment, id=pk)
-    history = equipment.history.all()
+    history = equipment.history.all().order_by('history_date')
 
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
@@ -109,7 +109,6 @@ class EquipmentCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        #equipment = form.save()
         if self.request.POST.get('_save'):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
@@ -194,3 +193,17 @@ class EquipmentDeleteView(DeleteView):
             return handler(request, *args, **kwargs)
         else:
             return redirect("signin")
+
+
+
+'''  History   '''
+@login_required(login_url="/")
+def equipment_history_list(request):
+    ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
+    template = 'equipment/history_list.html'
+    history = Equipment.history.filter(history_type='-')
+
+    context = {
+        'history': history
+    }
+    return render(request, template, context)

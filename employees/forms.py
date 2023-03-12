@@ -3,7 +3,8 @@ from .models import Employee
 
 
 class EmployeeCreateForm(forms.ModelForm):
-    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+    comment = forms.CharField(required=False,
+                                widget=forms.Textarea(attrs={'rows':'5',
                                                             'class': 'form-control', 
                                                             'type': 'text', 
                                                             'name': 'comment',
@@ -26,7 +27,8 @@ class EmployeeCreateForm(forms.ModelForm):
 
 
 class EmployeeUpdateForm(forms.ModelForm):
-    comment = forms.CharField(widget=forms.Textarea(attrs={'rows':'5',
+    comment = forms.CharField(required=False,
+                                widget=forms.Textarea(attrs={'rows':'5',
                                                             'class': 'form-control', 
                                                             'type': 'text', 
                                                             'name': 'comment',

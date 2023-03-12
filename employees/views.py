@@ -70,13 +70,15 @@ def employee_detail(request, pk):
     responsibleEquipment = Equipment.objects.filter(responsible=pk).order_by('category','name')
     fixedEquipment = Equipment.objects.filter(fixed=pk).order_by('category','name')
     employeeEquipment = Equipment.objects.filter(employee=pk).order_by('category','name')
+    history = employee.history.all().order_by('history_date')
 
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
         'employee': employee,
         'responsibleEquipment': responsibleEquipment,
         'fixedEquipment': fixedEquipment,
-        'employeeEquipment': employeeEquipment
+        'employeeEquipment': employeeEquipment,
+        'history': history
     }
     return render(request,template, context)
 
@@ -179,3 +181,16 @@ class EmployeeDeleteView(DeleteView):
             return handler(request, *args, **kwargs)
         else:
             return redirect("signin")
+
+
+'''  History   '''
+@login_required(login_url="/")
+def employee_history_list(request):
+    ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
+    template = 'employee/history_list.html'
+    history = Employee.history.filter(history_type='-')
+
+    context = {
+        'history': history
+    }
+    return render(request, template, context)

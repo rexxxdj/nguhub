@@ -88,10 +88,12 @@ def element_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
     template = 'element/detail.html'
     element = get_object_or_404(Element, id=pk,)
+    history = element.history.all().order_by('history_date')
 
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
-        'element': element
+        'element': element,
+        'history': history
     }
     return render(request, template, context)
 
@@ -190,3 +192,15 @@ class ElementDeleteView(DeleteView):
             return handler(request, *args, **kwargs)
         else:
             return redirect("signin")
+
+'''  History   '''
+@login_required(login_url="/")
+def element_history_list(request):
+    ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
+    template = 'element/history_list.html'
+    history = Element.history.filter(history_type='-')
+
+    context = {
+        'history': history
+    }
+    return render(request, template, context)

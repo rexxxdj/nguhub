@@ -106,6 +106,7 @@ class Employee(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Фотографія')
+	history = HistoricalRecords()
 
 	class Meta:
 		verbose_name = 'Співробітник'

@@ -13,7 +13,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                  <h2>{{element.name}}</h2>
+                  <h1>{{element.name}}</h1>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                   <a href="{{ element.get_update_url }}">
@@ -71,6 +71,83 @@
                   <p><span>Додатковий коментар</span>{{element.comment}}</p>
                 </div>
               </div>
+              <h2>Історія змін</h2>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover tablesorter dataTable no-footer table-striped" id="" cellspacing="0">
+                      <thead class=" text-primary text-center">
+                        <tr>
+                          <th>Дата</th>
+                          <th>Змінив</th>
+                          <th>Тип</th>
+                          <th>Назва</th>
+                          <th>Категорія</th>
+                          <th>Дата вв. в експл.</th>
+                          <th>Інв.номер</th>
+                          <th>Зав.номер</th>
+                          <th>Вн.номер</th>
+                          <th>Кількість</th>
+                          <th>Од.виміру</th>
+                          <th>Первісна вартість</th>
+                          <th>Місце закріплення</th>
+                          <th>Встановлено</th>
+                          <th>Мат. відп.</th>
+                          <th>Закріплено</th>
+                          <th>Користувач</th>
+                          <th>Статус</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        {% for record in history %}
+                        <tr>
+                          <td>{{ record.history_date|date:"d.m.Y H:i" }}</td>
+                          <td>{{ record.history_user.first_name }} {{ record.history_user.last_name }}</td>
+                          <td>{% if record.history_type == '~' %}Редагування{% else %}Створення{% endif %}</td>
+                          <td>{{ record.name }}</td>
+                          <td>{{ record.category }}</td>
+                          <td>{{ record.operationDate|date:"d.m.Y"}}</td>
+                          <td>{{record.inventoryNumber|default_if_none:""|upper}}</td>
+                          <td>{{record.serialNumber|default_if_none:""|upper}}</td>
+                          <td>{{record.internalNumber|default_if_none:""|upper}}</td>
+                          <td>{{record.value}}</td>
+                          <td>{{record.unit}}</td>
+                          <td>{{record.cost|default_if_none:""}}</td>
+                          <td>{{record.location}}</td>
+                          <td>{{record.equipment}}</td>
+                          <td><span>{{record.responsible.get_rank_display}}</span><br>
+                              <span>{{record.responsible.fullname}}</span><br>
+                              {% if record.responsible_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.responsible_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td><span>{{record.fixed.get_rank_display}}</span><br>
+                              <span>{{record.fixed.fullname}}</span><br>
+                              {% if record.fixed_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.fixed_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td><span>{{record.employee.get_rank_display}}</span><br>
+                              <span>{{record.employee.fullname}}</span><br>
+                              <span class="text-muted">{{record.employee.officialPhone|default_if_none:""}}</span><br>
+                              <span class="text-muted">{{record.employee.personalPhone|default_if_none:""}}</span>
+                              {% if record.employee_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.employee_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td>{{record.status}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
