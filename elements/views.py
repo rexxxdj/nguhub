@@ -27,11 +27,12 @@ def element_list(request):
         {'id':3, 'key':'operationDate','value':'Дата вв. в експлуатацію'},
         {'id':4, 'key':'status__name','value':'Статус'},
         {'id':5, 'key':'location__name','value':'Місце закріплення'},
-        {'id':6, 'key':'responsible__lastname','value':'Матеріально Відповідальний'},
-        {'id':7, 'key':'fixed__lastname','value':'За ким закріплено'},
-        {'id':8, 'key':'inventoryNumber','value':'Інвентарний номер'},
-        {'id':9, 'key':'internalNumber','value':'Внутрішній номер'},
-        {'id':10, 'key':'serialNumber','value':'Заводський номер'},
+        {'id':6, 'key':'currentLocation__name','value':'Місцезнаходження'},
+        {'id':7, 'key':'responsible__lastname','value':'Матеріально Відповідальний'},
+        {'id':8, 'key':'fixed__lastname','value':'За ким закріплено'},
+        {'id':9, 'key':'inventoryNumber','value':'Інвентарний номер'},
+        {'id':10, 'key':'internalNumber','value':'Внутрішній номер'},
+        {'id':11, 'key':'serialNumber','value':'Заводський номер'},
         )
 
     # Отримати параметри запиту GET
@@ -53,7 +54,8 @@ def element_list(request):
     if search_query:
         elements = elements.filter(
                     Q(name__icontains=search_query) |
-                    Q(location__name=search_query) |
+                    Q(location__name__icontains=search_query) |
+                    Q(currentLocation__name__icontains=search_query) |
                     Q(responsible__lastname__icontains=search_query) |
                     Q(fixed__lastname__icontains=search_query) |
                     Q(employee__lastname__icontains=search_query) |

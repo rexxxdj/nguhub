@@ -4,7 +4,7 @@ from simple_history.models import HistoricalRecords
 from django.db import models
 from equipment.models import Equipment
 from employees.models import Employee
-from nguhub.models import Location
+from nguhub.models import Location, CurrentLocation
 
 
 class Category(models.Model):
@@ -16,6 +16,10 @@ class Category(models.Model):
 							blank=True, 
 							null=True, 
 							verbose_name='Додаткові коментарі')
+	delete_reason=models.CharField(max_length=50,
+							blank=True, 
+							null=True, 
+							verbose_name='Причина видалення')
 	history = HistoricalRecords()
 
 	class Meta:
@@ -42,6 +46,10 @@ class Status(models.Model):
 							blank=True, 
 							null=True, 
 							verbose_name='Додаткові коментарі')
+	delete_reason=models.CharField(max_length=50,
+							blank=True, 
+							null=True, 
+							verbose_name='Причина видалення')
 	history = HistoricalRecords()
 
 	class Meta:
@@ -122,6 +130,12 @@ class Element(models.Model):
 							null=False,
 							default=1,
 							verbose_name='Місце закріплення')
+	currentLocation = models.ForeignKey(CurrentLocation,
+							on_delete=models.PROTECT,
+							blank=False,
+							null=False,
+							default=1,
+							verbose_name='Поточне місцезнаходження')
 	responsible = models.ForeignKey(Employee,
 							on_delete=models.PROTECT,
 							blank=True, 
@@ -156,6 +170,10 @@ class Element(models.Model):
 							blank=True, 
 							null=True, 
 							verbose_name='Додатковий коментар')
+	delete_reason=models.CharField(max_length=50,
+							blank=True, 
+							null=True, 
+							verbose_name='Причина видалення')
 	history = HistoricalRecords()
 
 	class Meta:

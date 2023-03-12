@@ -111,14 +111,14 @@
                   <table class="table table-hover tablesorter dataTable no-footer table-striped" id="" cellspacing="0">
                     <thead class=" text-primary text-center">
                       <tr>
-                        <th> # </th>
+                        <th> # </th> 
                         <th >
                             Назва
                             {% if sort_field == 'name' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -126,9 +126,9 @@
                            Категорія
                             {% if sort_field == 'category__name' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -136,9 +136,9 @@
                            Дата вв. в експл.
                            {% if sort_field == 'operationDate' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -161,12 +161,22 @@
                             Первісна вартість
                         </th>
                         <th> 
-                           Місце закріплення
+                           Місце закр.
                             {% if sort_field == 'location__name' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Поточне місцезн.
+                            {% if sort_field == 'currentLocation__name' %}
+                              {% if sort_order == 'asc' %}
+                                <i class="fa fa-caret-up "></i>
+                              {% else %}
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -174,9 +184,9 @@
                            Мат. відп.
                             {% if sort_field == 'responsible__lastname' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -184,9 +194,9 @@
                            Закріплено
                             {% if sort_field == 'fixed__lastname' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -194,9 +204,9 @@
                            Користувач
                             {% if sort_field == 'employee__lastname' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -204,9 +214,9 @@
                            Статус
                             {% if sort_field == 'status__name' %}
                               {% if sort_order == 'asc' %}
-                                &uarr;
+                                <i class="fa fa-caret-up "></i>
                               {% else %}
-                                &darr;
+                                <i class="fa fa-caret-down "></i>
                               {% endif %}
                             {% endif %}
                         </th>
@@ -227,6 +237,7 @@
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.unit}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.cost|default_if_none:""}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.location}} </a></td>
+                        <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.currentLocation}} </a></td>
                         <td> 
                           <a href="{{ equipment.get_absolute_url }}">
                             <span>{{equipment.responsible.get_rank_display}}</span><br>

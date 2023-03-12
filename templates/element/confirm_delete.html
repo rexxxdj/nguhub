@@ -16,8 +16,8 @@
 							{% endfor %}
 						</div>
 					{% endif %}
-					<form method="post">
-						{% csrf_token %}
+					<form method="post" enctype="multipart/form-data" id="deleteElementForm">
+                		{% csrf_token %}
 						<div class="row">
 							<div class="col-sm-3 mb-3 mb-sm-0">
 							</div>

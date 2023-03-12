@@ -46,7 +46,8 @@
                   {% if element.value %}{% else %}<br>{% endif %}
                   <p><span>Первісна вартість</span>{{element.cost|default_if_none:0}} грн.</p>
                   <p><span>Статус</span>{{element.status.name}}</p>
-                  <p><span>Місцезнаходження</span>{{element.location.name}}</p>
+                  <p><span>Місце закріплення</span>{{element.location.name}}</p>
+                  <p><span>Місцезнаходження</span>{{element.currentLocation.name}}</p>
                   <p><span>Матеріально відповідальний</span>
                     <a class="link-unstyled" href="{{ element.responsible.get_absolute_url }}">
                       {{element.responsible.get_rank_display}} {{element.responsible.fullname}}

@@ -161,8 +161,18 @@
                             Первісна вартість
                         </th>
                         <th> 
-                           Місце закріплення
+                           Місце закр.
                             {% if sort_field == 'location__name' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> 
+                           Поточне місцезн.
+                            {% if sort_field == 'currentLocation__name' %}
                               {% if sort_order == 'asc' %}
                                 &uarr;
                               {% else %}
@@ -230,6 +240,7 @@
                         <td> <a href="{{ element.get_absolute_url }}">{{element.unit}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.cost|default_if_none:""}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.location}} </a></td>
+                        <td> <a href="{{ element.get_absolute_url }}">{{element.currentLocation}} </a></td>
                         <td> <a href="{{ element.get_absolute_url }}">{{element.equipment|default_if_none:""}} </a></td>
                         <td> 
                           <a href="{{ element.get_absolute_url }}">

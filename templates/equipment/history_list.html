@@ -37,6 +37,7 @@
                         <th>Од.виміру</th>
                         <th>Первісна вартість</th>
                         <th>Місце закріплення</th>
+                        <th>Місцезнаходження</th>
                         <th>Мат. відп.</th>
                         <th>Закріплено</th>
                         <th>Користувач</th>
@@ -58,6 +59,7 @@
                         <td> {{record.unit}} </td>
                         <td> {{record.cost|default_if_none:""}} </td>
                         <td> {{record.location}} </td>
+                        <td> {{record.currentLocation}} </td>
                         <td> <span>{{record.responsible.get_rank_display}}</span><br>
                             <span>{{record.responsible.fullname}}</span><br>
                             {% if record.responsible_reason %}

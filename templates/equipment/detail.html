@@ -45,13 +45,14 @@
                   <p><span>Кількіть</span>{{equipment.value}} {{equipment.unit}}</p>
                   {% if equipment.value %}{% else %}<br>{% endif %}
                   <p><span>Статус</span>{{equipment.status.name}}</p>
+                  <p><span>Місце закріплення</span>{{equipment.location.name}}</p>
                   <p><span>Місцезнаходження</span>{{equipment.location.name}}</p>
                   <p><span>Матеріально відповідальний</span>
                     <a class="link-unstyled" href="{{ equipment.responsible.get_absolute_url }}">
                       {{equipment.responsible.get_rank_display}} {{equipment.responsible.fullname}}
                     </a>
                   </p>
-                  {% if equipment.responsible %}{% else %}<br>{% endif %}
+                  {% if equipment.responsible %}{% else %}<br><br>{% endif %}
                   <p><span>Закріплено</span>
                     <a class="link-unstyled" href="{{ equipment.fixed.get_absolute_url }}">
                       {{equipment.fixed.get_rank_display}} {{equipment.fixed.fullname}}
@@ -132,7 +133,8 @@
                           <th>Кількість</th>
                           <th>Од.виміру</th>
                           <th>Первісна вартість</th>
-                          <th>Місце закріплення</th>
+                          <th>Місце закр.</th>
+                          <th>Місцезнах.</th>
                           <th>Мат. відп.</th>
                           <th>Закріплено</th>
                           <th>Користувач</th>
@@ -155,6 +157,7 @@
                           <td>{{record.unit}}</td>
                           <td>{{record.cost|default_if_none:""}}</td>
                           <td>{{record.location}}</td>
+                          <td>{{record.currentLocation}}</td>
                           <td><span>{{record.responsible.get_rank_display}}</span><br>
                               <span>{{record.responsible.fullname}}</span><br>
                               {% if record.responsible_reason %}

@@ -18,6 +18,10 @@ class Category(models.Model):
 							blank=True, 
 							null=True, 
 							verbose_name='Додаткові коментарі')
+	delete_reason=models.CharField(max_length=50,
+							blank=True, 
+							null=True, 
+							verbose_name='Причина видалення')
 	history = HistoricalRecords()
 
 	class Meta:
@@ -106,6 +110,10 @@ class Employee(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Фотографія')
+	delete_reason=models.CharField(max_length=50,
+							blank=True, 
+							null=True, 
+							verbose_name='Причина видалення')
 	history = HistoricalRecords()
 
 	class Meta:
