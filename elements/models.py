@@ -132,9 +132,8 @@ class Element(models.Model):
 							verbose_name='Місце закріплення')
 	currentLocation = models.ForeignKey(CurrentLocation,
 							on_delete=models.PROTECT,
-							blank=False,
-							null=False,
-							default=1,
+							blank=True,
+							null=True,
 							verbose_name='Поточне місцезнаходження')
 	responsible = models.ForeignKey(Employee,
 							on_delete=models.PROTECT,
