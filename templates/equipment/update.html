@@ -18,21 +18,31 @@
               <form method="post" enctype="multipart/form-data" id="updatesEquipmentForm">
                 {% csrf_token %}
                 <input type="hidden" name="id" id="id-input">
-                <div class="form-group">
-                  <label for="name">Назва:</label>
-                  {{ form.name }}                  
-                </div>
                 <div class="row ">
+                  <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="form-group">
+                      <label for="name">Назва:</label>
+                      {{ form.name }}                  
+                    </div>
+                  </div>
                   <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                       <label for="category">Категорія:</label>
                       {{ form.category }}                   
                     </div>
                   </div>
+                </div>                
+                <div class="row ">
                   <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                       <label for="location">Місце закріплення:</label>
                       {{ form.location }}                   
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                      <label for="currentLocation">Поточне місцезнаходження:</label>
+                      {{ form.currentLocation }}                   
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4">
@@ -51,13 +61,13 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="value">Одиниця вимірювання:</label>
+                      <label for="unit">Одиниця вимірювання:</label>
                       {{ form.unit }}                  
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="value">Первісна вартість:</label>
+                      <label for="cost">Первісна вартість:</label>
                       {{ form.cost }}                  
                     </div>
                   </div>
@@ -77,13 +87,13 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                      <label for="serialNumber">Внутрішній номер:</label>
+                      <label for="internalNumber">Внутрішній номер:</label>
                       {{ form.internalNumber }}    
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                      <label for="serialNumber">Інвентарний номер:</label>
+                      <label for="inventoryNumber">Інвентарний номер:</label>
                       {{ form.inventoryNumber }}                 
                     </div>
                   </div>
