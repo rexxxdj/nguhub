@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Directory {% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="main-panel">
+    <div class="detailcontent">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="card ">
+            <div class="card-body">
+              <!-- Modal -->
+              <h5 class="modal-title" id="addOtherLocationModalLabel">Додати нове місцезнаходження обладнання:</h5>
+            </div>
+            <div class="modal-body">
+                         <form method="post" enctype="multipart/form-data" id="addOtherCurrentLocationForm">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              <label for="rank">Назва:</label>
+                              {{ form.name }}
+                            </div>
+                          </form>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+              <a href="{% url 'directory_other_currentlocation_list' %}"> 
+                <button class="btn  btn-sm" value="Dismiss" name="_dismiss" >Відміна</button>
+              </a>
+              <button type="submit" class="btn  btn-sm" value="Save" name="_save" form="addOtherCurrentLocationForm">Зберегти</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            © 2023 made with <i class="tim-icons icon-heart-2"></i> by <b>Ruslan Tokar</b> for a 3002 NGU.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

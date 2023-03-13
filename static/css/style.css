@@ -22,6 +22,10 @@
   color: #3f65d4;
 }
 
+.table-responsive {
+    overflow: auto;
+}
+
 .container-fluid.signin {
   text-align: center;
   padding-left: 50%;

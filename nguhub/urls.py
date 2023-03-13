@@ -41,6 +41,16 @@ urlpatterns = [
     path('directory/element/status/update/<int:pk>/', views.ElementStatusUpdateView.as_view(), name='directory_element_status_update'),
     path('directory/element/status/delete/<int:pk>/', views.ElementStatusDeleteView.as_view(), name='directory_element_status_delete'),
     path('directory/element/status/', views.directory_element_status_list, name='directory_element_status_list'),
+      ##Other Locations
+    path('directory/other/location/add/', views.OtherLocationCreateView.as_view(), name='directory_other_location_add'),
+    path('directory/other/location/update/<int:pk>/', views.OtherLocationUpdateView.as_view(), name='directory_other_location_update'),
+    path('directory/eother/location/delete/<int:pk>/', views.OtherLocationDeleteView.as_view(), name='directory_other_location_delete'),
+    path('directory/other/location/', views.directory_other_location_list, name='directory_other_location_list'),
+      ##Other CurrentLocations
+    path('directory/other/currentlocation/add/', views.OtherCurrentLocationCreateView.as_view(), name='directory_other_currentlocation_add'),
+    path('directory/other/currentlocation/<int:pk>/', views.OtherCurrentLocationUpdateView.as_view(), name='directory_other_currentlocation_update'),
+    path('directory/other/currentlocation/delete/<int:pk>/', views.OtherCurrentLocationDeleteView.as_view(), name='directory_other_currentlocation_delete'),
+    path('directory/other/currentlocation/', views.directory_other_currentlocation_list, name='directory_other_currentlocation_list'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

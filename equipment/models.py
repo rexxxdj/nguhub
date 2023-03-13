@@ -190,4 +190,4 @@ class Equipment(models.Model):
 		verbose_name_plural = 'Обладнання'
 
 	def __str__(self):
-		return '{} {} S/N:{}'.format(self.category.name, self.name, self.serialNumber)
+		return '{} S/N:{}'.format(self.name, self.serialNumber)

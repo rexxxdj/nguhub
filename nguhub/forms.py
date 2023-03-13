@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from employees.models import Category as employeeLocation
 from equipment.models import Category as equipmentCategory, Status as equipmentStatus
 from elements.models import Category as elementCategory, Status as elementStatus
+from .models import Location, CurrentLocation
 
 
 class SignInForm(forms.Form):
@@ -131,3 +132,43 @@ class ElementStatusUpdateForm(forms.ModelForm):
         super(ElementStatusUpdateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['notes'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'notes'})
+
+
+class OtherLocationCreateForm(forms.ModelForm):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(OtherLocationCreateForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
+
+
+class OtherLocationUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(OtherLocationUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
+
+
+class OtherCurrentLocationCreateForm(forms.ModelForm):
+    class Meta:
+        model = CurrentLocation
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(OtherCurrentLocationCreateForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
+
+
+class OtherCurrentLocationUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CurrentLocation
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(OtherCurrentLocationUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})

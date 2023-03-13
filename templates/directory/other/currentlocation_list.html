@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Довідники{% endblock title %}
+{% block content %}
+  <div class="wrapper">
+    {% block sidebar %}
+    <div class="sidebar" data="black">
+      <div class="sidebar-wrapper">
+        <div id="accordion">
+          <div class="card sidebarcard">
+            <form id="directoryFilterForm" method="get" action="{% url 'directory_other_currentlocation_list' %}">              
+              <label for="order">Напрямок сортування:</label>
+              <select id="order" name="order">
+                <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>А-я</option>
+                <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Я-а</option>
+              </select>
+              <div align ="center">
+              <button type="submit" class="btn btn-sm">Сортувати</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'directory_other_currentlocation_add' %}">
+            <button id="add-other_currentlocation-btn" type="button" class="btn btn-sm">Додати нове місцезнаходження</button>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endblock sidebar %}
+    <div class="main-panel">
+      <div class="content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title">Місцезнаходження обладнання</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive ">
+                  <table class="table table-hover tablesorter " id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th> # </th>
+                        <th>
+                            Назва
+                            {% if sort_field == 'name' %}
+                              {% if sort_order == 'asc' %}
+                                &uarr;
+                              {% else %}
+                                &darr;
+                              {% endif %}
+                            {% endif %}
+                        </th>
+                        <th> Управління </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for currentlocation in currentlocations %}
+                      <tr class="row-link">
+                        <td> {{ forloop.counter }} </td>
+                        <td> {{currentlocation.name}} </td>                     
+                        <td> 
+                          <a href="{{ currentlocation.get_update_url }}">
+                            <button id="update-currentlocation-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#update-currentlocation-modal">
+                              <i class="fa fa-edit"></i>
+                            </button>
+                          </a>
+                          <a href="{{ currentlocation.get_delete_url }}">
+                            <button id="delete-location-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#delete-currentlocation-modal">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            © 2023 made with <i class="tim-icons icon-heart-2"></i> by <b>Ruslan Tokar</b> for a 3002 NGU.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+{% endblock content %}

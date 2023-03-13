@@ -11,9 +11,11 @@ from django.contrib.auth.models import User
 from .forms import SignInForm, EmployeeLocationCreateForm, EmployeeLocationUpdateForm
 from .forms import EquipmentCategoryCreateForm, EquipmentCategoryUpdateForm, EquipmentStatusCreateForm, EquipmentStatusUpdateForm
 from .forms import ElementCategoryCreateForm, ElementCategoryUpdateForm, ElementStatusCreateForm, ElementStatusUpdateForm
+from .forms import OtherLocationCreateForm, OtherLocationUpdateForm, OtherCurrentLocationCreateForm, OtherCurrentLocationUpdateForm
 from employees.models import Category as employeeLocation
 from equipment.models import Category as equipmentCategory, Status as equipmentStatus
 from elements.models import Category as elementCategory, Status as elementStatus
+from .models import Location, CurrentLocation
 
 
 def user_login(request):
@@ -625,6 +627,240 @@ class ElementStatusDeleteView(DeleteView):
             return HttpResponseRedirect(url)
         else:
             return super(ElementStatusDeleteView, self).post(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
+
+@login_required(login_url="/")
+def directory_other_location_list(request):
+    ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
+    template = 'directory/other/location_list.html'
+    locations = Location.objects.all()
+
+    sort_field = 'name'
+    sort_order = request.GET.get('order', 'asc')
+
+    ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
+    locations = locations.order_by(ordering)
+    # Передати дані в шаблон
+    context = {
+        'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
+        'locations': locations,
+        'sort_field': sort_field, 
+        'sort_order': sort_order
+    }
+    return render(request, template, context)
+
+
+class OtherLocationCreateView(CreateView):
+    model = elementStatus
+    template_name = 'directory/other/location_add.html'
+    form_class = OtherLocationCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(OtherLocationCreateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        if self.request.POST.get('_save'):
+            messages.success(self.request, 'Дані було успішно збережено.')
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на створення')
+        return super(OtherLocationCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('directory_other_location_list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('directory_other_location_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
+
+class OtherLocationUpdateView(UpdateView):
+    model = Location
+    template_name = 'directory/other/location_update.html'
+    form_class = OtherLocationUpdateForm
+
+    @property
+    def has_permission(self):
+        return self.user.is_active
+
+    def get_context_data(self, **kwargs):
+        context = super(OtherLocationUpdateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        location = self.get_object()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, '\"{}\" було успішно змінено.'.format(location.name))
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на зміну')
+        return super(OtherLocationUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('directory_other_location_list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('directory_other_location_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
+
+class OtherLocationDeleteView(DeleteView):
+    model = Location
+    template_name = 'directory/other/location_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('directory_other_location_list')
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('_cancel'):
+            url = self.get_success_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(OtherLocationDeleteView, self).post(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
+
+@login_required(login_url="/")
+def directory_other_currentlocation_list(request):
+    ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
+    template = 'directory/other/currentlocation_list.html'
+    currentlocations = CurrentLocation.objects.all()
+
+    sort_field = 'name'
+    sort_order = request.GET.get('order', 'asc')
+
+    ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
+    currentlocations = currentlocations.order_by(ordering)
+    # Передати дані в шаблон
+    context = {
+        'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
+        'currentlocations': currentlocations,
+        'sort_field': sort_field, 
+        'sort_order': sort_order
+    }
+    return render(request, template, context)
+
+
+class OtherCurrentLocationCreateView(CreateView):
+    model = CurrentLocation
+    template_name = 'directory/other/currentlocation_add.html'
+    form_class = OtherCurrentLocationCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(OtherCurrentLocationCreateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        if self.request.POST.get('_save'):
+            messages.success(self.request, 'Дані було успішно збережено.')
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на створення')
+        return super(OtherLocationCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('directory_other_currentlocation_list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('directory_other_currentlocation_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
+
+class OtherCurrentLocationUpdateView(UpdateView):
+    model = CurrentLocation
+    template_name = 'directory/other/currentlocation_update.html'
+    form_class = OtherCurrentLocationUpdateForm
+
+    @property
+    def has_permission(self):
+        return self.user.is_active
+
+    def get_context_data(self, **kwargs):
+        context = super(OtherCurrentLocationUpdateView, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        currentlocation = self.get_object()
+        if self.request.POST.get('_save'):
+            messages.success(self.request, '\"{}\" було успішно змінено.'.format(currentlocation.name))
+        if self.request.POST.get('_dismiss'):
+            messages.success(self.request, 'Ви відмінили запит на зміну')
+        return super(OtherCurrentLocationUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        if self.request.POST.get('_save'):
+            return reverse_lazy('directory_other_currentlocation_list')
+        if self.request.POST.get('_dismiss'):
+            return reverse_lazy('directory_other_currentlocation_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated == True:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect("signin")
+
+
+class OtherCurrentLocationDeleteView(DeleteView):
+    model = CurrentLocation
+    template_name = 'directory/other/currentlocation_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('directory_other_currentlocation_list')
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('_cancel'):
+            url = self.get_success_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(OtherCurrentLocationDeleteView, self).post(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
