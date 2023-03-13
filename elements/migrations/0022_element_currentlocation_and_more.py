@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='element',
             name='currentLocation',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='nguhub.currentlocation', verbose_name='Поточне місцезнаходження'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='nguhub.currentlocation', verbose_name='Поточне місцезнаходження'),
         ),
         migrations.AddField(
             model_name='historicalelement',
             name='currentLocation',
-            field=models.ForeignKey(blank=True, db_constraint=False, default=1, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='nguhub.currentlocation', verbose_name='Поточне місцезнаходження'),
+            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='nguhub.currentlocation', verbose_name='Поточне місцезнаходження'),
         ),
     ]
