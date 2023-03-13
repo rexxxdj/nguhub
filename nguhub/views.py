@@ -791,7 +791,7 @@ class OtherCurrentLocationCreateView(CreateView):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
             messages.success(self.request, 'Ви відмінили запит на створення')
-        return super(OtherLocationCreateView, self).form_valid(form)
+        return super(OtherCurrentLocationCreateView, self).form_valid(form)
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
