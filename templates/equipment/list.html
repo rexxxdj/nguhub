@@ -94,6 +94,7 @@
                     <button class="btn btn-sm search_field" type="submit">Шукати</button>
                   </form>
                 </div>
+                <!--{% if user.groups.all.0.name == "Адміністратор"%}-->
                 <div class="text-right col-lg-1 col-md-1 col-sm-1" >
                   <a href="{% url 'equipment:history' %}">
                     <button id="history-equipment-btn" 
@@ -105,6 +106,7 @@
                     </button>
                   </a>
                 </div>
+                <!--{%endif%}-->
               </div>
               <div class="card-body">
                 <div class="table-responsive">
