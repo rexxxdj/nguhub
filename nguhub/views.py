@@ -10,11 +10,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from .forms import SignInForm, EmployeeLocationCreateForm, EmployeeLocationUpdateForm
 from .forms import EquipmentCategoryCreateForm, EquipmentCategoryUpdateForm, EquipmentStatusCreateForm, EquipmentStatusUpdateForm
-from .forms import ElementCategoryCreateForm, ElementCategoryUpdateForm, ElementStatusCreateForm, ElementStatusUpdateForm
+from .forms import DepartmentEquipmentCategoryCreateForm, DepartmentEquipmentCategoryUpdateForm, DepartmentEquipmentStatusCreateForm, DepartmentEquipmentStatusUpdateForm
 from .forms import OtherLocationCreateForm, OtherLocationUpdateForm, OtherCurrentLocationCreateForm, OtherCurrentLocationUpdateForm
 from employees.models import Category as employeeLocation
 from equipment.models import Category as equipmentCategory, Status as equipmentStatus
-from elements.models import Category as elementCategory, Status as elementStatus
+from departmentEquipment.models import Category as departmentEquipmentCategory, Status as departmentEquipmentStatus
 from .models import Location, CurrentLocation
 
 
@@ -406,33 +406,33 @@ class EquipmentStatusDeleteView(DeleteView):
 
 
 @login_required(login_url="/")
-def directory_element_category_list(request):
+def directory_department_equipment_category_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'directory/element/category_list.html'
-    elementCategories = elementCategory.objects.all()
+    template = 'directory/departmentEquipment/category_list.html'
+    equipmentCategories = departmentEquipmentCategory.objects.all()
 
     sort_field = 'name'
     sort_order = request.GET.get('order', 'asc')
 
-    ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
-    elementCategories = elementCategories.order_by(ordering)
+    ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
+    equipmentCategories = equipmentCategories.order_by(ordering)
     # Передати дані в шаблон
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
-        'elementCategories': elementCategories,
+        'equipmentCategories': equipmentCategories,
         'sort_field': sort_field, 
         'sort_order': sort_order
     }
     return render(request, template, context)
 
 
-class ElementCategoryCreateView(CreateView):
-    model = elementCategory
-    template_name = 'directory/element/category_add.html'
-    form_class = ElementCategoryCreateForm
+class DepartmentEquipmentCategoryCreateView(CreateView):
+    model = departmentEquipmentCategory
+    template_name = 'directory/departmentEquipment/category_add.html'
+    form_class = DepartmentEquipmentCategoryCreateForm
 
     def get_context_data(self, **kwargs):
-        context = super(ElementCategoryCreateView, self).get_context_data(**kwargs)
+        context = super(DepartmentEquipmentCategoryCreateView, self).get_context_data(**kwargs)
         return context
 
     def form_valid(self, form):
@@ -440,13 +440,13 @@ class ElementCategoryCreateView(CreateView):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
             messages.success(self.request, 'Ви відмінили запит на створення')
-        return super(ElementCategoryCreateView, self).form_valid(form)
+        return super(DepartmentEquipmentCategoryCreateView, self).form_valid(form)
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
-            return reverse_lazy('directory_element_category_list')
+            return reverse_lazy('directory_department_equipment_category_list')
         if self.request.POST.get('_dismiss'):
-            return reverse_lazy('directory_element_category_list')
+            return reverse_lazy('directory_department_equipment_category_list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -459,32 +459,32 @@ class ElementCategoryCreateView(CreateView):
             return redirect("signin")
 
 
-class ElementCategoryUpdateView(UpdateView):
-    model = elementCategory
-    template_name = 'directory/element/category_update.html'
-    form_class = ElementCategoryUpdateForm
+class DepartmentEquipmentCategoryUpdateView(UpdateView):
+    model = departmentEquipmentCategory
+    template_name = 'directory/departmentEquipment/category_update.html'
+    form_class = DepartmentEquipmentCategoryUpdateForm
 
     @property
     def has_permission(self):
         return self.user.is_active
 
     def get_context_data(self, **kwargs):
-        context = super(ElementCategoryUpdateView, self).get_context_data(**kwargs)
+        context = super(DepartmentEquipmentCategoryUpdateView, self).get_context_data(**kwargs)
         return context
 
     def form_valid(self, form):
-        elementCategory = self.get_object()
+        equipmentCategory = self.get_object()
         if self.request.POST.get('_save'):
-            messages.success(self.request, '\"{}\" було успішно змінено.'.format(elementCategory.name))
+            messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipmentCategory.name))
         if self.request.POST.get('_dismiss'):
             messages.success(self.request, 'Ви відмінили запит на зміну')
-        return super(ElementCategoryUpdateView, self).form_valid(form)
+        return super(DepartmentDepartmentEquipmentCategoryUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
-            return reverse_lazy('directory_element_category_list')
+            return reverse_lazy('directory_department_equipment_category_list')
         if self.request.POST.get('_dismiss'):
-            return reverse_lazy('directory_element_category_list')
+            return reverse_lazy('directory_department_equipment_category_list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -497,19 +497,19 @@ class ElementCategoryUpdateView(UpdateView):
             return redirect("signin")
 
 
-class ElementCategoryDeleteView(DeleteView):
-    model = elementCategory
-    template_name = 'directory/element/category_confirm_delete.html'
+class DepartmentEquipmentCategoryDeleteView(DeleteView):
+    model = departmentEquipmentCategory
+    template_name = 'directory/departmentEquipment/category_confirm_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('directory_element_category_list')
+        return reverse_lazy('directory_department_equipment_category_list')
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('_cancel'):
             url = self.get_success_url()
             return HttpResponseRedirect(url)
         else:
-            return super(ElementCategoryDeleteView, self).post(request, *args, **kwargs)
+            return super(EquipmentCategoryDeleteView, self).post(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -523,33 +523,33 @@ class ElementCategoryDeleteView(DeleteView):
 
 
 @login_required(login_url="/")
-def directory_element_status_list(request):
+def directory_department_equipment_status_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'directory/element/status_list.html'
-    elementStatuses = elementStatus.objects.all()
+    template = 'directory/departmentEquipment/status_list.html'
+    equipmentStatuses = departmentEquipmentStatus.objects.all()
 
     sort_field = 'name'
     sort_order = request.GET.get('order', 'asc')
 
     ordering = (sort_field, '-' + sort_field)[sort_order == 'asc']
-    elementStatuses = elementStatuses.order_by(ordering)
+    equipmentStatuses = equipmentStatuses.order_by(ordering)
     # Передати дані в шаблон
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
-        'elementStatuses': elementStatuses,
+        'equipmentStatuses': equipmentStatuses,
         'sort_field': sort_field, 
         'sort_order': sort_order
     }
     return render(request, template, context)
 
 
-class ElementStatusCreateView(CreateView):
-    model = elementStatus
-    template_name = 'directory/element/status_add.html'
-    form_class = ElementStatusCreateForm
+class DepartmentEquipmentStatusCreateView(CreateView):
+    model = departmentEquipmentStatus
+    template_name = 'directory/departmentEquipment/status_add.html'
+    form_class = DepartmentEquipmentStatusCreateForm
 
     def get_context_data(self, **kwargs):
-        context = super(ElementStatusCreateView, self).get_context_data(**kwargs)
+        context = super(DepartmentEquipmentStatusCreateView, self).get_context_data(**kwargs)
         return context
 
     def form_valid(self, form):
@@ -557,13 +557,13 @@ class ElementStatusCreateView(CreateView):
             messages.success(self.request, 'Дані було успішно збережено.')
         if self.request.POST.get('_dismiss'):
             messages.success(self.request, 'Ви відмінили запит на створення')
-        return super(ElementStatusCreateView, self).form_valid(form)
+        return super(DepartmentEquipmentStatusCreateView, self).form_valid(form)
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
-            return reverse_lazy('directory_element_status_list')
+            return reverse_lazy('directory_department_equipment_status_list')
         if self.request.POST.get('_dismiss'):
-            return reverse_lazy('directory_element_status_list')
+            return reverse_lazy('directory_department_equipment_status_list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -576,32 +576,32 @@ class ElementStatusCreateView(CreateView):
             return redirect("signin")
 
 
-class ElementStatusUpdateView(UpdateView):
-    model = elementStatus
-    template_name = 'directory/element/status_update.html'
-    form_class = ElementStatusUpdateForm
+class DepartmentEquipmentStatusUpdateView(UpdateView):
+    model = departmentEquipmentStatus
+    template_name = 'directory/departmentEquipment/status_update.html'
+    form_class = DepartmentEquipmentStatusUpdateForm
 
     @property
     def has_permission(self):
         return self.user.is_active
 
     def get_context_data(self, **kwargs):
-        context = super(ElementStatusUpdateView, self).get_context_data(**kwargs)
+        context = super(DepartmentEquipmentStatusUpdateView, self).get_context_data(**kwargs)
         return context
 
     def form_valid(self, form):
-        elementStatus = self.get_object()
+        equipmentStatus = self.get_object()
         if self.request.POST.get('_save'):
-            messages.success(self.request, '\"{}\" було успішно змінено.'.format(elementStatus.name))
+            messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipmentStatus.name))
         if self.request.POST.get('_dismiss'):
             messages.success(self.request, 'Ви відмінили запит на зміну')
-        return super(ElementStatusUpdateView, self).form_valid(form)
+        return super(DepartmentEquipmentStatusUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
-            return reverse_lazy('directory_element_status_list')
+            return reverse_lazy('directory_department_equipment_status_list')
         if self.request.POST.get('_dismiss'):
-            return reverse_lazy('directory_element_status_list')
+            return reverse_lazy('directory_department_equipment_status_list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -614,19 +614,19 @@ class ElementStatusUpdateView(UpdateView):
             return redirect("signin")
 
 
-class ElementStatusDeleteView(DeleteView):
-    model = elementStatus
-    template_name = 'directory/element/status_confirm_delete.html'
+class DepartmentEquipmentStatusDeleteView(DeleteView):
+    model = departmentEquipmentStatus
+    template_name = 'directory/departmentEquipment/status_confirm_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('directory_element_status_list')
+        return reverse_lazy('directory_department_equipment_status_list')
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('_cancel'):
             url = self.get_success_url()
             return HttpResponseRedirect(url)
         else:
-            return super(ElementStatusDeleteView, self).post(request, *args, **kwargs)
+            return super(DepartmentEquipmentStatusDeleteView, self).post(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -661,7 +661,7 @@ def directory_other_location_list(request):
 
 
 class OtherLocationCreateView(CreateView):
-    model = elementStatus
+    model = Location
     template_name = 'directory/other/location_add.html'
     form_class = OtherLocationCreateForm
 

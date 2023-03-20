@@ -13,7 +13,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     #path('logout/', LogoutView.as_view(), name='logout'),
     path('equipment/', include('equipment.urls', namespace='equipment')),
-    path('element/', include('elements.urls', namespace='element')),
+    path('departmentequipment/', include('departmentEquipment.urls', namespace='departmentEquipment')),
     path('employee/', include('employees.urls', namespace='employee')),
     # Довідники
      ##Employee Location
@@ -31,16 +31,16 @@ urlpatterns = [
     path('directory/equipment/status/update/<int:pk>/', views.EquipmentStatusUpdateView.as_view(), name='directory_equipment_status_update'),
     path('directory/equipment/status/delete/<int:pk>/', views.EquipmentStatusDeleteView.as_view(), name='directory_equipment_status_delete'),
     path('directory/equipment/status/', views.directory_equipment_status_list, name='directory_equipment_status_list'),
-      ##Element Category
-    path('directory/element/category/add/', views.ElementCategoryCreateView.as_view(), name='directory_element_category_add'),
-    path('directory/element/category/update/<int:pk>/', views.ElementCategoryUpdateView.as_view(), name='directory_element_category_update'),
-    path('directory/element/category/delete/<int:pk>/', views.ElementCategoryDeleteView.as_view(), name='directory_element_category_delete'),
-    path('directory/element/category/', views.directory_element_category_list, name='directory_element_category_list'),
-      ##Element Status
-    path('directory/element/status/add/', views.ElementStatusCreateView.as_view(), name='directory_element_status_add'),
-    path('directory/element/status/update/<int:pk>/', views.ElementStatusUpdateView.as_view(), name='directory_element_status_update'),
-    path('directory/element/status/delete/<int:pk>/', views.ElementStatusDeleteView.as_view(), name='directory_element_status_delete'),
-    path('directory/element/status/', views.directory_element_status_list, name='directory_element_status_list'),
+      ##Department Category
+    path('directory/departmentequipment/category/add/', views.DepartmentEquipmentCategoryCreateView.as_view(), name='directory_department_equipment_category_add'),
+    path('directory/departmentequipment/category/update/<int:pk>/', views.DepartmentEquipmentCategoryUpdateView.as_view(), name='directory_department_equipment_category_update'),
+    path('directory/departmentequipment/category/delete/<int:pk>/', views.DepartmentEquipmentCategoryDeleteView.as_view(), name='directory_department_equipment_category_delete'),
+    path('directory/departmentequipment/category/', views.directory_department_equipment_category_list, name='directory_department_equipment_category_list'),
+      ##Department Status
+    path('directory/departmentequipment/status/add/', views.DepartmentEquipmentStatusCreateView.as_view(), name='directory_department_equipment_status_add'),
+    path('directory/departmentequipment/status/update/<int:pk>/', views.DepartmentEquipmentStatusUpdateView.as_view(), name='directory_department_equipment_status_update'),
+    path('directory/departmentequipment/status/delete/<int:pk>/', views.DepartmentEquipmentStatusDeleteView.as_view(), name='directory_department_equipment_status_delete'),
+    path('directory/departmentequipment/status/', views.directory_department_equipment_status_list, name='directory_department_equipment_status_list'),
       ##Other Locations
     path('directory/other/location/add/', views.OtherLocationCreateView.as_view(), name='directory_other_location_add'),
     path('directory/other/location/update/<int:pk>/', views.OtherLocationUpdateView.as_view(), name='directory_other_location_update'),

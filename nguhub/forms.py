@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from employees.models import Category as employeeLocation
 from equipment.models import Category as equipmentCategory, Status as equipmentStatus
-from elements.models import Category as elementCategory, Status as elementStatus
+from departmentEquipment.models import Category as departmentEquipmentCategory, Status as departmentEquipmentStatus
 from .models import Location, CurrentLocation
 
 
@@ -90,46 +90,46 @@ class EquipmentStatusUpdateForm(forms.ModelForm):
         self.fields['notes'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'notes'})
 
 
-class ElementCategoryCreateForm(forms.ModelForm):
+class DepartmentEquipmentCategoryCreateForm(forms.ModelForm):
     class Meta:
-        model = elementCategory
+        model = departmentEquipmentCategory
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(ElementCategoryCreateForm, self).__init__(*args, **kwargs)
+        super(DepartmentEquipmentCategoryCreateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['notes'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'notes'})
 
 
-class ElementCategoryUpdateForm(forms.ModelForm):
+class DepartmentEquipmentCategoryUpdateForm(forms.ModelForm):
     class Meta:
-        model = elementCategory
+        model = departmentEquipmentCategory
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(ElementCategoryUpdateForm, self).__init__(*args, **kwargs)
+        super(DepartmentEquipmentCategoryUpdateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['notes'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'notes'})
 
 
-class ElementStatusCreateForm(forms.ModelForm):
+class DepartmentEquipmentStatusCreateForm(forms.ModelForm):
     class Meta:
-        model = elementStatus
+        model = departmentEquipmentStatus
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(ElementStatusCreateForm, self).__init__(*args, **kwargs)
+        super(DepartmentEquipmentStatusCreateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['notes'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'notes'})
 
 
-class ElementStatusUpdateForm(forms.ModelForm):
+class DepartmentEquipmentStatusUpdateForm(forms.ModelForm):
     class Meta:
-        model = elementStatus
+        model = departmentEquipmentStatus
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(ElementStatusUpdateForm, self).__init__(*args, **kwargs)
+        super(DepartmentEquipmentStatusUpdateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'name'})
         self.fields['notes'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'notes'})
 

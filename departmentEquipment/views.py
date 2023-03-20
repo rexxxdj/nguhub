@@ -19,7 +19,7 @@ from docx.enum.section import WD_ORIENT
 @login_required(login_url="/")
 def equipment_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'equipment/list.html'
+    template = 'departmentEquipment/list.html'
     equipments = Equipment.objects.all()
     categories = Category.objects.all()
     statuses = Status.objects.all()
@@ -92,7 +92,7 @@ def equipment_list(request):
 @login_required(login_url="/")
 def equipment_detail(request, pk):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'equipment/detail.html'
+    template = 'departmentEquipment/detail.html'
     equipment = get_object_or_404(Equipment, id=pk)
     elements = Equipment.objects.all().filter(destinationEquipment=pk)
     history = equipment.history.all().order_by('history_date')
@@ -108,7 +108,7 @@ def equipment_detail(request, pk):
 
 class EquipmentCreateView(CreateView):
     model = Equipment
-    template_name = 'equipment/add.html'
+    template_name = 'departmentEquipment/add.html'
     form_class = EquipmentCreateForm
 
     def get_context_data(self, **kwargs):
@@ -124,9 +124,9 @@ class EquipmentCreateView(CreateView):
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
-            return reverse_lazy('equipment:list')
+            return reverse_lazy('departmentEquipment:list')
         if self.request.POST.get('_dismiss'):
-            return reverse_lazy('equipment:list')
+            return reverse_lazy('departmentEquipment:list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -141,7 +141,7 @@ class EquipmentCreateView(CreateView):
 
 class EquipmentUpdateView(UpdateView):
     model = Equipment
-    template_name = 'equipment/update.html'
+    template_name = 'departmentEquipment/update.html'
     form_class = EquipmentUpdateForm
 
     @property
@@ -162,9 +162,9 @@ class EquipmentUpdateView(UpdateView):
 
     def get_success_url(self):
         if self.request.POST.get('_save'):
-            return reverse_lazy('equipment:list')
+            return reverse_lazy('departmentEquipment:list')
         if self.request.POST.get('_dismiss'):
-            return reverse_lazy('equipment:list')
+            return reverse_lazy('departmentEquipment:list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -179,10 +179,10 @@ class EquipmentUpdateView(UpdateView):
 
 class EquipmentDeleteView(DeleteView):
     model = Equipment
-    template_name = 'equipment/confirm_delete.html'
+    template_name = 'departmentEquipment/confirm_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('equipment:list')
+        return reverse_lazy('departmentEquipment:list')
 
     def post(self, request, *args, **kwargs):
         if self.request.POST.get('_cancel'):
@@ -207,7 +207,7 @@ class EquipmentDeleteView(DeleteView):
 @login_required(login_url="/")
 def equipment_history_list(request):
     ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
-    template = 'equipment/history_list.html'
+    template = 'departmentEquipment/history_list.html'
     history = Equipment.history.filter(history_type='-')
 
     context = {

@@ -23,15 +23,15 @@ class Category(models.Model):
 	history = HistoricalRecords()
 
 	class Meta:
-		verbose_name = 'Категорія обладнання'
-		verbose_name_plural = 'Категорії обладнання'
+		verbose_name = 'Категорія обладнання по службам'
+		verbose_name_plural = 'Категорії обладнання по службам'
 
 	def get_update_url(self):
-		return reverse('directory_equipment_category_update',
+		return reverse('directory_department_equipment_category_update',
 			args=[self.id])
 
 	def get_delete_url(self):
-		return reverse('directory_equipment_category_delete',
+		return reverse('directory_department_equipment_category_delete',
 			args=[self.id])
 
 	def __str__(self):
@@ -58,11 +58,11 @@ class Status(models.Model):
 		verbose_name_plural = 'Статуси обладнання'
 
 	def get_update_url(self):
-		return reverse('directory_equipment_status_update',
+		return reverse('directory_department_equipment_status_update',
 			args=[self.id])
 
 	def get_delete_url(self):
-		return reverse('directory_equipment_status_delete',
+		return reverse('directory_department_equipment_status_delete',
 			args=[self.id])
 
 	def __str__(self):
@@ -71,7 +71,7 @@ class Status(models.Model):
 
 class Equipment(models.Model):
 	def directory_path(instance, filename):
-		return 'media/equipment/{0}/{1}'.format(instance.id, filename)
+		return 'media/departmentequipment/{0}/{1}'.format(instance.id, filename)
 
 	TYPE_CHOICES = (
         (1, u"Обладнання"),
@@ -86,7 +86,7 @@ class Equipment(models.Model):
 	name = models.CharField(max_length=2048,
 							blank=False, 
 							null=False,
-							verbose_name='Назва техніки')
+							verbose_name='Назва обладнання')
 	value = models.CharField(max_length=50,
 							blank=False, 
 							null=False,
@@ -132,17 +132,19 @@ class Equipment(models.Model):
 							blank=False,
 							null=False,
 							default=1,
+							related_name='department_equipment_location',
 							verbose_name='Місце закріплення')
 	currentLocation = models.ForeignKey(CurrentLocation,
 							on_delete=models.PROTECT,
 							blank=True,
 							null=True,
+							related_name='department_equipment_currentLocation',
 							verbose_name='Поточне місцезнаходження')
 	responsible = models.ForeignKey(Employee,
 							on_delete=models.PROTECT,
 							blank=True, 
 							null=True,
-							related_name='equipment_responsible',
+							related_name='department_equipment_responsible',
 							verbose_name='Матеріально відповідальний')
 	responsible_reason = models.CharField(max_length=1024,
 							blank=True, 
@@ -152,7 +154,7 @@ class Equipment(models.Model):
 							on_delete=models.PROTECT,
 							blank=True, 
 							null=True,
-							related_name='equipment_fixed',
+							related_name='department_equipment_fixed',
 							verbose_name='За ким закріплено')
 	fixed_reason = models.CharField(max_length=1024,
 							blank=True, 
@@ -162,7 +164,7 @@ class Equipment(models.Model):
 							on_delete=models.PROTECT,
 							blank=True, 
 							null=True,
-							related_name='equipment_employee',
+							related_name='department_equipment_employee',
 							verbose_name='Користувач')
 	employee_reason = models.CharField(max_length=1024,
 							blank=True, 
@@ -190,20 +192,20 @@ class Equipment(models.Model):
 	history = HistoricalRecords()
 
 	def get_absolute_url(self):
-		return reverse('equipment:detail',
+		return reverse('departmentEquipment:detail',
 			args=[self.id])
 
 	def get_update_url(self):
-		return reverse('equipment:update',
+		return reverse('departmentEquipment:update',
 			args=[self.id])
 
 	def get_delete_url(self):
-		return reverse('equipment:delete',
+		return reverse('departmentEquipment:delete',
 			args=[self.id])
 
 	class Meta:
-		verbose_name = 'Обладнання'
-		verbose_name_plural = 'Обладнання'
+		verbose_name = 'Обладнання по службам'
+		verbose_name_plural = 'Обладнання по службам'
 
 	def __str__(self):
 		return '{} S/N:{}'.format(self.name, self.serialNumber)

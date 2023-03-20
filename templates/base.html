@@ -63,10 +63,10 @@
                         </li>
                         <hr>
                         <li class="nav-link">
-                            <a href="{% url 'directory_element_category_list' %}" class="nav-item dropdown-item">Комплектуючі - Категорії</a>
+                            <a href="{% url 'directory_department_equipment_category_list' %}" class="nav-item dropdown-item">Обладнання по службам - Категорії</a>
                         </li>
                         <li class="nav-link">
-                            <a href="{% url 'directory_element_status_list' %}" class="nav-item dropdown-item">Комплектуючі - Статуси</a>
+                            <a href="{% url 'directory_department_equipment_status_list' %}" class="nav-item dropdown-item">Обладнання по службам - Статуси</a>
                         </li>
                         <hr>
                         <li class="nav-link">
@@ -78,15 +78,15 @@
                     </ul>
                   </li>
                   {% url 'equipment' as equipment_url %}
-                  <li class="{% if 'equipment' in request.path %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %}" style="margin: auto;">
+                  <li class="{% if 'equipment' in request.path %} {% if 'departmentequipment' in request.path %}{% else %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %} {% endif %}" style="margin: auto;">
                     <a href="{% url 'equipment:list' %}">
                       <p>Обладнання</p>
                     </a>
                   </li>
-                  {% url 'element' as element_url %}
-                  <li class="{% if 'element' in request.path %}  {% if 'directory' in request.path %}{% else %}navactive{% endif %}  {% endif %}" style="margin: auto;">
-                    <a href="{% url 'element:list' %}">
-                      <p>Комплектуючі</p>
+                  {% url 'departmentEquipment' as department_equipment_url %}
+                  <li class="{% if 'departmentequipment' in request.path %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %}" style="margin: auto;">
+                    <a href="{% url 'departmentEquipment:list' %}">
+                      <p>Обладнання по службам</p>
                     </a>
                   </li>
                   {% url 'employee' as employee_url %}
