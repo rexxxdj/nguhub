@@ -89,7 +89,6 @@
                             <th> Серійний номер </th>
                             <th> Внутрішній номер </th>
                             <th> Кількість </th>
-                            <th> Встановлено </th>
                             <th> Первісна вартість </th>
                           </tr>
                         </thead>
@@ -102,7 +101,6 @@
                                   <td> <a href="{{ element.get_absolute_url }}">{{ element.inventoryNumber|default_if_none:""|upper }} </a></td>
                                   <td> <a href="{{ element.get_absolute_url }}">{{ element.serialNumber|default_if_none:""|upper }} </a></td>
                                   <td> <a href="{{ element.get_absolute_url }}">{{ element.internalNumber|default_if_none:""|upper }} </a></td>
-                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.value }} {{ element.unit }}</a></td>   
                                   <td> <a href="{{ element.get_absolute_url }}">{{ element.value }} {{ element.unit }}</a></td>   
                                   <td> <a href="{{ element.get_absolute_url }}">{{ element.cost|default_if_none:"" }} </a></td>   
                                 </tr>               
@@ -161,7 +159,14 @@
                           <td>{{ record.name }}</td>
                           <td>{{ record.get_equipmentType_display }}</td>
                           <td>{{ record.category }}</td>
-                          <td>{{ record.operationDate|date:"d.m.Y"}}</td>
+                          <td>
+                            {{ record.operationDate|date:"d.m.Y"}}
+                            {% if record.operationDate_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.operationDate_reason}}</span>
+                              {% endif %}
+                          </td>
                           <td>{{record.inventoryNumber|default_if_none:""|upper}}</td>
                           <td>{{record.serialNumber|default_if_none:""|upper}}</td>
                           <td>{{record.internalNumber|default_if_none:""|upper}}</td>

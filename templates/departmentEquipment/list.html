@@ -9,7 +9,7 @@
       <div class="sidebar-wrapper">
         <div id="accordion">
           <div class="card sidebarcard">
-            <form id="equipmentFilterForm" method="get" action="{% url 'equipment:list' %}">
+            <form id="equipmentFilterForm" method="get" action="{% url 'departmentEquipment:list' %}">
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                   <button class="btn btn-link" 
@@ -72,8 +72,8 @@
           </div>
         </div>
         <div class="text-center">
-          <a href="{% url 'equipment:add' %}">
-            <button id="add-equipment-btn" type="button" class="btn btn-sm">Додати нове обладнання</button>
+          <a href="{% url 'departmentEquipment:add' %}">
+            <button id="add-departmentEquipment-btn" type="button" class="btn btn-sm">Додати нове обладнання</button>
           </a>
         </div>
       </div>
@@ -89,18 +89,18 @@
               </div>
               <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-10">
-                  <form method="GET" action="{% url 'equipment:list' %}">
+                  <form method="GET" action="{% url 'departmentEquipment:list' %}">
                     <input type="text" class="form-control search_field" name="q" placeholder="Пошук" value={{search_query}}>
                     <button class="btn btn-sm search_field" type="submit">Шукати</button>
                   </form>
                 </div>
                 <div class="text-right col-lg-1 col-md-1 col-sm-1" >
-                  <a href="{% url 'equipment:history' %}">
-                    <button id="history-equipment-btn" 
+                  <a href="{% url 'departmentEquipment:history' %}">
+                    <button id="history-departmentEquipment-btn" 
                             type="button" 
                             class="btn btn-outline-success btn-circle btn-sm btn-circle" 
                             data-toggle="modal" 
-                            data-target="#history-equipment-modal">
+                            data-target="#history-departmentEquipment-modal">
                       <i class="fa fa-history"> Видалені записи</i>
                     </button>
                   </a>
@@ -233,7 +233,14 @@
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.name}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.get_equipmentType_display}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.category.name}} </a></td>
-                        <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.operationDate|date:"d.m.Y"}} </a></td>
+                        <td> 
+                          <a href="{{ equipment.get_absolute_url }}">
+                            {{equipment.operationDate|date:"d.m.Y"}} 
+                            {% if equipment.operationDate_reason %}
+                              <br>
+                              <span class="text-muted">Підстава:</span><br>
+                              <span class="text-muted">{{equipment.operationDate_reason}}</span>
+                            {% endif %} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.inventoryNumber|default_if_none:""|upper}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.serialNumber|default_if_none:""|upper}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.internalNumber|default_if_none:""|upper}} </a></td>

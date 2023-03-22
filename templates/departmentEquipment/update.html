@@ -39,25 +39,19 @@
                   </div>
                 </div>                
                 <div class="row ">
-                  <div class="col-lg-3 col-md-3 col-sm-3">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                       <label for="location">Місце закріплення:</label>
                       {{ form.location }}                   
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-3">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                       <label for="currentLocation">Поточне місцезнаходження:</label>
                       {{ form.currentLocation }}                   
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-3">
-                    <div class="form-group">
-                      <label for="status">Статус:</label>
-                      {{ form.status }}   
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-3">
+                  <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                       <label for="status">Де встановлено:</label>
                       {{ form.destinationEquipment }} 
@@ -85,8 +79,8 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
-                      <label for="operationDate">Дата введення в експлуатацію:</label>
-                      {{ form.operationDate }}                 
+                      <label for="status">Статус:</label>
+                      {{ form.status }}   
                     </div>
                   </div>
                 </div>
@@ -111,42 +105,54 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="responsible">Матеріально відповідальний:</label>
                       {{ form.responsible }} 
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="fixed">Закріплено:</label>
                       {{ form.fixed }} 
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="employee">Користувач:</label>
                       {{ form.employee }} 
                     </div>
                   </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="operationDate">Дата введення в експлуатацію:</label>
+                      {{ form.operationDate }}                 
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="responsible_reason">Підстава:</label>
                       {{ form.responsible_reason }} 
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="fixed_reason">Підстава:</label>
                       {{ form.fixed_reason }} 
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
                     <div class="form-group">
                       <label for="employee_reason">Підстава:</label>
                       {{ form.employee_reason }} 
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="form-group">
+                      <label for="operationDate_reason">Підстава:</label>
+                      {{ form.operationDate_reason }} 
                     </div>
                   </div>
                 </div>

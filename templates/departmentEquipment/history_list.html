@@ -53,7 +53,14 @@
                         <td> {{ record.name }} </td>
                         <td> {{ record.get_equipmentType_display }} </td>
                         <td> {{ record.category }} </td>
-                        <td> {{ record.operationDate|date:"d.m.Y"}} </td>
+                        <td> 
+                          {{ record.operationDate|date:"d.m.Y"}} 
+                          {% if record.equipment.operationDate_reason %}
+                              <br>
+                              <span class="text-muted">Підстава:</span><br>
+                              <span class="text-muted">{{record.equipment.operationDate_reason}}</span>
+                            {% endif %}
+                        </td>
                         <td> {{record.inventoryNumber|default_if_none:""|upper}} </td>
                         <td> {{record.serialNumber|default_if_none:""|upper}} </td>
                         <td> {{record.internalNumber|default_if_none:""|upper}} </td>

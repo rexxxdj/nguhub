@@ -233,7 +233,16 @@
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.name}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.get_equipmentType_display}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.category.name}} </a></td>
-                        <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.operationDate|date:"d.m.Y"}} </a></td>
+                        <td> 
+                          <a href="{{ equipment.get_absolute_url }}">
+                            {{equipment.operationDate|date:"d.m.Y"}} 
+                            {% if equipment.operationDate_reason %}
+                              <br>
+                              <span class="text-muted">Підстава:</span><br>
+                              <span class="text-muted">{{equipment.operationDate_reason}}</span>
+                            {% endif %}
+                          </a>
+                        </td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.inventoryNumber|default_if_none:""|upper}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.serialNumber|default_if_none:""|upper}} </a></td>
                         <td> <a href="{{ equipment.get_absolute_url }}">{{equipment.internalNumber|default_if_none:""|upper}} </a></td>
@@ -248,7 +257,7 @@
                             <span>{{equipment.responsible.fullname}}</span><br>
                             {% if equipment.responsible_reason %}
                             <br>
-                            <span>Підстава:</span><br>
+                            <span class="text-muted">Підстава:</span><br>
                             <span class="text-muted">{{equipment.responsible_reason}}</span>
                             {% endif %}
                           </a>
@@ -259,7 +268,7 @@
                             <span>{{equipment.fixed.fullname}}</span><br>
                             {% if equipment.fixed_reason %}
                             <br>
-                            <span>Підстава:</span><br>
+                            <span class="text-muted">Підстава:</span><br>
                             <span class="text-muted">{{equipment.fixed_reason}}</span>
                             {% endif %}
                           </a>
@@ -272,7 +281,7 @@
                             <span class="text-muted">{{equipment.employee.personalPhone|default_if_none:""}}</span>
                             {% if equipment.employee_reason %}
                             <br>
-                            <span>Підстава:</span><br>
+                            <span class="text-muted">Підстава:</span><br>
                             <span class="text-muted">{{equipment.employee_reason}}</span>
                             {% endif %}
                           </a>

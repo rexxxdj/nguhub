@@ -38,6 +38,7 @@ class EquipmentCreateForm(forms.ModelForm):
         self.fields['fixed_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'fixed_reason'})
         self.fields['employee'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee'})
         self.fields['employee_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee_reason'})
+        self.fields['operationDate_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'operationDate_reason'})
         self.fields['equipmentType'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'equipmentType'})
         self.fields['destinationEquipment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'destinationEquipment'})
 
@@ -78,5 +79,6 @@ class EquipmentUpdateForm(forms.ModelForm):
         self.fields['fixed_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'fixed_reason'})
         self.fields['employee'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee'})
         self.fields['employee_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'employee_reason'})
+        self.fields['operationDate_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'operationDate_reason'})
         self.fields['equipmentType'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'equipmentType'})
         self.fields['destinationEquipment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'destinationEquipment'})

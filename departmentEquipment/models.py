@@ -122,6 +122,10 @@ class Equipment(models.Model):
 							blank=True, 
 							null=True,
 							verbose_name='Дата введення в експлуатацію')
+	operationDate_reason = models.CharField(max_length=1024,
+							blank=True, 
+							null=True,
+							verbose_name='Підстава введення в експлуатацію')
 	status = models.ForeignKey(Status,
 							on_delete=models.PROTECT,
 							blank=True, 
