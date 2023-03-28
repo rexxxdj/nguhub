@@ -205,6 +205,10 @@ class Equipment(models.Model):
 		return reverse('equipment:delete',
 			args=[self.id])
 
+	def get_duplicate_url(self):
+		return reverse('equipment:duplicate',
+			args=[self.id])
+
 	class Meta:
 		verbose_name = 'Обладнання'
 		verbose_name_plural = 'Обладнання'

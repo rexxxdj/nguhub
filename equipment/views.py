@@ -1,5 +1,6 @@
 from django.conf import settings # import the settings file
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, QueryDict, JsonResponse
@@ -10,10 +11,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from .models import Equipment, Status, Category
 from employees.models import Employee
-from .forms import EquipmentCreateForm, EquipmentUpdateForm
+from .forms import EquipmentCreateForm, EquipmentUpdateForm, EquipmentDuplicateForm
 import os
 import docx
-from docx.enum.section import WD_ORIENT
+from docxtpl import DocxTemplate
 
 
 @login_required(login_url="/")
@@ -71,7 +72,22 @@ def equipment_list(request):
     # Сортувати дані за вибраним полем
     ordering = (sort_field, '-' + sort_field)[sort_order == 'desc']
     equipments = equipments.order_by(ordering)
-    
+
+
+    pagination_number = 5
+    paginator = Paginator(equipments, pagination_number)
+    page_number = request.GET.get('page')  # отримати номер сторінки з запиту GET параметром
+
+    try:
+        equipments = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        equipments = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver
+        # last page of results.
+        equipments = paginator.page(paginator.num_pages)
+
     # Передати дані в шаблон
     context = {
         'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
@@ -84,7 +100,9 @@ def equipment_list(request):
         'sort_dict':sort_dict,
         'sort_field': sort_field,
         'sort_order': sort_order,
-        'search_query': search_query
+        'search_query': search_query,
+        'pagination_number': pagination_number,
+        'page_number': page_number
     }
     return render(request, template, context)
 
@@ -202,6 +220,55 @@ class EquipmentDeleteView(DeleteView):
             return redirect("signin")
 
 
+login_required(login_url="/")
+def equipment_duplicate(request, pk):
+    ADMIN_SITE_NAME = settings.DEFAULT_SITE_NAMING
+    template = 'equipment/duplicate.html'
+    form_class = EquipmentDuplicateForm
+    equipment = Equipment.objects.get(id=pk)
+
+    form = EquipmentDuplicateForm(request.POST or None)
+    if form.is_valid():
+        equipment.value = int(equipment.value)-int(form.cleaned_data.get("value"))
+        if equipment.value > 0:
+            new_equipment = Equipment.objects.create(
+                category_id=equipment.category_id,
+                name=equipment.name,
+                value=int(form.cleaned_data.get("value")),
+                unit=equipment.unit,
+                cost=equipment.cost,
+                serialNumber=equipment.serialNumber,
+                internalNumber=equipment.internalNumber,
+                inventoryNumber=equipment.inventoryNumber,
+                operationDate=equipment.operationDate,
+                operationDate_reason=equipment.operationDate_reason,
+                status_id=equipment.status_id,
+                location_id=equipment.location_id,
+                currentLocation_id=equipment.currentLocation_id,
+                responsible_id=equipment.responsible_id,
+                responsible_reason=equipment.responsible_reason,
+                fixed_id=equipment.fixed_id,
+                fixed_reason=equipment.fixed_reason,
+                employee_id=equipment.employee_id,
+                employee_reason=equipment.employee_reason,
+                comment=equipment.comment,
+                equipmentType=equipment.equipmentType,
+                destinationEquipment_id=equipment.destinationEquipment_id)
+
+            equipment.save()
+            messages.success(request, 'Дані успішно розбито')
+        else:
+            messages.success(request, 'Значення не може бути більшим залишку')
+        return redirect("equipment:list")
+
+    context = {
+        'ADMIN_SITE_NAME': ADMIN_SITE_NAME,
+        'equipment': equipment,
+        'form':form
+    }
+    return render(request,template,context)
+    #return redirect("equipment:list")
+
 
 '''  History   '''
 @login_required(login_url="/")
@@ -219,65 +286,39 @@ def equipment_history_list(request):
 
 def equipment_get_formular(request, pk):
     equipment = get_object_or_404(Equipment, id=pk)
+    elements = Equipment.objects.all().filter(destinationEquipment=pk)
 
-    #formular = docx.Document('static/documents/FormularTemplate.docx')
     formularTemplate = docx.Document('static/documents/FormularTemplate.docx')
     formularTemplate.save('static/documents/Formular {}.docx'.format(equipment.name))
 
-    formular = docx.Document('static/documents/Formular {}.docx'.format(equipment.name))
-
-    
+    formular = DocxTemplate('static/documents/Formular {}.docx'.format(equipment.name))
 
 
+    if equipment.serialNumber is None:
+        serialNumber = ''
+    else:
+        serialNumber = equipment.serialNumber
 
 
-    section = formular.sections[0]
-    section.orientation = WD_ORIENT.LANDSCAPE
-    new_height = section.page_width
-    section.page_width = section.page_height
-    section.page_height = new_height
+    if equipment.operationDate is None:
+        operationDate = ''
+    else:
+        operationDate = equipment.operationDate.strftime("%d-%m-%Y")
 
-    table = formular.add_table(rows=1, cols=1)
-    table.cell(0, 0).text = 'ФОРМУЛЯР \n {}'.format(equipment.name)
+    if equipment.operationDate_reason is None:
+        operationDate_reason = ''
+    else:
+        operationDate_reason = equipment.operationDate_reason
 
-    formular.add_heading(equipment.name, 0)
-    table = formular.add_table(rows=3, cols=3)
-    table.cell(0, 0).text = 'Перший рядок, перша комірка'   
-    table.cell(0, 1).text = 'Перший рядок, друга комірка'
-    table.cell(0, 2).text = 'Перший рядок, третя комірка'
-    table.cell(1, 0).text = 'Другий рядок, перша комірка'
-    table.cell(1, 1).text = 'Другий рядок, друга комірка'
-    table.cell(1, 2).text = 'Другий рядок, третя комірка'
-    table.cell(2, 0).text = 'Третій рядок, перша комірка'
-    table.cell(2, 1).text = 'Третій рядок, друга комірка'
-    table.cell(2, 2).text = 'Третій рядок, третя комірка'
-
-    #formular.add_paragraph(equipment.name)
+    context = { 'equipmentName' : equipment.name,
+                'serialNumber' : serialNumber,
+                'operationDate': operationDate,
+                'operationDate_reason': operationDate_reason,
+                'elements' :elements}
+    formular.render(context)
+    formular.save('static/documents/Formular {}.docx'.format(equipment.name))
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=Formular \"{}\".docx'.format(equipment.name)
+    response['Content-Disposition'] = 'attachment; filename=Formular {}.docx'.format(equipment.name)
     formular.save(response)
     return response
-
-    #history = Equipment.history.filter(history_type='-')
-    #context = {
-    #   'history': history
-    #}
-
-    #return render(request, template, context)
-
-
-    #formular = docx.Document(template_path)
-
-    #equipment = get_object_or_404(Equipment, id=pk)
-
-    #template = Template('{{ var_name }}')
-
-    #for paragraph in doc.paragraphs:
-    #   if template.substitute(var_equipment_name='') in paragraph.text:
-    #        paragraph.text = template.substitute(var_equipment_name=equipment.name)
-
-
-    #doc.save('../static/documents/Formular\"{}\".doc'.format(equipment.name))
-
-

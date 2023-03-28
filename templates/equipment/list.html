@@ -306,12 +306,36 @@
                               <i class="fa fa-trash"></i>
                             </button>
                           </a>
+                          <a href="{{ equipment.get_duplicate_url }}">
+                            <button id="duplicate-equipment-btn" 
+                                    type="button" 
+                                    class="btn btn-outline-success btn-circle btn-sm btn-circle" 
+                                    data-toggle="modal" 
+                                    data-target="#duplicate-equipment-modal">
+                              <i class="fa fa-window-restore" aria-hidden="true"></i>
+                            </button>
+                          </a>
                         </td>
                       </tr>
                       {% endfor %}
                     </tbody>
                   </table>
                 </div>
+            {% if equipments.has_other_pages %}
+            <nav>
+              <ul class="pagination">
+                <li class="page-item"><a  class="page-link" href="{% url 'equipment:list' %}?page=1">&laquo;</a></li>
+                {% for p in equipments.paginator.page_range %}
+                <li class="page-item {% if equipments.number == p %} active{% endif %}">
+                  <a  class="page-link" href="{% url "equipment:list" %}?page={{ p }}">{{ p }}</a>
+                </li>
+                {% endfor %}
+                <li class="page-item">
+                  <a  class="page-link" href="{% url "equipment:list" %}?page={{ equipments.paginator.num_pages}}">&raquo;</a>
+                </li>
+              </ul>
+            </nav>
+            {% endif %}
               </div>
             </div>
           </div>

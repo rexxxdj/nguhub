@@ -10,6 +10,7 @@ urlpatterns = [
     path('add/', views.EquipmentCreateView.as_view(), name='add'),
     path('update/<int:pk>/', views.EquipmentUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', views.EquipmentDeleteView.as_view(), name='delete'),
+    path('duplicate/<int:pk>/', views.equipment_duplicate, name='duplicate'),
     path('history/', views.equipment_history_list, name='history'),
     
 ]

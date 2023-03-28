@@ -82,3 +82,7 @@ class EquipmentUpdateForm(forms.ModelForm):
         self.fields['operationDate_reason'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'operationDate_reason'})
         self.fields['equipmentType'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'equipmentType'})
         self.fields['destinationEquipment'].widget.attrs.update({'class': 'form-control ', 'type': 'text', 'name': 'destinationEquipment'})
+
+
+class EquipmentDuplicateForm(forms.Form):
+    value = forms.CharField(max_length=100)
