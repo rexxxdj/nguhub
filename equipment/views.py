@@ -74,7 +74,7 @@ def equipment_list(request):
     equipments = equipments.order_by(ordering)
 
 
-    pagination_number = 5
+    pagination_number = 100
     paginator = Paginator(equipments, pagination_number)
     page_number = request.GET.get('page')  # отримати номер сторінки з запиту GET параметром
 
