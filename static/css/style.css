@@ -13,6 +13,17 @@
   color: black;
 }
 
+.nav-pills .nav-link, .navbar, .nav-tabs .nav-link, .sidebar .nav a, .sidebar .nav a i, .sidebar .nav p, .navbar-collapse .navbar-nav .nav-link, .animation-transition-general, .sidebar .nav p, .off-canvas-sidebar .nav p, .sidebar .logo a.logo-mini, .sidebar .logo a.logo-normal, .off-canvas-sidebar .logo a.logo-mini, .off-canvas-sidebar .logo a.logo-normal, .sidebar .user .photo, .off-canvas-sidebar .user .photo, .sidebar .user a, .off-canvas-sidebar .user a, .sidebar .user .info > a > span, .off-canvas-sidebar .user .info > a > span, .tag, .tag [data-role="remove"], .animation-transition-general, .sidebar .nav p, .off-canvas-sidebar .nav p, .sidebar .logo a.logo-mini, .sidebar .logo a.logo-normal, .off-canvas-sidebar .logo a.logo-mini, .off-canvas-sidebar .logo a.logo-normal, .sidebar .user .photo, .off-canvas-sidebar .user .photo, .sidebar .user a, .off-canvas-sidebar .user a, .sidebar .user .info > a > span, .off-canvas-sidebar .user .info > a > span {
+  -webkit-transition: all 300ms ease 0s;
+  -moz-transition: all 300ms ease 0s;
+  -o-transition: all 300ms ease 0s;
+  -ms-transition: all 300ms ease 0s;
+  transition: all 300ms ease 0s;
+  text-decoration: none;
+  color: inherit;
+}
+
+
 .page-link{
   line-height: 2.25;
 }

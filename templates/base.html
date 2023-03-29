@@ -78,21 +78,21 @@
                     </ul>
                   </li>
                   {% url 'equipment' as equipment_url %}
-                  <li class="{% if 'equipment' in request.path %} {% if 'departmentequipment' in request.path %}{% else %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %} {% endif %}" style="margin: auto;">
+                  <li style="margin: auto;">
                     <a href="{% url 'equipment:list' %}">
-                      <p>Обладнання</p>
+                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'equipment' in request.path %} {% if 'departmentequipment' in request.path %}{% else %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %} {% endif %}">Обладнання</button>
                     </a>
                   </li>
                   {% url 'departmentEquipment' as department_equipment_url %}
-                  <li class="{% if 'departmentequipment' in request.path %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %}" style="margin: auto;">
+                  <li style="margin: auto;">
                     <a href="{% url 'departmentEquipment:list' %}">
-                      <p>Обладнання по службам</p>
+                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'departmentequipment' in request.path %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %}">Обладнання по службам</button>
                     </a>
                   </li>
                   {% url 'employee' as employee_url %}
-                  <li class="{% if 'employee' in request.path %}  {% if 'directory' in request.path %}{% else %}navactive{% endif %}  {% endif %}" style="margin: auto;">
+                  <li style="margin: auto;">
                     <a href="{% url 'employee:list' %}">
-                      <p>Співробітники</p>
+                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'employee' in request.path %}  {% if 'directory' in request.path %}{% else %}navactive{% endif %}  {% endif %}">Співробітники</button>
                     </a>
                   </li>
                   
