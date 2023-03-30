@@ -74,7 +74,7 @@ def equipment_list(request):
     equipments = equipments.order_by(ordering)
 
 
-    pagination_number = 100
+    pagination_number = 50
     paginator = Paginator(equipments, pagination_number)
     page_number = request.GET.get('page')  # отримати номер сторінки з запиту GET параметром
 
@@ -141,10 +141,7 @@ class EquipmentCreateView(CreateView):
         return super(EquipmentCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        if self.request.POST.get('_save'):
-            return reverse_lazy('equipment:list')
-        if self.request.POST.get('_dismiss'):
-            return reverse_lazy('equipment:list')
+        return reverse_lazy('equipment:list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:
@@ -168,9 +165,10 @@ class EquipmentUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EquipmentUpdateView, self).get_context_data(**kwargs)
+        context['return_path'] = self.request.META.get('HTTP_REFERER','/')
         return context
 
-    def form_valid(self, form):
+    def form_valid(self, form):        
         equipment = self.get_object()
         if self.request.POST.get('_save'):
             messages.success(self.request, '\"{}\" було успішно змінено.'.format(equipment.name))
@@ -179,10 +177,7 @@ class EquipmentUpdateView(UpdateView):
         return super(EquipmentUpdateView, self).form_valid(form)
 
     def get_success_url(self):
-        if self.request.POST.get('_save'):
-            return reverse_lazy('equipment:list')
-        if self.request.POST.get('_dismiss'):
-            return reverse_lazy('equipment:list')
+        return self.request.POST.get('return_path')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated == True:

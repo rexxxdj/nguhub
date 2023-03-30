@@ -55,6 +55,7 @@ class EquipmentUpdateForm(forms.ModelForm):
                                                             'type': 'text', 
                                                             'name': 'comment',
                                                             'style': 'border: 1px solid #2b3553;'}))
+    return_path = forms.CharField(max_length=100)
     class Meta:
         model = Equipment
         fields = '__all__'
