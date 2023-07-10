@@ -7,51 +7,55 @@ class Location(models.Model):
 	name = models.CharField(max_length=50,
 							blank=False,
 							null=False,
-							verbose_name='Місце закріплення')
-	delete_reason=models.CharField(max_length=50,
-							blank=True, 
-							null=True, 
-							verbose_name='Причина видалення')
+							verbose_name='Назва')
+	address = models.CharField(max_length=1024,
+							   blank=False,
+							   null=False,
+							   verbose_name='Адреса')
+	notes = models.CharField(max_length=2048,
+							blank=True,
+							null=True,
+							verbose_name='Примітка')
 	history = HistoricalRecords()
 
 	class Meta:
-		verbose_name = 'Місце закріплення'
-		verbose_name_plural = 'Місце закріплення'
+		verbose_name = 'Локація розташування'
+		verbose_name_plural = 'Локації розташування'
 
 	def get_update_url(self):
-		return reverse('directory_other_location_update',
-			args=[self.id])
+		return reverse('directory_location_update',args=[self.id])
 
 	def get_delete_url(self):
-		return reverse('directory_other_location_delete',
-			args=[self.id])
+		return reverse('directory_location_delete',args=[self.id])
 
 	def __str__(self):
-		return self.name # Наприклад - Вузол зв'язку, Склад НЗ і т.д.
+		return '{} ({})'.format(self.name, self.address) 
+		# Наприклад - "в/ч 3002 (м.Львів, вул.Княгині Ольги, 105)"
 
 
-class CurrentLocation(models.Model):
+class Placement(models.Model):
 	name = models.CharField(max_length=50,
 							blank=False,
 							null=False,
-							verbose_name='Місце знаходження')
-	delete_reason=models.CharField(max_length=50,
-							blank=True, 
-							null=True, 
-							verbose_name='Причина видалення')
-	history = HistoricalRecords()
+							verbose_name='Назва')
+	location = models.ForeignKey(Location,
+							on_delete=models.PROTECT,
+							verbose_name='Локація')
+	notes = models.CharField(max_length=2048,
+							blank=True,
+							null=True,
+							verbose_name='Примітка')
 
 	class Meta:
-		verbose_name = 'Поточне місцезнаходження'
-		verbose_name_plural = 'Поточне місцезнаходження'
+		verbose_name = 'Місце розташування'
+		verbose_name_plural = 'Місця розташування'
 
 	def get_update_url(self):
-		return reverse('directory_other_currentlocation_update',
-			args=[self.id])
+		return reverse('directory_placement_update',args=[self.id])
 
 	def get_delete_url(self):
-		return reverse('directory_other_currentlocation_delete',
-			args=[self.id])
+		return reverse('directory_placement_delete',args=[self.id])
 
 	def __str__(self):
-		return self.name # Наприклад - Вузол зв'язку, Склад НЗ і т.д.
+		return '{} ({})'.format(self.name, self.location.name) 
+		# Наприклад - "Вузол зв'язку (в/ч 3002)"

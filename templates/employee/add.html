@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Редагування обладнання {% endblock title %}
+{% block title %}Додавання співробітника {% endblock title %}
 {% block content %}
 <div class="wrapper">
   <div class="main-panel">
@@ -40,8 +40,8 @@
                 <div class="row ">
                   <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                      <label for="category">Локація:</label>
-                      {{ form.category }}
+                      <label for="placement">Локація:</label>
+                      {{ form.placement }}
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4">
@@ -70,7 +70,19 @@
                       {{ form.personalPhone }}
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div class="col-lg-1 col-md-1 col-sm-1">
+                    <div class="form-group" style="text-align:center;">
+                      <label for="photo">Зв'язківець:</label><br><br>
+                      {{ form.is_operator }}
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="form-group" style="text-align:center;">
+                      <label for="photo">Бойовий Пост:</label><br>
+                      {{ form.actionPost }}
+                    </div>
+                  </div>
+                  <div class="col-lg-1 col-md-1 col-sm-1">
                     <div class="form-group">
                       <label for="photo">Фотографія:</label><br>
                       <button class="btn btn-sm" >
@@ -83,8 +95,8 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label for="comment">Коментар:</label>
-                    {{ form.comment }}
+                    <label for="notes">Коментар:</label>
+                    {{ form.notes }}
                   </div>
                 </div>  
               </form>

@@ -12,9 +12,7 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
     'nguhub',
-    'employees',
-    'equipment',
-    'departmentEquipment'
+    'employee',
     
 ]
 

@@ -36,7 +36,7 @@
         </div>
         {% endif %}
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="{% url 'equipment:list' %}">{{ADMIN_SITE_NAME}}</a>
+            <a class="navbar-brand" href="{% url 'directory_location_list' %}">{{ADMIN_SITE_NAME}}</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -52,51 +52,32 @@
                     </a>
                     <ul class="dropdown-menu dropdown-navbar">
                         <li class="nav-link">
-                            <a href="{% url 'directory_employee_location_list' %}" class="nav-item dropdown-item">Співробітники - Локації</a>
+                            <a href="{% url 'directory_location_list' %}" class="nav-item dropdown-item">Локації</a>
                         </li>
                         <hr>
                         <li class="nav-link">
-                            <a href="{% url 'directory_equipment_category_list' %}" class="nav-item dropdown-item">Обладнання - Категорії</a>
-                        </li>
-                        <li class="nav-link">
-                            <a href="{% url 'directory_equipment_status_list' %}" class="nav-item dropdown-item">Обладнання - Статуси</a>
+                            <a href="{% url 'directory_placement_list' %}" class="nav-item dropdown-item">Розташування</a>
                         </li>
                         <hr>
                         <li class="nav-link">
-                            <a href="{% url 'directory_department_equipment_category_list' %}" class="nav-item dropdown-item">Обладнання по службам - Категорії</a>
-                        </li>
-                        <li class="nav-link">
-                            <a href="{% url 'directory_department_equipment_status_list' %}" class="nav-item dropdown-item">Обладнання по службам - Статуси</a>
+                            <a href="{% url 'directory_actionpost_list' %}" class="nav-item dropdown-item">Бойові пости</a>
                         </li>
                         <hr>
-                        <li class="nav-link">
-                            <a href="{% url 'directory_other_location_list' %}" class="nav-item dropdown-item">Інше - Місця закріплення</a>
-                        </li>
-                        <li class="nav-link">
-                            <a href="{% url 'directory_other_currentlocation_list' %}" class="nav-item dropdown-item">Інше - Поточне місцезнаходження</a>
-                        </li>
                     </ul>
-                  </li>
-                  {% url 'equipment' as equipment_url %}
-                  <li style="margin: auto;">
-                    <a href="{% url 'equipment:list' %}">
-                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'equipment' in request.path %} {% if 'departmentequipment' in request.path %}{% else %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %} {% endif %}">Обладнання</button>
-                    </a>
-                  </li>
-                  {% url 'departmentEquipment' as department_equipment_url %}
-                  <li style="margin: auto;">
-                    <a href="{% url 'departmentEquipment:list' %}">
-                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'departmentequipment' in request.path %} {% if 'directory' in request.path %}{% else %}navactive{% endif %} {% endif %}">Обладнання по службам</button>
-                    </a>
                   </li>
                   {% url 'employee' as employee_url %}
                   <li style="margin: auto;">
                     <a href="{% url 'employee:list' %}">
-                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'employee' in request.path %}  {% if 'directory' in request.path %}{% else %}navactive{% endif %}  {% endif %}">Співробітники</button>
+                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'employee' in request.path %}navactive{% endif %}">Співробітники</button>
                     </a>
                   </li>
-                  
+                  <li style="margin: auto;">
+                    <a href="{% url 'calendar' %}">
+                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'calendar' in request.path %}navactive{% endif %}">Чергування</button>
+                    </a>
+                  </li>
                 </ul>
+                  
             <ul class="navbar-nav ml-auto">
               <!--<li class="dropdown nav-item">
                 <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown">

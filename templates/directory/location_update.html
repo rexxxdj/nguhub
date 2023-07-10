@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Update Directory {% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="main-panel">
+    <div class="detailcontent">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="card ">
+            <div class="card-body">
+              <!-- Modal -->
+              <h5 class="modal-title" id="editLocationModalLabel">Редагування: {{location.name}}</h5>
+            </div>
+            <div class="modal-body">
+            <!-- Форма для редагування об'єкта моделі Location -->
+              <form method="post" enctype="multipart/form-data" id="updateLocationForm">
+                {% csrf_token %}
+                <input type="hidden" name="id" id="id-input">               
+                <div class="form-group">
+                  <label for="name">Назва:</label>
+                  {{ form.name }}
+                </div>
+                <div class="form-group">
+                  <label for="address">Адреса:</label>
+                  {{ form.address }}
+                </div> 
+                <div class="form-group">
+                  <label for="notes">Додаткові відомості:</label>
+                  {{ form.notes }}
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+              <button type="submit" class="btn  btn-sm" value="Dismiss" name="_dismiss" form="updateLocationForm">Відміна</button>
+              <button type="submit" class="btn  btn-sm" value="Save" name="_save" form="updateLocationForm">Зберегти</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            © 2023 made with <i class="tim-icons icon-heart-2"></i> by <b>Ruslan Tokar</b> for a 3002 NGU.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}
+
+
+
+

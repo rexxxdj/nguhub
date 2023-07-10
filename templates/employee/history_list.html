@@ -14,7 +14,7 @@
               </div>
               <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-10">
-                  <form method="GET" action="{% url 'equipment:list' %}">
+                  <form method="GET" action="{% url 'employee:list' %}">
                     <input type="text" class="form-control search_field" name="q" placeholder="Пошук" value={{search_query}}>
                     <button class="btn btn-sm search_field" type="submit">Шукати</button>
                   </form>
@@ -43,7 +43,9 @@
                         <td> {{ record.get_rank_display }} </td>
                         <td> {{ record.lastname }} {{ record.firstname }} {{ record.surname }} </td>
                         <td> {{ record.position }} </td>
-                        <td>{{record.category.name}}<br><span class="text-muted">{{record.category.address}}</span></td>
+                        <td>{{record.placement.name}}<br>
+                          <span class="text-muted">{{record.placement.location.name}}</span><br>
+                          <span class="text-muted">{{record.placement.location.address}}</span></td>
                         <td>
                           <span class="text-muted">{{record.officialPhone|default_if_none:""}}</span><br>
                           <span class="text-muted">{{record.personalPhone|default_if_none:""}}</span>
