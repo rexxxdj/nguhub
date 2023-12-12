@@ -5,7 +5,6 @@ from django.urls import path, include, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
 from django.contrib.auth.views import LogoutView
-from .views import JournalView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,6 +12,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
 
     path('employee/', include('employee.urls', namespace='employee')),
+    path('equipment/', include('equipment.urls', namespace='equipment')),
 
     # Довідники
      ##Location
@@ -30,9 +30,16 @@ urlpatterns = [
     path('directory/actionpost/add/', views.ActionPostCreateView.as_view(), name='directory_actionpost_add'),
     path('directory/actionpost/update/<int:pk>/', views.ActionPostUpdateView.as_view(), name='directory_actionpost_update'),
     path('directory/actionpost/delete/<int:pk>/', views.ActionPostDeleteView.as_view(), name='directory_actionpost_delete'),
-     
-     ##Calendar
-    path('calendar/', JournalView.as_view(), name='calendar'),
+    ##EquipmentCategory
+    path('directory/equipmentcategory/', views.directory_equipmentcategory_list, name='directory_equipmentcategory_list'),
+    path('directory/equipmentcategory/add/', views.EquipmentCategoryCreateView.as_view(), name='directory_equipmentcategory_add'),
+    path('directory/equipmentcategory/update/<int:pk>/', views.EquipmentCategoryUpdateView.as_view(), name='directory_equipmentcategory_update'),
+    path('directory/equipmentcategory/delete/<int:pk>/', views.EquipmentCategoryDeleteView.as_view(), name='directory_equipmentcategory_delete'),
+    ##EquipmentStatuses
+    path('directory/equipmentstatus/', views.directory_equipmentstatus_list, name='directory_equipmentstatus_list'),
+    path('directory/equipmentstatus/add/', views.EquipmentStatusCreateView.as_view(), name='directory_equipmentstatus_add'),
+    path('directory/equipmentstatus/update/<int:pk>/', views.EquipmentStatusUpdateView.as_view(), name='directory_equipmentstatus_update'),
+    path('directory/equipmentstatus/delete/<int:pk>/', views.EquipmentStatusDeleteView.as_view(), name='directory_equipmentstatus_delete'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -63,17 +63,25 @@
                             <a href="{% url 'directory_actionpost_list' %}" class="nav-item dropdown-item">Бойові пости</a>
                         </li>
                         <hr>
+                        <li class="nav-link">
+                            <a href="{% url 'directory_equipmentcategory_list' %}" class="nav-item dropdown-item">Категорії обладнання</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="{% url 'directory_equipmentstatus_list' %}" class="nav-item dropdown-item">Статуси обладнання</a>
+                        </li>
+                        <hr>
                     </ul>
+                  </li>
+                  {% url 'equipment' as equipment_url %}
+                  <li style="margin: auto;">
+                    <a href="{% url 'equipment:list' %}">
+                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'equipment' in request.path %}navactive{% endif %}">Інвентаризація</button>
+                    </a>
                   </li>
                   {% url 'employee' as employee_url %}
                   <li style="margin: auto;">
                     <a href="{% url 'employee:list' %}">
                       <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'employee' in request.path %}navactive{% endif %}">Співробітники</button>
-                    </a>
-                  </li>
-                  <li style="margin: auto;">
-                    <a href="{% url 'calendar' %}">
-                      <button id="add-equipment-btn" type="button" class="btn btn-sm {% if 'calendar' in request.path %}navactive{% endif %}">Чергування</button>
                     </a>
                   </li>
                 </ul>
@@ -159,6 +167,9 @@
     <script src="{%static "js/black-dashboard.min.js" %}"></script>
     <!-- Black Dashboard DEMO methods, don't include it in your project! -->
     <script src=".{%static "demo/demo.js" %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="{% static "js/main.js" %}"></script>
     <script>
         $(document).ready(function() {
             $().ready(function() {

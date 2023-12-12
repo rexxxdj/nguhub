@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     'simple_history',
     'nguhub',
     'employee',
+    'equipment',
     
 ]
 

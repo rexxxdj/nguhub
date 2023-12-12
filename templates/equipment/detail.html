@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Деталізація обладнання{% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="main-panel">
+    <div class="detailcontent">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="card ">
+            <!--<h2 class="card-title">Деталізація обраного обладнання</h2>-->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                  <h2>{{equipment.name}}</h2>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+                  <a href="{{ equipment.get_update_url }}">
+                    <button id="update-equipment-btn" type="button" class="btn btn-sm">Редагувати</button>
+                  </a>
+                  <a href="{{ equipment.get_delete_url }}">
+                    <button id="delete-equipment-btn" type="button" class="btn btn-sm">Видалити</button>
+                  </a>
+                </div>
+              </div>
+              <div class="equipment">
+                <div class="equipment-image">
+                  {% if equipment.photo %}
+                    <img src="{{equipment.photo.url}}" alt="{{equipment.name}}">
+                  {% else %}
+                    <img class="border img-profile" src="{%static "img/equipnophoto.png" %}">
+                  {% endif %}
+                </div>
+                <div class="equipment-info">
+                  <p><span>Тип</span>{{equipment.get_equipmentType_display}}</p>
+                  <p><span>Категорія</span>{{equipment.category.name}}</p>
+                  <p><span>Інвентарний номер</span>{{equipment.inventoryNumber|default_if_none:""|upper}}</p>
+                  {% if equipment.inventoryNumber %}{% else %}<br>{% endif %}
+                  <p><span>Заводський номер</span>{{equipment.serialNumber|default_if_none:""|upper}}</p>
+                  {% if equipment.serialNumber %}{% else %}<br>{% endif %}
+                  <p><span>Внутрішній номер</span>{{equipment.internalNumber|default_if_none:""|upper}}</p>
+                  {% if equipment.internalNumber %}{% else %}<br>{% endif %}
+                  <p><span>Дата введення в експлуатацію</span>{{equipment.operationDate|date:"d.m.Y"}}</p>
+                  {% if equipment.operationDate %}{% else %}<br>{% endif %}
+                  <p><span>Кількіть</span>{{equipment.value}} {{equipment.unit}}</p>
+                  {% if equipment.value %}{% else %}<br>{% endif %}
+                  <p><span>Статус</span>{{equipment.status.name}}</p>
+                  {% if equipment.status %}{% else %}<br>{% endif %}
+                  <p><span>Встановлено</span>
+                  <a class="link-unstyled" href="{{ equipment.destinationEquipment.get_absolute_url }}">
+                    {{equipment.destinationEquipment|default_if_none:""}}</p>
+                  </a>
+                  {% if equipment.destinationEquipment %}{% else %}<br>{% endif %}
+                  <p><span>Місце закріплення</span>{{equipment.location.name}}</p>
+                  <p><span>Місцезнаходження</span>{{equipment.location.name}}</p>
+                  <p><span>Матеріально відповідальний</span>
+                    <a class="link-unstyled" href="{{ equipment.responsible.get_absolute_url }}">
+                      {{equipment.responsible.get_rank_display}} {{equipment.responsible.fullname}}
+                    </a>
+                  </p>
+                  {% if equipment.responsible %}{% else %}<br><br>{% endif %}
+                  <p><span>Закріплено</span>
+                    <a class="link-unstyled" href="{{ equipment.fixed.get_absolute_url }}">
+                      {{equipment.fixed.get_rank_display}} {{equipment.fixed.fullname}}
+                    </a>
+                  </p>
+                  {% if equipment.fixed %}{% else %}<br>{% endif %}
+                  <p><span>Користувач</span>
+                    <a class="link-unstyled" href="{{ equipment.employee.get_absolute_url }}">
+                      {{equipment.employee.get_rank_display}} {{equipment.employee.fullname}}
+                    </a>
+                  </p>
+                  {% if equipment.employee %}{% else %}<br>{% endif %}
+                  <p><span>Додатковий коментар</span>{{equipment.comment}}</p>
+                </div>
+                <div class="card ">
+                  <div class="card-header">
+                    <h4 class="card-title">Комплектація:</h4>
+                  </div>
+                  <div class="card-body table-wrapper-scroll-y">
+                    <div class="table-responsive">
+                      <table class="table table-hover tablesorter dataTable no-footer table-bordered table-striped table-sm" id="" cellspacing="0">
+                        <thead class=" text-primary text-center">
+                          <tr>
+                            <th> # </th>
+                            <th> Назва </th>
+                            <th> Інвентарний номер </th>
+                            <th> Серійний номер </th>
+                            <th> Внутрішній номер </th>
+                            <th> Кількість </th>
+                            <th> Первісна вартість </th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-center">
+                          {% if elements %}
+                              {% for element in elements %}
+                                <tr class="row-link">
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ forloop.counter }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.name }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.inventoryNumber|default_if_none:""|upper }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.serialNumber|default_if_none:""|upper }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.internalNumber|default_if_none:""|upper }} </a></td>
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.value }} {{ element.unit }}</a></td>   
+                                  <td> <a href="{{ element.get_absolute_url }}">{{ element.cost|default_if_none:"" }} </a></td>   
+                                </tr>               
+                              {% endfor %}
+                            {% else %}
+                              <tr>
+                                  <td> # </td>
+                                  <td> {{equipment.name}} </td>
+                                  <td> {{ equipment.inventoryNumber|default_if_none:""|upper }} </a></td>
+                                  <td> {{ equipment.serialNumber|default_if_none:""|upper }} </a></td>
+                                  <td> {{ equipment.internalNumber|default_if_none:""|upper }} </a></td>
+                                  <td> {{ equipment.value }} {{ equipment.unit }}</td>  
+                                  <td> {{ equipment.cost|default_if_none:"" }}</td>  
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <h1>Історія змін</h1>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover tablesorter dataTable no-footer table-striped" id="" cellspacing="0">
+                      <thead class=" text-primary text-center">
+                        <tr>
+                          <th>Дата</th>
+                          <th>Змінив</th>
+                          <th>Тип операції</th>
+                          <th>Назва</th>
+                          <th>Тип</th>
+                          <th>Категорія</th>
+                          <th>Дата вв. в експл.</th>
+                          <th>Інв.номер</th>
+                          <th>Зав.номер</th>
+                          <th>Вн.номер</th>
+                          <th>Кількість</th>
+                          <th>Од.виміру</th>
+                          <th>Встановлено</th>
+                          <th>Первісна вартість</th>
+                          <th>Місце закр.</th>
+                          <th>Місцезнах.</th>
+                          <th>Мат. відп.</th>
+                          <th>Закріплено</th>
+                          <th>Користувач</th>
+                          <th>Статус</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        {% for record in history %}
+                        <tr>
+                          <td>{{ record.history_date|date:"d.m.Y H:i" }}</td>
+                          <td>{{ record.history_user.first_name }} {{ record.history_user.last_name }}</td>
+                          <td>{% if record.history_type == '~' %}Зміна{% else %}Створення{% endif %}</td>
+                          <td>{{ record.name }}</td>
+                          <td>{{ record.get_equipmentType_display }}</td>
+                          <td>{{ record.category }}</td>
+                          <td>
+                            {{ record.operationDate|date:"d.m.Y"}}
+                            {% if record.operationDate_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.operationDate_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td>{{record.inventoryNumber|default_if_none:""|upper}}</td>
+                          <td>{{record.serialNumber|default_if_none:""|upper}}</td>
+                          <td>{{record.internalNumber|default_if_none:""|upper}}</td>
+                          <td>{{record.value}}</td>
+                          <td>{{record.unit}}</td>
+                          <td>{{record.destinationEquipment|default_if_none:""}}</td>
+                          <td>{{record.cost|default_if_none:""}}</td>
+                          <td>{{record.location}}</td>
+                          <td>{{record.currentLocation}}</td>
+                          <td><span>{{record.responsible.get_rank_display}}</span><br>
+                              <span>{{record.responsible.fullname}}</span><br>
+                              {% if record.responsible_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.responsible_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td><span>{{record.fixed.get_rank_display}}</span><br>
+                              <span>{{record.fixed.fullname}}</span><br>
+                              {% if record.fixed_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.fixed_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td><span>{{record.employee.get_rank_display}}</span><br>
+                              <span>{{record.employee.fullname}}</span><br>
+                              <span class="text-muted">{{record.employee.officialPhone|default_if_none:""}}</span><br>
+                              <span class="text-muted">{{record.employee.personalPhone|default_if_none:""}}</span>
+                              {% if record.employee_reason %}
+                              <br>
+                              <span>Підстава:</span><br>
+                              <span class="text-muted">{{record.employee_reason}}</span>
+                              {% endif %}
+                          </td>
+                          <td>{{record.status}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright">
+            © 2023 made with <i class="tim-icons icon-heart-2"></i> by <b>Ruslan Tokar</b> for a 3002 NGU.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

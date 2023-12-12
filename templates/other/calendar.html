@@ -10,14 +10,13 @@
           <div class="col-lg-12 col-md-12">
             <div class="card ">
               <div class="card-header">
-                <h4 class="card-title">Журнали чергувань на Бойових Постах зв'язку</h4>
+                  <h4 class="card-title">Журнали чергувань на Бойових Постах зв'язку</h4>
               </div>
-
               <p id="journal-nav" class="text-center">
-                <a href="?month={{ prev_month }}" title="Попередній Місяць">&larr;</a>
+                <a href="?month={{ prev_month }}" title="Попередній Місяць"><<</a>
                 <!-- TODO: translate month name -->
                 <strong>{{ month_verbose }} {{ year }}</strong>
-                <a href="?month={{ next_month }}" title="Наступний Місяць">&rarr;</a>
+                <a href="?month={{ next_month }}" title="Наступний Місяць">>></a>
               </p>
 
                 <div class="card ">
@@ -57,7 +56,7 @@
                                 <th class="name">В/звання</th>
                                 <th class="name">Прізвище та ініціали</th>
                                 {% for day in month_header %}
-                                  <th class="day-header">
+                                  <th class="day-header" {% if day.daynum == '6' %} style="background:blue; color:black"{% elif day.daynum == '0' %} style="background:yellow; color:black"{% endif %}>
                                     {{ day.verbose }}
                                     <br />
                                     {{ day.day }}
@@ -74,12 +73,11 @@
                                   <td>{{ employee.rank }}</td>
                                   <td>{{ employee.fullname }}</td>
                                   {% for day in employee.days %}
-                                    <td class="day-box">
-                                      <input type="checkbox" 
-                                            data-employee-id="{{ employee.id }}" 
-                                            data-date="{{ day.date }}" 
-                                            data-url="{{ employee.update_url }}" 
+                                    <td class="day-box" {% if day.daynum == '6' %} style="background:blue; color:black"{% elif day.daynum == '0' %} style="background:yellow; color:black"{% endif %}>
+                                      <input type="checkbox" data-employee-id="{{ employee.id }}" 
+                                            data-date="{{ day.date }}" data-url="{{ employee.update_url }}"
                                             value="1"{% if day.present %} checked="checked" {% endif %} />
+                                      <!--{{day.present}}-->
                                     </td>
                                   {% endfor %}
                                 </tr>            
@@ -92,15 +90,15 @@
                     <div class="tab-pane fade" id="bp220" role="tabpanel" aria-labelledby="bp220-tab">
                       <div class="card-body table-wrapper-scroll-y">
                         <div class="table-responsive">
-                          <table class="table table-hover table-striped table-bordered" id="employee-journal">
-                            <thead>
+                          <table class="table table-hover table-striped table-bordered" id="employee-journal" cellspacing="0">
+                            <thead class=" text-primary text-center">
                               <tr class="header">
                                 <th class="name">#</th>
                                 <th class="name">Посада</th>
                                 <th class="name">В/звання</th>
                                 <th class="name">Прізвище та ініціали</th>
                                 {% for day in month_header %}
-                                  <th class="day-header">
+                                  <th class="day-header" {% if day.daynum == '6' %} style="background:blue; color:black"{% elif day.daynum == '0' %} style="background:yellow; color:black "{% endif %} >
                                     {{ day.verbose }}
                                     <br />
                                     {{ day.day }}
@@ -117,12 +115,8 @@
                                   <td>{{ employee.rank }}</td>
                                   <td>{{ employee.fullname }}</td>
                                   {% for day in employee.days %}
-                                    <td class="day-box">
-                                      <input type="checkbox" 
-                                            data-employee-id="{{ employee.id }}" 
-                                            data-date="{{ day.date }}" 
-                                            data-url="{{ employee.update_url }}" 
-                                            value="1"{% if day.present %} checked="checked" {% endif %} />
+                                    <td class="day-box" {% if day.daynum == '6' %} style="background:blue; color:black"{% elif day.daynum == '0' %} style="background:yellow; color:black"{% endif %}>
+                                      {{day.present}}
                                     </td>
                                   {% endfor %}
                                 </tr>
@@ -148,18 +142,6 @@
   </div>
 {% endblock content %}
 {% block extra_js %}
-  <script>
-    $(document).ready(function() {
-      $('#employeeFilterForm').submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-          url: $(this).attr('action'),
-          data: $(this).serialize(),
-          success: function(data) {
-            $('.content').html(data);
-          }
-        });
-      });
-    });
-  </script>
 {% endblock extra_js %}
+
+
